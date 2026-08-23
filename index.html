@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>五年隐含利润增长率计算器</title>
+  <style>
+    :root{--blue:#2463c7;--ink:#18243a;--muted:#65738b;--line:#d9e3f0;--bg:#f3f7fc;--good:#16724a;--warn:#a15d00;--high:#a12626}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.55}main{max-width:760px;margin:auto;padding:22px 14px 48px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 8px 28px #253b6012;margin-bottom:15px}h1{font-size:27px;line-height:1.25;margin:0 0 8px}h2{font-size:19px;margin:0 0 15px}.sub{color:var(--muted);margin:0}.inputs{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px}label{display:block;font-weight:700;font-size:14px;margin-bottom:6px}.field{position:relative}.field input{width:100%;font:inherit;font-size:18px;padding:12px 36px 12px 12px;border:1px solid #b8c8dd;border-radius:10px;background:#fff;color:var(--ink)}.field input:focus{outline:3px solid #2f6fed25;border-color:var(--blue)}.suffix{position:absolute;right:12px;top:13px;color:var(--muted)}button{width:100%;border:0;border-radius:11px;padding:13px;background:var(--blue);color:#fff;font:inherit;font-weight:800;font-size:17px;margin-top:17px;cursor:pointer}.result{text-align:center;padding:25px 10px}.result small{display:block;color:var(--muted)}.number{font-size:48px;line-height:1.2;font-weight:850;color:var(--blue);font-variant-numeric:tabular-nums}.assessment{display:inline-block;margin-top:10px;padding:5px 12px;border-radius:999px;background:#eef4fc;font-weight:700}.metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:20px}.metric{background:#f7f9fc;border-radius:11px;padding:12px}.metric span{display:block;color:var(--muted);font-size:12px}.metric strong{font-size:17px}table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}th,td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:right}th:first-child,td:first-child{text-align:left}tr.selected{background:#edf4ff;font-weight:800}.formula{background:#f7f9fc;border-left:4px solid var(--blue);padding:12px 14px;border-radius:7px;overflow-wrap:anywhere}.note{font-size:14px;color:var(--muted)}.error{color:var(--high);font-weight:700;min-height:24px;margin-top:8px}@media(max-width:620px){main{padding:12px 10px 34px}.card{padding:17px;border-radius:14px}.inputs,.metrics{grid-template-columns:1fr}.number{font-size:41px}h1{font-size:23px}}@media print{body{background:#fff}main{max-width:none}.card{box-shadow:none}button{display:none}}
+  </style>
+</head>
+<body>
+<main>
+  <section class="card">
+    <h1>五年隐含利润增长率计算器</h1>
+    <p class="sub">用估值起点、估值终点和要求回报，反推未来五年利润或每股收益需要增长多快。</p>
+    <div class="inputs">
+      <div><label for="returnRate">要求年化收益率</label><div class="field"><input id="returnRate" type="number" inputmode="decimal" value="13" min="-99" step="0.1"><span class="suffix">%</span></div></div>
+      <div><label for="dividendYield">预期年股息率</label><div class="field"><input id="dividendYield" type="number" inputmode="decimal" value="0" min="0" max="99" step="0.1"><span class="suffix">%</span></div></div>
+      <div><label for="currentPE">当前市盈率 PE</label><div class="field"><input id="currentPE" type="number" inputmode="decimal" value="30" min="0.01" step="0.1"><span class="suffix">倍</span></div></div>
+      <div><label for="futurePE">五年后市盈率 PE</label><div class="field"><input id="futurePE" type="number" inputmode="decimal" value="20" min="0.01" step="0.1"><span class="suffix">倍</span></div></div>
+    </div>
+    <button id="calculate" type="button">计算隐含增长率</button>
+    <div class="error" id="error" aria-live="polite"></div>
+  </section>
+
+  <section class="card result" aria-live="polite">
+    <small>未来五年利润 / EPS 所需年复合增长率</small>
+    <div class="number" id="growth">—</div>
+    <div class="assessment" id="assessment">请输入参数</div>
+    <div class="metrics">
+      <div class="metric"><span>五年利润需增长至</span><strong id="profitMultiple">—</strong></div>
+      <div class="metric"><span>五年总财富目标</span><strong id="totalMultiple">—</strong></div>
+      <div class="metric"><span>扣除股息后股价需增长至</span><strong id="priceMultiple">—</strong></div>
+      <div class="metric"><span>股息再投资贡献</span><strong id="dividendMultiple">—</strong></div>
+      <div class="metric"><span>PE 变化</span><strong id="peChange">—</strong></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>五年后 PE 敏感性</h2>
+    <table><thead><tr><th>五年后 PE</th><th>所需利润年增长率</th></tr></thead><tbody id="sensitivity"></tbody></table>
+  </section>
+
+  <section class="card">
+    <h2>计算逻辑</h2>
+    <div class="formula">所需利润年增长率 =［（1 + 要求年化收益率）÷（1 + 预期年股息率）］×（当前 PE ÷ 五年后 PE）<sup>1/5</sup> − 1</div>
+    <p class="note">假设股息率未来五年保持不变，并将收到的股息按相同收益率再投资。股息承担一部分总回报要求，剩余部分由利润增长与 PE 变化完成。</p>
+    <p class="note">计算未考虑股息税、汇率、股息增减、增发回购及净现金变化。高股息率若来自股价暴跌或不可持续的派息，并不能降低真实经营风险。</p>
+    <p class="note">判断是否靠谱时，应重点比较：行业长期增速、公司份额、利润率空间、资本强度、周期性和历史增长。高增长率并非一定不可能，但持续五年会产生很强的复利效果。</p>
+  </section>
+</main>
+<script>
+const years=5;
+const $=id=>document.getElementById(id);
+const fmt=n=>`${n.toFixed(2)}%`;
+function impliedGrowth(requiredReturn,currentPE,futurePE,dividendYield){return ((1+requiredReturn)/(1+dividendYield))*Math.pow(currentPE/futurePE,1/years)-1}
+function assessment(g){
+  if(g<0)return["不需要利润增长也可能达到目标回报","var(--good)"];
+  if(g<.10)return["隐含增长要求较低，但仍需核对利润质量","var(--good)"];
+  if(g<.20)return["隐含增长要求中等，需要较稳健的竞争优势","var(--blue)"];
+  if(g<.30)return["隐含增长要求较高，需要强劲且持续的经营兑现","var(--warn)"];
+  return["隐含增长要求很高，应重点压力测试","var(--high)"];
+}
+function calculate(){
+  const requiredReturn=Number($("returnRate").value)/100,dividendYield=Number($("dividendYield").value)/100,currentPE=Number($("currentPE").value),futurePE=Number($("futurePE").value);
+  if(!Number.isFinite(requiredReturn)||requiredReturn<=-1||!Number.isFinite(dividendYield)||dividendYield<0||dividendYield>=1||!Number.isFinite(currentPE)||currentPE<=0||!Number.isFinite(futurePE)||futurePE<=0){$("error").textContent="请输入有效数字；两个 PE 必须大于 0，股息率应为 0% 至 99%，收益率必须高于 -100%。";return}
+  $("error").textContent="";
+  const growth=impliedGrowth(requiredReturn,currentPE,futurePE,dividendYield),profitMultiple=Math.pow(1+growth,years),totalMultiple=Math.pow(1+requiredReturn,years),dividendMultiple=Math.pow(1+dividendYield,years),priceMultiple=totalMultiple/dividendMultiple,peRatio=futurePE/currentPE;
+  $("growth").textContent=fmt(growth*100);
+  const [text,color]=assessment(growth);$("assessment").textContent=text;$("assessment").style.color=color;
+  $("profitMultiple").textContent=`${profitMultiple.toFixed(2)} 倍`;
+  $("totalMultiple").textContent=`${totalMultiple.toFixed(2)} 倍`;
+  $("priceMultiple").textContent=`${priceMultiple.toFixed(2)} 倍`;
+  $("dividendMultiple").textContent=`${dividendMultiple.toFixed(2)} 倍`;
+  $("peChange").textContent=`${peRatio.toFixed(2)} 倍（${fmt((peRatio-1)*100)}）`;
+  const candidates=[10,15,20,25,30,35,40,50,futurePE].filter((v,i,a)=>v>0&&a.indexOf(v)===i).sort((a,b)=>a-b);
+  $("sensitivity").innerHTML=candidates.map(pe=>`<tr class="${Math.abs(pe-futurePE)<1e-9?'selected':''}"><td>${pe.toFixed(pe%1?1:0)} 倍</td><td>${fmt(impliedGrowth(requiredReturn,currentPE,pe,dividendYield)*100)}</td></tr>`).join("");
+}
+$("calculate").addEventListener("click",calculate);
+["returnRate","dividendYield","currentPE","futurePE"].forEach(id=>$(id).addEventListener("input",calculate));
+calculate();
+</script>
+</body>
+</html>
