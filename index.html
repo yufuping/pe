@@ -39,6 +39,25 @@
   </section>
 
   <section class="card">
+    <h2>正向估值：按你的增长判断计算回报</h2>
+    <p class="sub">输入你认为公司未来五年能够实现的利润或 EPS 年增长率，计算相应的年化总回报。</p>
+    <div class="inputs">
+      <div><label for="expectedGrowth">预期利润 / EPS 年增长率</label><div class="field"><input id="expectedGrowth" type="number" inputmode="decimal" value="10" min="-99" step="0.1"><span class="suffix">%</span></div></div>
+    </div>
+    <div class="result">
+      <small>未来五年预期年化总回报</small>
+      <div class="number" id="expectedReturn">—</div>
+      <div class="assessment" id="returnAssessment">请输入参数</div>
+      <div class="metrics">
+        <div class="metric"><span>五年利润增长至</span><strong id="forwardProfitMultiple">—</strong></div>
+        <div class="metric"><span>估值变化倍数</span><strong id="forwardPEMultiple">—</strong></div>
+        <div class="metric"><span>五年后股价约为</span><strong id="forwardPriceMultiple">—</strong></div>
+        <div class="metric"><span>含股息总财富约为</span><strong id="forwardTotalMultiple">—</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
     <h2>五年后 PE 敏感性</h2>
     <table><thead><tr><th>五年后 PE</th><th>所需利润年增长率</th></tr></thead><tbody id="sensitivity"></tbody></table>
   </section>
@@ -46,6 +65,7 @@
   <section class="card">
     <h2>计算逻辑</h2>
     <div class="formula">所需利润年增长率 =［（1 + 要求年化收益率）÷（1 + 预期年股息率）］×（当前 PE ÷ 五年后 PE）<sup>1/5</sup> − 1</div>
+    <div class="formula" style="margin-top:10px">预期年化总回报 =（1 + 预期利润增长率）×（五年后 PE ÷ 当前 PE）<sup>1/5</sup>×（1 + 预期年股息率）− 1</div>
     <p class="note">假设股息率未来五年保持不变，并将收到的股息按相同收益率再投资。股息承担一部分总回报要求，剩余部分由利润增长与 PE 变化完成。</p>
     <p class="note">计算未考虑股息税、汇率、股息增减、增发回购及净现金变化。高股息率若来自股价暴跌或不可持续的派息，并不能降低真实经营风险。</p>
     <p class="note">判断是否靠谱时，应重点比较：行业长期增速、公司份额、利润率空间、资本强度、周期性和历史增长。高增长率并非一定不可能，但持续五年会产生很强的复利效果。</p>
@@ -56,6 +76,7 @@ const years=5;
 const $=id=>document.getElementById(id);
 const fmt=n=>`${n.toFixed(2)}%`;
 function impliedGrowth(requiredReturn,currentPE,futurePE,dividendYield){return ((1+requiredReturn)/(1+dividendYield))*Math.pow(currentPE/futurePE,1/years)-1}
+function expectedAnnualReturn(expectedGrowth,currentPE,futurePE,dividendYield){return (1+expectedGrowth)*Math.pow(futurePE/currentPE,1/years)*(1+dividendYield)-1}
 function assessment(g){
   if(g<0)return["不需要利润增长也可能达到目标回报","var(--good)"];
   if(g<.10)return["隐含增长要求较低，但仍需核对利润质量","var(--good)"];
@@ -64,8 +85,8 @@ function assessment(g){
   return["隐含增长要求很高，应重点压力测试","var(--high)"];
 }
 function calculate(){
-  const requiredReturn=Number($("returnRate").value)/100,dividendYield=Number($("dividendYield").value)/100,currentPE=Number($("currentPE").value),futurePE=Number($("futurePE").value);
-  if(!Number.isFinite(requiredReturn)||requiredReturn<=-1||!Number.isFinite(dividendYield)||dividendYield<0||dividendYield>=1||!Number.isFinite(currentPE)||currentPE<=0||!Number.isFinite(futurePE)||futurePE<=0){$("error").textContent="请输入有效数字；两个 PE 必须大于 0，股息率应为 0% 至 99%，收益率必须高于 -100%。";return}
+  const requiredReturn=Number($("returnRate").value)/100,dividendYield=Number($("dividendYield").value)/100,currentPE=Number($("currentPE").value),futurePE=Number($("futurePE").value),expectedGrowth=Number($("expectedGrowth").value)/100;
+  if(!Number.isFinite(requiredReturn)||requiredReturn<=-1||!Number.isFinite(dividendYield)||dividendYield<0||dividendYield>=1||!Number.isFinite(currentPE)||currentPE<=0||!Number.isFinite(futurePE)||futurePE<=0||!Number.isFinite(expectedGrowth)||expectedGrowth<=-1){$("error").textContent="请输入有效数字；两个 PE 必须大于 0，股息率应为 0% 至 99%，收益率和增长率必须高于 -100%。";return}
   $("error").textContent="";
   const growth=impliedGrowth(requiredReturn,currentPE,futurePE,dividendYield),profitMultiple=Math.pow(1+growth,years),totalMultiple=Math.pow(1+requiredReturn,years),dividendMultiple=Math.pow(1+dividendYield,years),priceMultiple=totalMultiple/dividendMultiple,peRatio=futurePE/currentPE;
   $("growth").textContent=fmt(growth*100);
@@ -75,11 +96,20 @@ function calculate(){
   $("priceMultiple").textContent=`${priceMultiple.toFixed(2)} 倍`;
   $("dividendMultiple").textContent=`${dividendMultiple.toFixed(2)} 倍`;
   $("peChange").textContent=`${peRatio.toFixed(2)} 倍（${fmt((peRatio-1)*100)}）`;
+  const forwardReturn=expectedAnnualReturn(expectedGrowth,currentPE,futurePE,dividendYield),forwardProfitMultiple=Math.pow(1+expectedGrowth,years),forwardPriceMultiple=forwardProfitMultiple*peRatio,forwardTotalMultiple=forwardPriceMultiple*dividendMultiple,difference=forwardReturn-requiredReturn;
+  $("expectedReturn").textContent=fmt(forwardReturn*100);
+  if(Math.abs(difference)<0.005){$("returnAssessment").textContent="与要求回报基本一致";$("returnAssessment").style.color="var(--blue)"}
+  else if(difference>0){$("returnAssessment").textContent=`高于要求回报 ${fmt(difference*100)}`;$("returnAssessment").style.color="var(--good)"}
+  else{$("returnAssessment").textContent=`低于要求回报 ${fmt(Math.abs(difference)*100)}`;$("returnAssessment").style.color="var(--warn)"}
+  $("forwardProfitMultiple").textContent=`${forwardProfitMultiple.toFixed(2)} 倍`;
+  $("forwardPEMultiple").textContent=`${peRatio.toFixed(2)} 倍`;
+  $("forwardPriceMultiple").textContent=`${forwardPriceMultiple.toFixed(2)} 倍`;
+  $("forwardTotalMultiple").textContent=`${forwardTotalMultiple.toFixed(2)} 倍`;
   const candidates=[10,15,20,25,30,35,40,50,futurePE].filter((v,i,a)=>v>0&&a.indexOf(v)===i).sort((a,b)=>a-b);
   $("sensitivity").innerHTML=candidates.map(pe=>`<tr class="${Math.abs(pe-futurePE)<1e-9?'selected':''}"><td>${pe.toFixed(pe%1?1:0)} 倍</td><td>${fmt(impliedGrowth(requiredReturn,currentPE,pe,dividendYield)*100)}</td></tr>`).join("");
 }
 $("calculate").addEventListener("click",calculate);
-["returnRate","dividendYield","currentPE","futurePE"].forEach(id=>$(id).addEventListener("input",calculate));
+["returnRate","dividendYield","currentPE","futurePE","expectedGrowth"].forEach(id=>$(id).addEventListener("input",calculate));
 calculate();
 </script>
 </body>
