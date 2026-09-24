@@ -455,23 +455,39 @@ def render_gravel_pebbles(
             draw.polygon(pts, outline=fg)
 
         if hatch_frac > 0 and rng.random() < hatch_frac and min(rx, ry) > 3 * ss:
-            # Clip diagonal ticks inside the pebble bbox (approximate interior fill).
-            ang = float(rng.choice([math.radians(45), math.radians(-45), math.radians(60)]))
+            # Diagonal hatch clipped to pebble mask (real CAD often fills some stones).
+            ang = float(rng.choice([math.radians(45), math.radians(-45), math.radians(30), math.radians(60)]))
             ux, uy = math.cos(ang), math.sin(ang)
             px, py = -uy, ux
-            spacing = max(2.0 * ss, min(rx, ry) * float(rng.uniform(0.22, 0.38)))
-            half = max(rx, ry) * 1.1
-            n_lines = int(2 * half / spacing) + 1
-            for k in range(-n_lines, n_lines + 1):
-                ox = cx + k * spacing * px
-                oy = cy + k * spacing * py
-                # Only draw segment near center so it stays inside the outline.
-                tip = min(rx, ry) * 0.72
-                draw.line(
-                    [(ox - ux * tip, oy - uy * tip), (ox + ux * tip, oy + uy * tip)],
-                    fill=fg,
-                    width=max(1, ss // 2),
-                )
+            spacing = max(2.2 * ss, min(rx, ry) * float(rng.uniform(0.18, 0.32)))
+            # Build a small mask for this pebble and draw hatch into it.
+            bx0 = max(0, int(cx - rx - 2))
+            by0 = max(0, int(cy - ry - 2))
+            bx1 = min(S, int(cx + rx + 3))
+            by1 = min(S, int(cy + ry + 3))
+            mw, mh = bx1 - bx0, by1 - by0
+            if mw > 4 and mh > 4:
+                mask = Image.new("L", (mw, mh), 0)
+                md = ImageDraw.Draw(mask)
+                local_pts = [(p[0] - bx0, p[1] - by0) for p in pts]
+                md.polygon(local_pts, fill=255)
+                hatch = Image.new("L", (mw, mh), 0)
+                hd = ImageDraw.Draw(hatch)
+                half = max(rx, ry) * 1.3
+                n_lines = int(2 * half / spacing) + 1
+                lcx, lcy = cx - bx0, cy - by0
+                for k in range(-n_lines, n_lines + 1):
+                    ox = lcx + k * spacing * px
+                    oy = lcy + k * spacing * py
+                    tip = half
+                    hd.line(
+                        [(ox - ux * tip, oy - uy * tip), (ox + ux * tip, oy + uy * tip)],
+                        fill=fg,
+                        width=max(1, ss // 2),
+                    )
+                # Keep only hatch inside the outline
+                hatch = Image.composite(hatch, Image.new("L", (mw, mh), bg), mask)
+                img.paste(hatch, (bx0, by0), mask=mask)
 
     return img.resize((size, size), Image.Resampling.LANCZOS)
 

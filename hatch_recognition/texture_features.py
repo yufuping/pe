@@ -33,37 +33,55 @@ def _to_gray(img: Image.Image) -> np.ndarray:
 def extract_hatch_roi(gray: np.ndarray, pad: float = 0.04) -> tuple[int, int, int, int]:
     """Tight bbox around dark ink (ignore sparse annotations)."""
     h, w = gray.shape
-    ink = (gray < 200) & (gray > 8)
+    # Include soft anti-aliased ink (CAD screenshots often sit in gray 6–30).
+    ink = (gray < 205) & (gray > 5)
     ys, xs = np.where(ink)
     if len(xs) < 50:
         return 0, 0, w, h
-    # Prefer densest region when the frame is mostly white (sparse hatch screenshots).
-    if float(ink.mean()) < 0.08 and min(h, w) >= 96:
-        win = max(48, min(h, w) // 5)
+
+    dens = float(ink.mean())
+    # Sparse fills: grow from densest window until most ink is covered.
+    if dens < 0.07 and min(h, w) >= 96:
+        win = max(64, min(h, w) // 4)
+        step = max(8, win // 4)
         best = (-1.0, 0, 0, w, h)
-        step = max(8, win // 3)
-        for y0 in range(0, h - win + 1, step):
-            for x0 in range(0, w - win + 1, step):
+        for y0 in range(0, max(1, h - win + 1), step):
+            for x0 in range(0, max(1, w - win + 1), step):
                 d = float(ink[y0 : y0 + win, x0 : x0 + win].mean())
                 if d > best[0]:
                     best = (d, x0, y0, x0 + win, y0 + win)
-        # Expand from densest window to connected ink mass
         _, x0, y0, x1, y1 = best
-        # Grow bbox while ink stays meaningful
-        for _ in range(8):
+        target = 0.85 * dens * h * w  # cover most ink mass
+        for _ in range(24):
+            covered = float(ink[y0:y1, x0:x1].sum())
+            if covered >= target:
+                break
             grown = False
-            if x0 > 0 and float(ink[y0:y1, max(0, x0 - step) : x0].mean()) > 0.015:
+            # Expand toward the side that adds the most ink
+            cands = []
+            if x0 > 0:
+                cands.append(("l", float(ink[y0:y1, max(0, x0 - step) : x0].sum())))
+            if x1 < w:
+                cands.append(("r", float(ink[y0:y1, x1 : min(w, x1 + step)].sum())))
+            if y0 > 0:
+                cands.append(("u", float(ink[max(0, y0 - step) : y0, x0:x1].sum())))
+            if y1 < h:
+                cands.append(("d", float(ink[y1 : min(h, y1 + step), x0:x1].sum())))
+            if not cands:
+                break
+            cands.sort(key=lambda t: t[1], reverse=True)
+            side, add = cands[0]
+            if add < 1:
+                break
+            if side == "l":
                 x0 = max(0, x0 - step)
-                grown = True
-            if x1 < w and float(ink[y0:y1, x1 : min(w, x1 + step)].mean()) > 0.015:
+            elif side == "r":
                 x1 = min(w, x1 + step)
-                grown = True
-            if y0 > 0 and float(ink[max(0, y0 - step) : y0, x0:x1].mean()) > 0.015:
+            elif side == "u":
                 y0 = max(0, y0 - step)
-                grown = True
-            if y1 < h and float(ink[y1 : min(h, y1 + step), x0:x1].mean()) > 0.015:
+            else:
                 y1 = min(h, y1 + step)
-                grown = True
+            grown = True
             if not grown:
                 break
         px, py = int((x1 - x0) * pad), int((y1 - y0) * pad)
@@ -72,7 +90,7 @@ def extract_hatch_roi(gray: np.ndarray, pad: float = 0.04) -> tuple[int, int, in
     # Keep central mass: discard outlier ink far from median
     mx, my = float(np.median(xs)), float(np.median(ys))
     dist = np.hypot(xs - mx, ys - my)
-    keep = dist < np.percentile(dist, 92)
+    keep = dist < np.percentile(dist, 94)
     xs, ys = xs[keep], ys[keep]
     if len(xs) < 30:
         return 0, 0, w, h
@@ -81,7 +99,6 @@ def extract_hatch_roi(gray: np.ndarray, pad: float = 0.04) -> tuple[int, int, in
     px, py = int((x1 - x0) * pad), int((y1 - y0) * pad)
     x0, y0 = max(0, x0 - px), max(0, y0 - py)
     x1, y1 = min(w, x1 + px), min(h, y1 + py)
-    # Ensure minimum size
     if x1 - x0 < 24 or y1 - y0 < 24:
         return 0, 0, w, h
     return x0, y0, x1, y1

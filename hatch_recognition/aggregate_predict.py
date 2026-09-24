@@ -99,26 +99,31 @@ class WeakPeriodicRecognizer:
     @torch.no_grad()
     def _cnn_probs(self, views: list[Image.Image]) -> torch.Tensor:
         probs, weights = [], []
-        for v in views:
+        areas = [float(v.size[0] * v.size[1]) for v in views]
+        max_area = max(areas) if areas else 1.0
+        for i, v in enumerate(views):
             x = self.tf(v).unsqueeze(0).to(self.device)
             logits = self.model(x) / self.temperature
             p = F.softmax(logits, dim=1)[0]
             g = np.asarray(v.convert("L"))
             dens = float(((g < 200) & (g > 5)).mean())
-            # Prefer mid densities; still keep sparse AR-CONC views alive.
             dens_w = 0.55 + min(dens, 0.35)
-            # Down-weight tiny/huge crops slightly (often border noise)
-            area = float(v.size[0] * v.size[1])
-            area_w = 1.0 if area > 80 * 80 else 0.7
+            # Prefer larger / full-ROI views (small crops often hit border lines → OTHER)
+            area_w = 0.55 + 0.9 * (areas[i] / max_area)
+            if i == 0:
+                area_w *= 1.35  # full ROI bonus
             conf = float(p.max())
+            # Soften overconfident OTHER on tiny crops
+            other_idx = self.classes.index("OTHER") if "OTHER" in self.classes else -1
+            if other_idx >= 0 and areas[i] < 0.45 * max_area and float(p[other_idx]) > 0.7:
+                area_w *= 0.35
             probs.append(p)
-            weights.append(dens_w * area_w * (0.6 + 0.4 * conf))
+            weights.append(dens_w * area_w * (0.55 + 0.45 * conf))
         stack = torch.stack(probs, dim=0)
         w = torch.tensor(weights, device=self.device).view(-1, 1)
         avg = (stack * w).sum(0) / w.sum()
-        # Soft-max across views per class (less harsh than hard max)
         soft = (stack * w).amax(0)
-        return 0.65 * avg + 0.35 * soft
+        return 0.7 * avg + 0.3 * soft
 
     def predict_cnn_only(self, image: Image.Image | str | Path, top_k: int = 3) -> dict:
         """CNN path only (no router). Used for debugging / ablating routing."""
