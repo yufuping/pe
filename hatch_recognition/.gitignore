@@ -4,10 +4,5 @@ __pycache__/
 venv/
 *.egg-info/
 .pytest_cache/
-data/dataset/train/
-data/dataset/val/
-data/dataset/test/
-# keep meta and small previews
-!data/dataset/meta.json
 samples/preview/*_noisy.png
 .DS_Store
