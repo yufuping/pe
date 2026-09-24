@@ -1,0 +1,179 @@
+"""
+Weak-periodic hatch recognition pipeline.
+
+Flow:
+  1) Programmatic periodic router → ANSI/LINE/NET-like → do NOT use CNN
+  2) Else weak-periodic specialist CNN (AR-CONC / GRAVEL / OTHER, expandable)
+
+No classical prior gating that overrides CNN scores (that would hide CNN defects).
+OTHER is learned so ANSI31 is rejected by the model itself when routing is skipped.
+"""
+from __future__ import annotations
+
+from pathlib import Path
+
+import numpy as np
+import torch
+import torch.nn.functional as F
+from PIL import Image
+from torchvision import transforms
+
+from periodic_router import route_periodic
+from texture_features import extract_hatch_roi
+from train import HatchCNN
+
+ROOT = Path(__file__).resolve().parent
+DEFAULT_MODEL = ROOT / "models" / "aggregate_specialist.pt"
+
+
+class WeakPeriodicRecognizer:
+    def __init__(self, model_path: str | Path | None = None):
+        path = Path(model_path) if model_path else DEFAULT_MODEL
+        device = torch.device("cpu")
+        ckpt = torch.load(path, map_location=device, weights_only=False)
+        self.classes: list[str] = list(ckpt["classes"])
+        self.size = int(ckpt.get("image_size", 128))
+        self.model = HatchCNN(num_classes=len(self.classes)).to(device)
+        self.model.load_state_dict(ckpt["model_state"])
+        self.model.eval()
+        self.device = device
+        self.temperature = float(ckpt.get("temperature", 0.85))
+        self.tf = transforms.Compose(
+            [
+                transforms.Grayscale(num_output_channels=1),
+                transforms.Resize((self.size, self.size)),
+                transforms.ToTensor(),
+                transforms.Normalize([0.5], [0.5]),
+            ]
+        )
+
+    def _views(self, image: Image.Image, box: tuple[int, int, int, int]) -> list[Image.Image]:
+        x0, y0, x1, y1 = box
+        roi = image.crop((x0, y0, x1, y1))
+        views = [roi]
+        w, h = roi.size
+        gray = np.asarray(roi.convert("L"))
+        for frac in (0.08, 0.18, 0.28):
+            m = int(min(w, h) * frac)
+            if w > 2 * m and h > 2 * m:
+                views.append(roi.crop((m, m, w - m, h - m)))
+        ink = ((gray < 200) & (gray > 5)).astype(np.float32)
+        global_dens = float(ink.mean())
+        # Sparse CAD fills (AR-CONC zoomed out) need a lower dens floor.
+        dens_lo = 0.008 if global_dens < 0.06 else 0.025
+        dens_hi = 0.65
+        for side_frac in (0.55, 0.72, 0.88):
+            side = min(w, h, max(64, int(min(w, h) * side_frac)))
+            stride = max(16, side // 4)
+            cands: list[tuple[float, int, int]] = []
+            for y in range(0, max(1, h - side + 1), stride):
+                for x in range(0, max(1, w - side + 1), stride):
+                    dens = float(ink[y : y + side, x : x + side].mean())
+                    if dens_lo < dens < dens_hi:
+                        cands.append((dens, x, y))
+            cands.sort(reverse=True)
+            for _, x, y in cands[:5]:
+                views.append(roi.crop((x, y, x + side, y + side)))
+            if len(views) >= 12:
+                break
+        # Always keep a few center crops even when dens map is flat.
+        for frac in (0.65, 0.45):
+            side = min(w, h, max(64, int(min(w, h) * frac)))
+            cx = max(0, (w - side) // 2)
+            cy = max(0, (h - side) // 2)
+            views.append(roi.crop((cx, cy, cx + side, cy + side)))
+        base = views[0]
+        views.append(base.transpose(Image.Transpose.FLIP_LEFT_RIGHT))
+        views.append(base.transpose(Image.Transpose.FLIP_TOP_BOTTOM))
+        # Dedup by size+corner while preserving order
+        seen = set()
+        uniq: list[Image.Image] = []
+        for v in views:
+            key = (v.size, v.getbbox())
+            if key in seen:
+                continue
+            seen.add(key)
+            uniq.append(v)
+        return uniq[:16]
+
+    @torch.no_grad()
+    def _cnn_probs(self, views: list[Image.Image]) -> torch.Tensor:
+        probs, weights = [], []
+        for v in views:
+            x = self.tf(v).unsqueeze(0).to(self.device)
+            logits = self.model(x) / self.temperature
+            p = F.softmax(logits, dim=1)[0]
+            g = np.asarray(v.convert("L"))
+            dens = float(((g < 200) & (g > 5)).mean())
+            # Prefer mid densities; still keep sparse AR-CONC views alive.
+            dens_w = 0.55 + min(dens, 0.35)
+            # Down-weight tiny/huge crops slightly (often border noise)
+            area = float(v.size[0] * v.size[1])
+            area_w = 1.0 if area > 80 * 80 else 0.7
+            conf = float(p.max())
+            probs.append(p)
+            weights.append(dens_w * area_w * (0.6 + 0.4 * conf))
+        stack = torch.stack(probs, dim=0)
+        w = torch.tensor(weights, device=self.device).view(-1, 1)
+        avg = (stack * w).sum(0) / w.sum()
+        # Soft-max across views per class (less harsh than hard max)
+        soft = (stack * w).amax(0)
+        return 0.65 * avg + 0.35 * soft
+
+    def predict_cnn_only(self, image: Image.Image | str | Path, top_k: int = 3) -> dict:
+        """CNN path only (no router). Used for debugging / ablating routing."""
+        if not isinstance(image, Image.Image):
+            image = Image.open(image).convert("RGB")
+        else:
+            image = image.convert("RGB")
+        box = extract_hatch_roi(np.asarray(image.convert("L")))
+        probs = self._cnn_probs(self._views(image, box))
+        probs = probs / probs.sum().clamp_min(1e-8)
+        k = min(top_k, len(self.classes))
+        vals, idxs = torch.topk(probs, k)
+        results = [
+            {"name": self.classes[i], "confidence": round(float(v), 4)}
+            for v, i in zip(vals.tolist(), idxs.tolist())
+        ]
+        return {
+            "name": results[0]["name"],
+            "confidence": results[0]["confidence"],
+            "top": results,
+            "path": "cnn",
+            "roi_box": list(box),
+            "classes": self.classes,
+        }
+
+    def predict(self, image: Image.Image | str | Path, top_k: int = 3, use_router: bool = False) -> dict:
+        """
+        Default: CNN only — no gate hiding model mistakes.
+
+        use_router=True is optional later (ANSI/LINE → programmatic). Off for now.
+        """
+        if use_router:
+            if not isinstance(image, Image.Image):
+                image = Image.open(image).convert("RGB")
+            else:
+                image = image.convert("RGB")
+            routed = route_periodic(image)
+            if routed.is_periodic:
+                conf = round(min(0.99, 0.75 + 0.5 * routed.top_share), 4)
+                return {
+                    "name": routed.label_hint or "PERIODIC",
+                    "confidence": conf,
+                    "top": [{"name": routed.label_hint or "PERIODIC", "confidence": conf}],
+                    "path": "programmatic",
+                    "router": {
+                        "score": round(routed.score, 4),
+                        "top_share": round(routed.top_share, 4),
+                        "label_hint": routed.label_hint,
+                    },
+                    "roi_box": list(routed.roi_box),
+                    "classes": self.classes,
+                }
+
+        return self.predict_cnn_only(image, top_k=top_k)
+
+
+def predict_image(path: str | Path) -> dict:
+    return WeakPeriodicRecognizer().predict(path)

@@ -434,6 +434,8 @@ def render_gravel_pebbles(
             break
 
     use_angular = style in ("cobble", "angular") or (style == "mixed" and rng.random() < 0.4)
+    # Real CAD GRAVEL often has diagonal hatch *inside* some pebbles.
+    hatch_frac = float(rng.uniform(0.15, 0.55)) if style != "outline_only" else 0.0
     for cx, cy, rx, ry in centers:
         if use_angular:
             sides = int(rng.integers(5, 8))
@@ -451,6 +453,25 @@ def render_gravel_pebbles(
                 rr = float(rng.uniform(0.9, 1.08))
                 pts.append((cx + rr * rx * math.cos(a), cy + rr * ry * math.sin(a)))
             draw.polygon(pts, outline=fg)
+
+        if hatch_frac > 0 and rng.random() < hatch_frac and min(rx, ry) > 3 * ss:
+            # Clip diagonal ticks inside the pebble bbox (approximate interior fill).
+            ang = float(rng.choice([math.radians(45), math.radians(-45), math.radians(60)]))
+            ux, uy = math.cos(ang), math.sin(ang)
+            px, py = -uy, ux
+            spacing = max(2.0 * ss, min(rx, ry) * float(rng.uniform(0.22, 0.38)))
+            half = max(rx, ry) * 1.1
+            n_lines = int(2 * half / spacing) + 1
+            for k in range(-n_lines, n_lines + 1):
+                ox = cx + k * spacing * px
+                oy = cy + k * spacing * py
+                # Only draw segment near center so it stays inside the outline.
+                tip = min(rx, ry) * 0.72
+                draw.line(
+                    [(ox - ux * tip, oy - uy * tip), (ox + ux * tip, oy + uy * tip)],
+                    fill=fg,
+                    width=max(1, ss // 2),
+                )
 
     return img.resize((size, size), Image.Resampling.LANCZOS)
 
@@ -476,57 +497,64 @@ def render_ar_conc_aggregate(
     fg: int = 0,
 ) -> Image.Image:
     """
-    AR-CONC (architectural concrete): dense sand stipple + sparse small triangles.
+    AR-CONC: dense sand stipple + sparse hollow triangles (often with a tick).
 
-    Distinct from GRAVEL (packed closed pebble loops). Real CAD screenshots of
-    AR-CONC are mostly dots with occasional hollow triangular aggregate shards.
+    Must NOT look like GRAVEL (no packed closed pebble loops). Real CAD AR-CONC
+    is mostly dots with occasional sharp triangular aggregate marks.
     """
     rng = rng or np.random.default_rng()
     ss = 2
     S = size * ss
     img = Image.new("L", (S, S), bg)
     draw = ImageDraw.Draw(img)
-    dens = float(np.clip(density, 0.6, 1.6))
+    # Allow very sparse (zoomed-out CAD) through dense close-ups.
+    dens = float(np.clip(density, 0.25, 1.9))
 
-    # Dense sand / grit dots (dominant look of AR-CONC)
-    n_dots = int(900 * dens * (size / 128) ** 2)
+    # Dense sand / grit ¡ª dominant look
+    n_dots = int(1400 * dens * (size / 128) ** 2)
     for _ in range(n_dots):
         x = int(rng.integers(0, S))
         y = int(rng.integers(0, S))
-        if rng.random() < 0.7:
+        u = float(rng.random())
+        if u < 0.75:
             draw.point((x, y), fill=fg)
+        elif u < 0.92:
+            draw.point((x, y), fill=fg)
+            draw.point((min(S - 1, x + 1), y), fill=fg)
         else:
-            r = int(rng.integers(0, 2)) * ss
-            draw.ellipse([x - r, y - r, x + r, y + r], fill=fg)
+            r = ss if rng.random() < 0.5 else 0
+            if r:
+                draw.ellipse([x - r, y - r, x + r, y + r], fill=fg)
+            else:
+                draw.point((x, y), fill=fg)
 
-    # Sparse hollow triangles (aggregate shards) â€” key differentiator vs GRAVEL
-    n_tri = int(28 * dens * (size / 128) ** 2)
-    n_tri = max(12, min(n_tri, 80))
+    # Sparse hollow triangles ¡ª key differentiator vs GRAVEL
+    n_tri = int(22 * dens * (size / 128) ** 2)
+    n_tri = max(4, min(n_tri, 55))
     for _ in range(n_tri):
         cx = float(rng.uniform(0, S))
         cy = float(rng.uniform(0, S))
-        r = float(rng.uniform(S * 0.012, S * 0.035))
+        r = float(rng.uniform(S * 0.014, S * 0.038))
         rot = float(rng.uniform(0, 2 * math.pi))
         pts = []
         for i in range(3):
-            a = rot + i * 2 * math.pi / 3 + float(rng.uniform(-0.12, 0.12))
-            rr = r * float(rng.uniform(0.85, 1.15))
+            a = rot + i * 2 * math.pi / 3 + float(rng.uniform(-0.08, 0.08))
+            rr = r * float(rng.uniform(0.9, 1.1))
             pts.append((cx + rr * math.cos(a), cy + rr * math.sin(a)))
         draw.polygon(pts, outline=fg)
+        if rng.random() < 0.65:
+            i = int(rng.integers(0, 3))
+            x0, y0 = pts[i]
+            x1, y1 = pts[(i + 1) % 3]
+            mx, my = (x0 + x1) / 2, (y0 + y1) / 2
+            vx, vy = mx - cx, my - cy
+            norm = math.hypot(vx, vy) + 1e-6
+            tl = r * float(rng.uniform(0.35, 0.7))
+            draw.line(
+                [(mx, my), (mx + tl * vx / norm, my + tl * vy / norm)],
+                fill=fg,
+                width=max(1, ss // 2),
+            )
 
-    # A few tiny irregular shards (not closed pebbles â€” short open-ish tri/quad)
-    n_shard = int(10 * dens * (size / 128) ** 2)
-    for _ in range(n_shard):
-        cx = float(rng.uniform(0, S))
-        cy = float(rng.uniform(0, S))
-        r = float(rng.uniform(S * 0.01, S * 0.028))
-        sides = int(rng.integers(3, 5))
-        rot = float(rng.uniform(0, 2 * math.pi))
-        pts = []
-        for i in range(sides):
-            a = rot + i * 2 * math.pi / sides + float(rng.uniform(-0.25, 0.25))
-            rr = r * float(rng.uniform(0.7, 1.2))
-            pts.append((cx + rr * math.cos(a), cy + rr * math.sin(a)))
-        draw.polygon(pts, outline=fg)
-
+    # No pebble-like closed polygons â€? those leak into GRAVEL confusion.
     return img.resize((size, size), Image.Resampling.LANCZOS)

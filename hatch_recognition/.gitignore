@@ -5,4 +5,7 @@ venv/
 *.egg-info/
 .pytest_cache/
 samples/preview/*_noisy.png
+samples/preview/GRAVEL_dbg_*.png
+samples/preview/audit/
+data/aggregate_specialist/
 .DS_Store
