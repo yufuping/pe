@@ -475,24 +475,58 @@ def render_ar_conc_aggregate(
     bg: int = 255,
     fg: int = 0,
 ) -> Image.Image:
-    """AR-CONC: closed aggregate + fine sand. PAT short-dash render is a poor match."""
+    """
+    AR-CONC (architectural concrete): dense sand stipple + sparse small triangles.
+
+    Distinct from GRAVEL (packed closed pebble loops). Real CAD screenshots of
+    AR-CONC are mostly dots with occasional hollow triangular aggregate shards.
+    """
     rng = rng or np.random.default_rng()
-    base = render_gravel_pebbles(
-        size=size,
-        rng=rng,
-        density=float(np.clip(density * 0.75, 0.5, 1.3)),
-        bg=bg,
-        fg=fg,
-        style="round",
-    )
-    draw = ImageDraw.Draw(base)
-    n = int(90 * density * (size / 128) ** 2)
-    for _ in range(n):
-        x = int(rng.integers(0, size))
-        y = int(rng.integers(0, size))
-        if rng.random() < 0.35:
-            r = int(rng.integers(0, 2))
-            draw.ellipse([x - r, y - r, x + r, y + r], fill=fg)
-        else:
+    ss = 2
+    S = size * ss
+    img = Image.new("L", (S, S), bg)
+    draw = ImageDraw.Draw(img)
+    dens = float(np.clip(density, 0.6, 1.6))
+
+    # Dense sand / grit dots (dominant look of AR-CONC)
+    n_dots = int(900 * dens * (size / 128) ** 2)
+    for _ in range(n_dots):
+        x = int(rng.integers(0, S))
+        y = int(rng.integers(0, S))
+        if rng.random() < 0.7:
             draw.point((x, y), fill=fg)
-    return base
+        else:
+            r = int(rng.integers(0, 2)) * ss
+            draw.ellipse([x - r, y - r, x + r, y + r], fill=fg)
+
+    # Sparse hollow triangles (aggregate shards) — key differentiator vs GRAVEL
+    n_tri = int(28 * dens * (size / 128) ** 2)
+    n_tri = max(12, min(n_tri, 80))
+    for _ in range(n_tri):
+        cx = float(rng.uniform(0, S))
+        cy = float(rng.uniform(0, S))
+        r = float(rng.uniform(S * 0.012, S * 0.035))
+        rot = float(rng.uniform(0, 2 * math.pi))
+        pts = []
+        for i in range(3):
+            a = rot + i * 2 * math.pi / 3 + float(rng.uniform(-0.12, 0.12))
+            rr = r * float(rng.uniform(0.85, 1.15))
+            pts.append((cx + rr * math.cos(a), cy + rr * math.sin(a)))
+        draw.polygon(pts, outline=fg)
+
+    # A few tiny irregular shards (not closed pebbles — short open-ish tri/quad)
+    n_shard = int(10 * dens * (size / 128) ** 2)
+    for _ in range(n_shard):
+        cx = float(rng.uniform(0, S))
+        cy = float(rng.uniform(0, S))
+        r = float(rng.uniform(S * 0.01, S * 0.028))
+        sides = int(rng.integers(3, 5))
+        rot = float(rng.uniform(0, 2 * math.pi))
+        pts = []
+        for i in range(sides):
+            a = rot + i * 2 * math.pi / sides + float(rng.uniform(-0.25, 0.25))
+            rr = r * float(rng.uniform(0.7, 1.2))
+            pts.append((cx + rr * math.cos(a), cy + rr * math.sin(a)))
+        draw.polygon(pts, outline=fg)
+
+    return img.resize((size, size), Image.Resampling.LANCZOS)
