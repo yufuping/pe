@@ -36,9 +36,30 @@ def suggest_scale(pattern: HatchPattern, size: int = 128, target_px: float = 10.
     """Choose a scale so densest family spacing is about target_px pixels."""
     if pattern.name == "SOLID":
         return 1.0
+
+    # GRAVEL / AR-CONC: many short-dash families. Using min-spacing + strong
+    # inflate zooms too far and shows isolated strokes instead of packed pebbles.
+    if pattern.name in ("GRAVEL", "AR-CONC"):
+        vals = []
+        for line in pattern.lines:
+            span = math.hypot(line.delta_x, line.delta_y)
+            if span > 1e-6:
+                vals.append(span)
+        vals.sort()
+        spacing = vals[len(vals) // 2] if vals else 1.0  # median
+        # Absolute scale band that fills the tile with many small marks.
+        if pattern.name == "GRAVEL":
+            # Empirically ~8-22 matches CAD screenshots of packed pebbles.
+            base = float(np.clip(target_px * 0.9, 7.0, 22.0))
+            return base
+        scale = target_px / max(spacing, 1e-6)
+        n = len(pattern.lines)
+        if n >= 8:
+            scale *= 1.0 + 0.03 * (n - 4)
+        return max(scale, 0.5)
+
     spacing = typical_spacing(pattern)
     scale = target_px / max(spacing, 1e-6)
-    # Patterns with many overlapping families need extra zoom-out (larger scale).
     n = len(pattern.lines)
     if n >= 8:
         scale *= 1.0 + 0.08 * (n - 4)
@@ -359,3 +380,45 @@ def add_interference(
         out = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), mode="L")
 
     return out
+
+
+def render_gravel_pebbles(
+    size: int = 128,
+    rng: np.random.Generator | None = None,
+    density: float = 1.0,
+    bg: int = 255,
+    fg: int = 0,
+) -> Image.Image:
+    """
+    CAD-like GRAVEL appearance: packed irregular closed pebble outlines + stipple.
+    Complements PAT stroke rendering which often fails to form closed ovals.
+    """
+    rng = rng or np.random.default_rng()
+    img = Image.new("L", (size, size), bg)
+    draw = ImageDraw.Draw(img)
+    n = int(40 * density * (size / 128) ** 2)
+    n = max(20, min(n, 220))
+    for _ in range(n):
+        cx = float(rng.uniform(0, size))
+        cy = float(rng.uniform(0, size))
+        rx = float(rng.uniform(size * 0.015, size * 0.07))
+        ry = float(rng.uniform(rx * 0.55, rx * 1.35))
+        pts = []
+        sides = int(rng.integers(8, 14))
+        for i in range(sides):
+            a = i * 2 * math.pi / sides + float(rng.uniform(-0.15, 0.15))
+            rr = float(rng.uniform(0.75, 1.15))
+            pts.append((cx + rr * rx * math.cos(a), cy + rr * ry * math.sin(a)))
+        draw.polygon(pts, outline=fg)
+        if rng.random() < 0.2:
+            draw.ellipse(
+                [cx - rx * 0.35, cy - ry * 0.35, cx + rx * 0.35, cy + ry * 0.35],
+                outline=fg,
+            )
+    n_dots = int(80 * density * (size / 128) ** 2)
+    for _ in range(n_dots):
+        x = int(rng.integers(0, size))
+        y = int(rng.integers(0, size))
+        r = int(rng.integers(0, 2))
+        draw.ellipse([x - r, y - r, x + r, y + r], fill=fg)
+    return img
