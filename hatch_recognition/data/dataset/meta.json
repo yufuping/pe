@@ -1,0 +1,78 @@
+{
+  "classes": [
+    "ANSI31",
+    "ANSI32",
+    "AR-CONC",
+    "BRICK",
+    "STEEL",
+    "EARTH",
+    "LINE",
+    "NET",
+    "GRAVEL",
+    "SOLID"
+  ],
+  "class_to_idx": {
+    "ANSI31": 0,
+    "ANSI32": 1,
+    "AR-CONC": 2,
+    "BRICK": 3,
+    "STEEL": 4,
+    "EARTH": 5,
+    "LINE": 6,
+    "NET": 7,
+    "GRAVEL": 8,
+    "SOLID": 9
+  },
+  "descriptions": {
+    "ANSI31": "ANSI 铁、砖和石",
+    "ANSI32": "ANSI 钢",
+    "AR-CONC": "随机的点和石头图案",
+    "BRICK": "砖石类型的表面",
+    "STEEL": "钢材质",
+    "EARTH": "地面",
+    "LINE": "平行水平线",
+    "NET": "水平/垂直栅格",
+    "GRAVEL": "沙砾图案",
+    "SOLID": "实体填充"
+  },
+  "samples_per_class": 200,
+  "image_size": 128,
+  "counts": {
+    "train": {
+      "ANSI31": 152,
+      "ANSI32": 138,
+      "AR-CONC": 141,
+      "BRICK": 148,
+      "STEEL": 154,
+      "EARTH": 144,
+      "LINE": 158,
+      "NET": 155,
+      "GRAVEL": 151,
+      "SOLID": 155
+    },
+    "val": {
+      "ANSI31": 27,
+      "ANSI32": 38,
+      "AR-CONC": 40,
+      "BRICK": 30,
+      "STEEL": 21,
+      "EARTH": 36,
+      "LINE": 24,
+      "NET": 25,
+      "GRAVEL": 24,
+      "SOLID": 23
+    },
+    "test": {
+      "ANSI31": 21,
+      "ANSI32": 24,
+      "AR-CONC": 19,
+      "BRICK": 22,
+      "STEEL": 25,
+      "EARTH": 20,
+      "LINE": 18,
+      "NET": 20,
+      "GRAVEL": 25,
+      "SOLID": 22
+    }
+  }
+}
