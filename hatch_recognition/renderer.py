@@ -422,3 +422,49 @@ def render_gravel_pebbles(
         r = int(rng.integers(0, 2))
         draw.ellipse([x - r, y - r, x + r, y + r], fill=fg)
     return img
+
+
+def render_gravel_cobbles(
+    size: int = 128,
+    rng: np.random.Generator | None = None,
+    density: float = 1.0,
+    bg: int = 255,
+    fg: int = 0,
+) -> Image.Image:
+    """
+    CAD GRAVEL as interlocking angular cobblestones (not round pebbles).
+    Matches screenshots where PAT fills look like packed irregular polygons.
+    """
+    rng = rng or np.random.default_rng()
+    img = Image.new("L", (size, size), bg)
+    draw = ImageDraw.Draw(img)
+    cell = max(6.0, size * float(rng.uniform(0.045, 0.085)) / max(density, 0.5))
+    rows = int(size / (cell * 0.72)) + 3
+    cols = int(size / cell) + 3
+    for r in range(rows):
+        y0 = r * cell * 0.72 - cell
+        x_off = (cell * 0.5) if (r % 2) else 0.0
+        for c in range(cols):
+            cx = c * cell + x_off + float(rng.uniform(-cell * 0.12, cell * 0.12))
+            cy = y0 + float(rng.uniform(-cell * 0.1, cell * 0.1))
+            rx = cell * float(rng.uniform(0.32, 0.52))
+            ry = cell * float(rng.uniform(0.28, 0.48))
+            sides = int(rng.integers(5, 9))
+            pts = []
+            for i in range(sides):
+                a = i * 2 * math.pi / sides + float(rng.uniform(-0.25, 0.25))
+                rr = float(rng.uniform(0.7, 1.2))
+                # Squarer / more angular than smooth pebbles
+                pts.append((cx + rr * rx * math.cos(a), cy + rr * ry * math.sin(a)))
+            draw.polygon(pts, outline=fg)
+            if rng.random() < 0.12:
+                # occasional inner crack
+                draw.line(
+                    [
+                        (cx - rx * 0.3, cy + float(rng.uniform(-ry * 0.2, ry * 0.2))),
+                        (cx + rx * 0.3, cy + float(rng.uniform(-ry * 0.2, ry * 0.2))),
+                    ],
+                    fill=fg,
+                    width=1,
+                )
+    return img
