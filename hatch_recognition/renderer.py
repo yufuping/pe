@@ -193,7 +193,7 @@ def _render_line_family(
         cx, cy = size / 2, size / 2
         # point on line closest to center
         dist = abs((cx - ox) * (-uy) + (cy - oy) * ux)  # using perp of dir... 
-        # Actually distance from point to line: |(P-O) ¡Á dir|
+        # Actually distance from point to line: |(P-O) ï¿½ï¿½ dir|
         dist = abs((cx - ox) * uy - (cy - oy) * ux)
         if dist > half:
             continue
@@ -388,40 +388,71 @@ def render_gravel_pebbles(
     density: float = 1.0,
     bg: int = 255,
     fg: int = 0,
+    style: str = "round",
 ) -> Image.Image:
     """
-    CAD-like GRAVEL appearance: packed irregular closed pebble outlines + stipple.
-    Complements PAT stroke rendering which often fails to form closed ovals.
+    CAD GRAVEL: packed *closed* pebble outlines (ovals / soft polygons).
+
+    acad_4270.pat GRAVEL is short-dash families; our stroke renderer never forms
+    the closed loops seen in real AutoCAD screenshots. Use this for GRAVEL data.
     """
     rng = rng or np.random.default_rng()
-    img = Image.new("L", (size, size), bg)
+    ss = 2
+    S = size * ss
+    img = Image.new("L", (S, S), bg)
     draw = ImageDraw.Draw(img)
-    n = int(40 * density * (size / 128) ** 2)
-    n = max(20, min(n, 220))
-    for _ in range(n):
-        cx = float(rng.uniform(0, size))
-        cy = float(rng.uniform(0, size))
-        rx = float(rng.uniform(size * 0.015, size * 0.07))
-        ry = float(rng.uniform(rx * 0.55, rx * 1.35))
-        pts = []
-        sides = int(rng.integers(8, 14))
-        for i in range(sides):
-            a = i * 2 * math.pi / sides + float(rng.uniform(-0.15, 0.15))
-            rr = float(rng.uniform(0.75, 1.15))
-            pts.append((cx + rr * rx * math.cos(a), cy + rr * ry * math.sin(a)))
-        draw.polygon(pts, outline=fg)
-        if rng.random() < 0.2:
-            draw.ellipse(
-                [cx - rx * 0.35, cy - ry * 0.35, cx + rx * 0.35, cy + ry * 0.35],
-                outline=fg,
-            )
-    n_dots = int(80 * density * (size / 128) ** 2)
-    for _ in range(n_dots):
-        x = int(rng.integers(0, size))
-        y = int(rng.integers(0, size))
-        r = int(rng.integers(0, 2))
-        draw.ellipse([x - r, y - r, x + r, y + r], fill=fg)
-    return img
+
+    # ~12-20 pebbles across a tile in real screenshots
+    target_across = float(rng.uniform(11, 18)) * float(np.clip(density, 0.6, 1.6))
+    mean_d = S / target_across
+    mean_d = float(np.clip(mean_d, S * 0.04, S * 0.12))
+
+    centers: list[tuple[float, float, float, float]] = []
+    tries = int(2500 * (size / 128) ** 2)
+    max_n = int(target_across ** 2 * 1.15)
+    for _ in range(tries):
+        cx = float(rng.uniform(0, S))
+        cy = float(rng.uniform(0, S))
+        u = float(rng.random())
+        if u < 0.15:
+            scale = float(rng.uniform(0.35, 0.55))
+        elif u < 0.85:
+            scale = float(rng.uniform(0.7, 1.05))
+        else:
+            scale = float(rng.uniform(1.1, 1.45))
+        rx = mean_d * 0.42 * scale
+        ry = rx * float(rng.uniform(0.7, 1.25))
+        ok = True
+        for ox, oy, orx, ory in centers:
+            need = (min(rx, ry) + min(orx, ory)) * 1.15
+            if (cx - ox) ** 2 + (cy - oy) ** 2 < need ** 2:
+                ok = False
+                break
+        if ok:
+            centers.append((cx, cy, rx, ry))
+        if len(centers) >= max_n:
+            break
+
+    use_angular = style in ("cobble", "angular") or (style == "mixed" and rng.random() < 0.4)
+    for cx, cy, rx, ry in centers:
+        if use_angular:
+            sides = int(rng.integers(5, 8))
+            pts = []
+            for i in range(sides):
+                a = i * 2 * math.pi / sides + float(rng.uniform(-0.2, 0.2))
+                rr = float(rng.uniform(0.82, 1.12))
+                pts.append((cx + rr * rx * math.cos(a), cy + rr * ry * math.sin(a)))
+            draw.polygon(pts, outline=fg)
+        else:
+            sides = int(rng.integers(10, 16))
+            pts = []
+            for i in range(sides):
+                a = i * 2 * math.pi / sides
+                rr = float(rng.uniform(0.9, 1.08))
+                pts.append((cx + rr * rx * math.cos(a), cy + rr * ry * math.sin(a)))
+            draw.polygon(pts, outline=fg)
+
+    return img.resize((size, size), Image.Resampling.LANCZOS)
 
 
 def render_gravel_cobbles(
@@ -431,40 +462,37 @@ def render_gravel_cobbles(
     bg: int = 255,
     fg: int = 0,
 ) -> Image.Image:
-    """
-    CAD GRAVEL as interlocking angular cobblestones (not round pebbles).
-    Matches screenshots where PAT fills look like packed irregular polygons.
-    """
+    """Angular cobble / stone-fill variant of CAD GRAVEL."""
+    return render_gravel_pebbles(
+        size=size, rng=rng, density=density, bg=bg, fg=fg, style="cobble"
+    )
+
+
+def render_ar_conc_aggregate(
+    size: int = 128,
+    rng: np.random.Generator | None = None,
+    density: float = 1.0,
+    bg: int = 255,
+    fg: int = 0,
+) -> Image.Image:
+    """AR-CONC: closed aggregate + fine sand. PAT short-dash render is a poor match."""
     rng = rng or np.random.default_rng()
-    img = Image.new("L", (size, size), bg)
-    draw = ImageDraw.Draw(img)
-    cell = max(6.0, size * float(rng.uniform(0.045, 0.085)) / max(density, 0.5))
-    rows = int(size / (cell * 0.72)) + 3
-    cols = int(size / cell) + 3
-    for r in range(rows):
-        y0 = r * cell * 0.72 - cell
-        x_off = (cell * 0.5) if (r % 2) else 0.0
-        for c in range(cols):
-            cx = c * cell + x_off + float(rng.uniform(-cell * 0.12, cell * 0.12))
-            cy = y0 + float(rng.uniform(-cell * 0.1, cell * 0.1))
-            rx = cell * float(rng.uniform(0.32, 0.52))
-            ry = cell * float(rng.uniform(0.28, 0.48))
-            sides = int(rng.integers(5, 9))
-            pts = []
-            for i in range(sides):
-                a = i * 2 * math.pi / sides + float(rng.uniform(-0.25, 0.25))
-                rr = float(rng.uniform(0.7, 1.2))
-                # Squarer / more angular than smooth pebbles
-                pts.append((cx + rr * rx * math.cos(a), cy + rr * ry * math.sin(a)))
-            draw.polygon(pts, outline=fg)
-            if rng.random() < 0.12:
-                # occasional inner crack
-                draw.line(
-                    [
-                        (cx - rx * 0.3, cy + float(rng.uniform(-ry * 0.2, ry * 0.2))),
-                        (cx + rx * 0.3, cy + float(rng.uniform(-ry * 0.2, ry * 0.2))),
-                    ],
-                    fill=fg,
-                    width=1,
-                )
-    return img
+    base = render_gravel_pebbles(
+        size=size,
+        rng=rng,
+        density=float(np.clip(density * 0.75, 0.5, 1.3)),
+        bg=bg,
+        fg=fg,
+        style="round",
+    )
+    draw = ImageDraw.Draw(base)
+    n = int(90 * density * (size / 128) ** 2)
+    for _ in range(n):
+        x = int(rng.integers(0, size))
+        y = int(rng.integers(0, size))
+        if rng.random() < 0.35:
+            r = int(rng.integers(0, 2))
+            draw.ellipse([x - r, y - r, x + r, y + r], fill=fg)
+        else:
+            draw.point((x, y), fill=fg)
+    return base
