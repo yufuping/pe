@@ -11,7 +11,7 @@
     "SOLID",
     "STEEL"
   ],
-  "best_val_acc": 0.8020833333333334,
+  "best_val_acc": 0.8125,
   "test_acc": 0.8194444444444444,
   "test_loss": 0.4954221513536241,
   "history": [
@@ -193,5 +193,6 @@
   ],
   "device": "cpu",
   "test_acc_finetuned": 0.7777777777777778,
-  "test_acc_after_real_ft": 0.8055555555555556
+  "test_acc_after_real_ft": 0.8055555555555556,
+  "test_acc_scene_ft": 0.8009259259259259
 }
