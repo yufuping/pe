@@ -68,8 +68,11 @@ def generate_dataset(
             if rng.random() < 0.08:
                 bg, fg = 30, 220
             else:
-                bg, fg = 255, 0
+                # Soft dark ink (not pure black) matches CAD screenshots better
+                bg, fg = 255, int(rng.choice([0, 0, 0, 15, 25]))
 
+            # ~60% anti-aliased (supersample) to match real CAD display
+            ss = 2 if rng.random() < 0.6 else 1
             img = render_pattern(
                 pattern,
                 size=size,
@@ -80,14 +83,16 @@ def generate_dataset(
                 fg=fg,
                 stroke=stroke,
                 shape=shape,
+                supersample=ss,
             )
             img = add_interference(
                 img,
                 rng=rng,
-                noise=float(rng.uniform(0.01, 0.08)),
+                noise=float(rng.uniform(0.01, 0.06)),
                 lines=True,
                 blur=True,
                 invert_chance=0.03,
+                crosshair_chance=0.4,
             )
 
             r = rng.random()

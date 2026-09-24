@@ -192,5 +192,6 @@
     }
   ],
   "device": "cpu",
-  "test_acc_finetuned": 0.7777777777777778
+  "test_acc_finetuned": 0.7777777777777778,
+  "test_acc_after_real_ft": 0.8055555555555556
 }

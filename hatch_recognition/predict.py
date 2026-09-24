@@ -34,15 +34,36 @@ class HatchRecognizer:
         )
 
     @torch.no_grad()
-    def predict(self, image: Image.Image | str | Path, top_k: int = 3) -> list[dict]:
+    def predict(self, image: Image.Image | str | Path, top_k: int = 3, tta: bool = True) -> list[dict]:
         if not isinstance(image, Image.Image):
             image = Image.open(image).convert("RGB")
         else:
             image = image.convert("RGB")
 
-        x = self.tf(image).unsqueeze(0).to(self.device)
-        logits = self.model(x)
-        probs = F.softmax(logits, dim=1)[0]
+        views = [image]
+        if tta:
+            w, h = image.size
+            # Center crop (drop UI chrome / cursors near edges)
+            m = int(min(w, h) * 0.12)
+            if w > 2 * m and h > 2 * m:
+                views.append(image.crop((m, m, w - m, h - m)))
+            # Slightly tighter crop
+            m2 = int(min(w, h) * 0.22)
+            if w > 2 * m2 and h > 2 * m2:
+                views.append(image.crop((m2, m2, w - m2, h - m2)))
+            # Left / right halves for wide screenshots
+            if w > h * 1.3:
+                views.append(image.crop((0, 0, w // 2, h)))
+                views.append(image.crop((w // 2, 0, w, h)))
+
+        probs_sum = None
+        for view in views:
+            x = self.tf(view).unsqueeze(0).to(self.device)
+            logits = self.model(x)
+            p = F.softmax(logits, dim=1)[0]
+            probs_sum = p if probs_sum is None else probs_sum + p
+        probs = probs_sum / len(views)
+
         k = min(top_k, len(self.classes))
         values, indices = torch.topk(probs, k)
         results = []

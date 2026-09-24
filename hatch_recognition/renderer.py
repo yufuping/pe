@@ -198,33 +198,51 @@ def render_pattern(
     fg: int = 0,
     stroke: int = 1,
     shape: str = "rect",
+    supersample: int = 1,
 ) -> Image.Image:
+    """
+    Render a hatch pattern.
+
+    supersample > 1 renders at higher resolution then downscales for CAD-like
+    anti-aliased edges (real AutoCAD screenshots are rarely pure binary).
+    """
+    ss = max(1, int(supersample))
+    render_size = size * ss
+    render_scale = (scale if scale is not None else suggest_scale(pattern, size=size)) * ss
+    render_offset = None
+    if offset is not None:
+        render_offset = (offset[0] * ss, offset[1] * ss)
+    else:
+        render_offset = (render_size / 2.0, render_size / 2.0)
+
     if pattern.name == "SOLID":
-        img = Image.new("L", (size, size), fg)
-        return _apply_shape_mask(img, shape, bg)
+        img = Image.new("L", (render_size, render_size), fg)
+        img = _apply_shape_mask(img, shape, bg)
+        if ss > 1:
+            img = img.resize((size, size), Image.Resampling.LANCZOS)
+        return img
 
-    if scale is None:
-        scale = suggest_scale(pattern, size=size)
-
-    img = Image.new("L", (size, size), bg)
+    img = Image.new("L", (render_size, render_size), bg)
     draw = ImageDraw.Draw(img)
-    if offset is None:
-        offset = (size / 2.0, size / 2.0)
 
     for line in pattern.lines:
         _render_line_family(
             draw,
             line,
-            size,
-            scale=scale,
+            render_size,
+            scale=render_scale,
             rotation=rotation,
-            offset_x=offset[0],
-            offset_y=offset[1],
+            offset_x=render_offset[0],
+            offset_y=render_offset[1],
             color=fg,
-            stroke=stroke,
+            stroke=max(1, stroke * ss),
         )
 
-    return _apply_shape_mask(img, shape, bg)
+    img = _apply_shape_mask(img, shape, bg)
+    if ss > 1:
+        img = img.resize((size, size), Image.Resampling.LANCZOS)
+    return img
+
 
 
 def _apply_shape_mask(img: Image.Image, shape: str, bg: int) -> Image.Image:
@@ -262,6 +280,28 @@ def _apply_shape_mask(img: Image.Image, shape: str, bg: int) -> Image.Image:
     return out
 
 
+def add_cad_crosshair(
+    img: Image.Image,
+    rng: np.random.Generator | None = None,
+) -> Image.Image:
+    """Overlay a CAD-style pickbox / crosshair (common screenshot interference)."""
+    rng = rng or np.random.default_rng()
+    out = img.copy()
+    draw = ImageDraw.Draw(out)
+    w, h = out.size
+    cx = int(rng.integers(int(w * 0.15), int(w * 0.85)))
+    cy = int(rng.integers(int(h * 0.15), int(h * 0.85)))
+    arm = int(rng.integers(max(8, w // 10), max(16, w // 3)))
+    box = int(rng.integers(3, max(5, w // 25)))
+    color = int(rng.choice([0, 20, 40]))
+    # Full crosshair arms
+    draw.line([(cx - arm, cy), (cx + arm, cy)], fill=color, width=1)
+    draw.line([(cx, cy - arm), (cx, cy + arm)], fill=color, width=1)
+    # Pickbox square
+    draw.rectangle([cx - box, cy - box, cx + box, cy + box], outline=color, width=1)
+    return out
+
+
 def add_interference(
     img: Image.Image,
     rng: np.random.Generator | None = None,
@@ -269,6 +309,7 @@ def add_interference(
     lines: bool = True,
     blur: bool = True,
     invert_chance: float = 0.05,
+    crosshair_chance: float = 0.35,
 ) -> Image.Image:
     rng = rng or np.random.default_rng()
     arr = np.array(img, dtype=np.float32)
@@ -285,7 +326,7 @@ def add_interference(
     draw = ImageDraw.Draw(out)
     w, h = out.size
 
-    if lines and rng.random() < 0.65:
+    if lines and rng.random() < 0.55:
         for _ in range(int(rng.integers(1, 3))):
             if rng.random() < 0.5:
                 x = int(rng.integers(0, w))
@@ -300,16 +341,20 @@ def add_interference(
             y1 = y0 + int(rng.integers(-35, 35))
             draw.line([(x0, y0), (x1, y1)], fill=0, width=1)
 
-    if blur and rng.random() < 0.3:
-        out = out.filter(ImageFilter.GaussianBlur(radius=float(rng.uniform(0.2, 0.9))))
+    if rng.random() < crosshair_chance:
+        out = add_cad_crosshair(out, rng)
+
+    # Soften to mimic screen anti-alias / JPEG
+    if blur and rng.random() < 0.55:
+        out = out.filter(ImageFilter.GaussianBlur(radius=float(rng.uniform(0.15, 0.7))))
 
     if rng.random() < invert_chance:
         out = Image.fromarray(255 - np.array(out), mode="L")
 
-    if rng.random() < 0.45:
+    if rng.random() < 0.55:
         a = np.array(out, dtype=np.float32)
-        contrast = float(rng.uniform(0.8, 1.2))
-        brightness = float(rng.uniform(-15, 15))
+        contrast = float(rng.uniform(0.85, 1.15))
+        brightness = float(rng.uniform(-12, 18))
         a = (a - 127.5) * contrast + 127.5 + brightness
         out = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), mode="L")
 
