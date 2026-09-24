@@ -1,0 +1,805 @@
+{
+  "model": "models/best_model.pt",
+  "synthetic_test": {
+    "accuracy": 0.8832,
+    "n": 291,
+    "per_class": {
+      "ANSI31": {
+        "precision": 0.6,
+        "recall": 0.4286,
+        "f1": 0.5,
+        "support": 21,
+        "correct": 9
+      },
+      "ANSI32": {
+        "precision": 0.7692,
+        "recall": 0.8333,
+        "f1": 0.8,
+        "support": 24,
+        "correct": 20
+      },
+      "AR-CONC": {
+        "precision": 1.0,
+        "recall": 0.9811,
+        "f1": 0.9905,
+        "support": 53,
+        "correct": 52
+      },
+      "BRICK": {
+        "precision": 1.0,
+        "recall": 0.8636,
+        "f1": 0.9268,
+        "support": 22,
+        "correct": 19
+      },
+      "EARTH": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 20,
+        "correct": 20
+      },
+      "GRAVEL": {
+        "precision": 1.0,
+        "recall": 0.9848,
+        "f1": 0.9924,
+        "support": 66,
+        "correct": 65
+      },
+      "LINE": {
+        "precision": 0.4545,
+        "recall": 0.5556,
+        "f1": 0.5,
+        "support": 18,
+        "correct": 10
+      },
+      "NET": {
+        "precision": 0.8696,
+        "recall": 1.0,
+        "f1": 0.9302,
+        "support": 20,
+        "correct": 20
+      },
+      "SOLID": {
+        "precision": 0.9565,
+        "recall": 1.0,
+        "f1": 0.9778,
+        "support": 22,
+        "correct": 22
+      },
+      "STEEL": {
+        "precision": 0.7692,
+        "recall": 0.8,
+        "f1": 0.7843,
+        "support": 25,
+        "correct": 20
+      }
+    },
+    "confusion_offdiag": [
+      {
+        "true": "ANSI31",
+        "pred": "LINE",
+        "count": 10
+      },
+      {
+        "true": "LINE",
+        "pred": "ANSI31",
+        "count": 5
+      },
+      {
+        "true": "ANSI32",
+        "pred": "STEEL",
+        "count": 3
+      },
+      {
+        "true": "BRICK",
+        "pred": "NET",
+        "count": 3
+      },
+      {
+        "true": "STEEL",
+        "pred": "ANSI32",
+        "count": 3
+      },
+      {
+        "true": "LINE",
+        "pred": "ANSI32",
+        "count": 2
+      },
+      {
+        "true": "ANSI31",
+        "pred": "ANSI32",
+        "count": 1
+      },
+      {
+        "true": "ANSI31",
+        "pred": "STEEL",
+        "count": 1
+      },
+      {
+        "true": "ANSI32",
+        "pred": "LINE",
+        "count": 1
+      },
+      {
+        "true": "AR-CONC",
+        "pred": "STEEL",
+        "count": 1
+      },
+      {
+        "true": "GRAVEL",
+        "pred": "SOLID",
+        "count": 1
+      },
+      {
+        "true": "LINE",
+        "pred": "STEEL",
+        "count": 1
+      },
+      {
+        "true": "STEEL",
+        "pred": "ANSI31",
+        "count": 1
+      },
+      {
+        "true": "STEEL",
+        "pred": "LINE",
+        "count": 1
+      }
+    ],
+    "confusion_matrix": {
+      "classes": [
+        "ANSI31",
+        "ANSI32",
+        "AR-CONC",
+        "BRICK",
+        "EARTH",
+        "GRAVEL",
+        "LINE",
+        "NET",
+        "SOLID",
+        "STEEL"
+      ],
+      "matrix": [
+        [
+          9,
+          1,
+          0,
+          0,
+          0,
+          0,
+          10,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          20,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          3
+        ],
+        [
+          0,
+          0,
+          52,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          19,
+          0,
+          0,
+          0,
+          3,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          20,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          65,
+          0,
+          0,
+          1,
+          0
+        ],
+        [
+          5,
+          2,
+          0,
+          0,
+          0,
+          0,
+          10,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          20,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          22,
+          0
+        ],
+        [
+          1,
+          3,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          20
+        ]
+      ]
+    }
+  },
+  "real_screenshots": {
+    "tta": true,
+    "missing": [],
+    "cases": [
+      {
+        "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+        "true": "AR-CONC",
+        "pred": "AR-CONC",
+        "confidence": 0.5469,
+        "correct": true,
+        "top3": [
+          [
+            "AR-CONC",
+            0.5469
+          ],
+          [
+            "STEEL",
+            0.1373
+          ],
+          [
+            "GRAVEL",
+            0.099
+          ]
+        ]
+      },
+      {
+        "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+        "true": "AR-CONC",
+        "pred": "AR-CONC",
+        "confidence": 0.6482,
+        "correct": true,
+        "top3": [
+          [
+            "AR-CONC",
+            0.6482
+          ],
+          [
+            "EARTH",
+            0.0872
+          ],
+          [
+            "ANSI32",
+            0.0673
+          ]
+        ]
+      },
+      {
+        "file": "01a0d263-d93e-7705-873f-c3548132d977.jpg",
+        "true": "AR-CONC",
+        "pred": "AR-CONC",
+        "confidence": 0.6237,
+        "correct": true,
+        "top3": [
+          [
+            "AR-CONC",
+            0.6237
+          ],
+          [
+            "STEEL",
+            0.2192
+          ],
+          [
+            "EARTH",
+            0.0406
+          ]
+        ]
+      },
+      {
+        "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+        "true": "AR-CONC",
+        "pred": "AR-CONC",
+        "confidence": 0.5645,
+        "correct": true,
+        "top3": [
+          [
+            "AR-CONC",
+            0.5645
+          ],
+          [
+            "EARTH",
+            0.1029
+          ],
+          [
+            "STEEL",
+            0.084
+          ]
+        ]
+      },
+      {
+        "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+        "true": "AR-CONC",
+        "pred": "AR-CONC",
+        "confidence": 0.3158,
+        "correct": true,
+        "top3": [
+          [
+            "AR-CONC",
+            0.3158
+          ],
+          [
+            "EARTH",
+            0.2344
+          ],
+          [
+            "STEEL",
+            0.1682
+          ]
+        ]
+      },
+      {
+        "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+        "true": "GRAVEL",
+        "pred": "GRAVEL",
+        "confidence": 0.3961,
+        "correct": true,
+        "top3": [
+          [
+            "GRAVEL",
+            0.3961
+          ],
+          [
+            "EARTH",
+            0.2515
+          ],
+          [
+            "STEEL",
+            0.2435
+          ]
+        ]
+      },
+      {
+        "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+        "true": "GRAVEL",
+        "pred": "GRAVEL",
+        "confidence": 0.3841,
+        "correct": true,
+        "top3": [
+          [
+            "GRAVEL",
+            0.3841
+          ],
+          [
+            "EARTH",
+            0.2678
+          ],
+          [
+            "STEEL",
+            0.1601
+          ]
+        ]
+      },
+      {
+        "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+        "true": "GRAVEL",
+        "pred": "GRAVEL",
+        "confidence": 0.4712,
+        "correct": true,
+        "top3": [
+          [
+            "GRAVEL",
+            0.4712
+          ],
+          [
+            "EARTH",
+            0.4168
+          ],
+          [
+            "BRICK",
+            0.028
+          ]
+        ]
+      },
+      {
+        "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+        "true": "GRAVEL",
+        "pred": "GRAVEL",
+        "confidence": 0.8215,
+        "correct": true,
+        "top3": [
+          [
+            "GRAVEL",
+            0.8215
+          ],
+          [
+            "NET",
+            0.0797
+          ],
+          [
+            "BRICK",
+            0.0232
+          ]
+        ]
+      },
+      {
+        "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+        "true": "GRAVEL",
+        "pred": "GRAVEL",
+        "confidence": 0.8215,
+        "correct": true,
+        "top3": [
+          [
+            "GRAVEL",
+            0.8215
+          ],
+          [
+            "NET",
+            0.0797
+          ],
+          [
+            "BRICK",
+            0.0232
+          ]
+        ]
+      },
+      {
+        "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+        "true": "AR-CONC",
+        "pred": "AR-CONC",
+        "confidence": 0.3851,
+        "correct": true,
+        "top3": [
+          [
+            "AR-CONC",
+            0.3851
+          ],
+          [
+            "STEEL",
+            0.3231
+          ],
+          [
+            "EARTH",
+            0.2381
+          ]
+        ]
+      },
+      {
+        "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+        "true": "GRAVEL",
+        "pred": "EARTH",
+        "confidence": 0.3546,
+        "correct": false,
+        "top3": [
+          [
+            "EARTH",
+            0.3546
+          ],
+          [
+            "GRAVEL",
+            0.2395
+          ],
+          [
+            "ANSI32",
+            0.1778
+          ]
+        ]
+      },
+      {
+        "file": "CE4D9686-1522-4EDE-A013-9618C6A66357_L0_001.jpg",
+        "true": "AR-CONC",
+        "pred": "STEEL",
+        "confidence": 0.3197,
+        "correct": false,
+        "top3": [
+          [
+            "STEEL",
+            0.3197
+          ],
+          [
+            "SOLID",
+            0.1564
+          ],
+          [
+            "LINE",
+            0.092
+          ]
+        ]
+      }
+    ],
+    "by_true_label": {
+      "AR-CONC": {
+        "n": 7,
+        "correct": 6
+      },
+      "GRAVEL": {
+        "n": 6,
+        "correct": 5
+      }
+    },
+    "summary": {
+      "accuracy": 0.8462,
+      "n": 13,
+      "per_class": {
+        "ANSI31": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0,
+          "correct": 0
+        },
+        "ANSI32": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0,
+          "correct": 0
+        },
+        "AR-CONC": {
+          "precision": 1.0,
+          "recall": 0.8571,
+          "f1": 0.9231,
+          "support": 7,
+          "correct": 6
+        },
+        "BRICK": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0,
+          "correct": 0
+        },
+        "EARTH": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0,
+          "correct": 0
+        },
+        "GRAVEL": {
+          "precision": 1.0,
+          "recall": 0.8333,
+          "f1": 0.9091,
+          "support": 6,
+          "correct": 5
+        },
+        "LINE": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0,
+          "correct": 0
+        },
+        "NET": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0,
+          "correct": 0
+        },
+        "SOLID": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0,
+          "correct": 0
+        },
+        "STEEL": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 0,
+          "correct": 0
+        }
+      },
+      "confusion_offdiag": [
+        {
+          "true": "AR-CONC",
+          "pred": "STEEL",
+          "count": 1
+        },
+        {
+          "true": "GRAVEL",
+          "pred": "EARTH",
+          "count": 1
+        }
+      ],
+      "confusion_matrix": {
+        "classes": [
+          "ANSI31",
+          "ANSI32",
+          "AR-CONC",
+          "BRICK",
+          "EARTH",
+          "GRAVEL",
+          "LINE",
+          "NET",
+          "SOLID",
+          "STEEL"
+        ],
+        "matrix": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            6,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            1,
+            5,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    }
+  },
+  "notes": [
+    "Synthetic test uses center resize, no TTA (matches train.py evaluate).",
+    "Real screenshots use HatchRecognizer TTA (production path).",
+    "No training/fine-tuning in this script."
+  ]
+}
