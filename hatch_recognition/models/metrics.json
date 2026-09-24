@@ -196,5 +196,6 @@
   "test_acc_after_real_ft": 0.8055555555555556,
   "test_acc_scene_ft": 0.8009259259259259,
   "test_acc_gravel_ft": 0.8055555555555556,
-  "best_val_acc_after_gravel_L_ft": 0.8295454545454546
+  "best_val_acc_after_gravel_L_ft": 0.8295454545454546,
+  "best_val_acc_after_gravel_cobble_ft": 0.8333333333333334
 }
