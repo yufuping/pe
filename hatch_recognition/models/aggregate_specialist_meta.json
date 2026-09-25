@@ -1890,5 +1890,37 @@
         "hi80": false
       }
     ]
+  },
+  "six_class_gravel_conf": {
+    "heldout": {
+      "n": 17,
+      "acc": 0.9411764705882353,
+      "hi80": 0.7647058823529411,
+      "ansi_other": true,
+      "ansi_pred": "OTHER",
+      "user_gravel": {
+        "pred": "GRAVEL",
+        "conf": 0.4171,
+        "ok": true,
+        "hi80": false
+      }
+    },
+    "best_score": 0.8529411764705882
+  },
+  "six_class_gravel_conf_v2": {
+    "heldout": {
+      "n": 17,
+      "acc": 0.9411764705882353,
+      "hi80": 0.8235294117647058,
+      "ansi_other": true,
+      "ansi_pred": "OTHER",
+      "user_gravel": {
+        "pred": "AR-CONC",
+        "conf": 0.6693,
+        "ok": false,
+        "hi80": false
+      }
+    },
+    "best": 0.8158823529411765
   }
 }

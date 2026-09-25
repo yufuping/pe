@@ -1,14 +1,14 @@
 {
   "n": 17,
   "acc": 0.9411764705882353,
-  "hi80": 0.7647058823529411,
+  "hi80": 0.8235294117647058,
   "ansi_other": true,
   "ansi_pred": "OTHER",
-  "ansi_conf": 0.5975,
+  "ansi_conf": 0.5836,
   "user_gravel": {
-    "pred": "GRAVEL",
-    "conf": 0.4171,
-    "ok": true,
+    "pred": "AR-CONC",
+    "conf": 0.6693,
+    "ok": false,
     "hi80": false
   },
   "rows": [
@@ -16,7 +16,7 @@
       "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "conf": 0.9146,
+      "conf": 0.9228,
       "ok": true,
       "hi80": true
     },
@@ -24,7 +24,7 @@
       "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "conf": 0.9958,
+      "conf": 0.9973,
       "ok": true,
       "hi80": true
     },
@@ -32,7 +32,7 @@
       "file": "01a0d263-d93e-7705-873f-c3548132d977.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "conf": 0.8659,
+      "conf": 0.952,
       "ok": true,
       "hi80": true
     },
@@ -40,7 +40,7 @@
       "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "conf": 0.99,
+      "conf": 0.9968,
       "ok": true,
       "hi80": true
     },
@@ -48,7 +48,7 @@
       "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "conf": 0.5116,
+      "conf": 0.7984,
       "ok": true,
       "hi80": false
     },
@@ -56,7 +56,7 @@
       "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "conf": 0.9974,
+      "conf": 0.9997,
       "ok": true,
       "hi80": true
     },
@@ -64,7 +64,7 @@
       "file": "CE4D9686-1522-4EDE-A013-9618C6A66357_L0_001.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "conf": 0.9384,
+      "conf": 0.9896,
       "ok": true,
       "hi80": true
     },
@@ -72,15 +72,15 @@
       "file": "74CE6AD5-8D6B-4DAE-87CD-1593E8AF4A1C_L0_001.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "conf": 0.6479,
+      "conf": 0.8253,
       "ok": true,
-      "hi80": false
+      "hi80": true
     },
     {
       "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
       "true": "GRAVEL",
       "pred": "EARTH",
-      "conf": 0.2775,
+      "conf": 0.3337,
       "ok": false,
       "hi80": false
     },
@@ -88,7 +88,7 @@
       "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "conf": 0.9253,
+      "conf": 0.8564,
       "ok": true,
       "hi80": true
     },
@@ -96,7 +96,7 @@
       "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "conf": 0.9576,
+      "conf": 0.9708,
       "ok": true,
       "hi80": true
     },
@@ -104,7 +104,7 @@
       "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "conf": 0.879,
+      "conf": 0.9025,
       "ok": true,
       "hi80": true
     },
@@ -112,7 +112,7 @@
       "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "conf": 0.879,
+      "conf": 0.9025,
       "ok": true,
       "hi80": true
     },
@@ -120,7 +120,7 @@
       "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "conf": 0.9815,
+      "conf": 0.9792,
       "ok": true,
       "hi80": true
     },
@@ -128,7 +128,7 @@
       "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "conf": 0.9253,
+      "conf": 0.8564,
       "ok": true,
       "hi80": true
     },
@@ -136,7 +136,7 @@
       "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "conf": 0.9427,
+      "conf": 0.9531,
       "ok": true,
       "hi80": true
     },
@@ -144,7 +144,7 @@
       "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "conf": 0.4005,
+      "conf": 0.5967,
       "ok": true,
       "hi80": false
     }
