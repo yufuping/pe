@@ -19,7 +19,7 @@ from PIL import Image
 from torchvision import transforms
 
 from periodic_router import route_periodic
-from texture_features import extract_hatch_roi
+from texture_features import extract_hatch_roi, ink_mask
 from train import HatchCNN
 
 ROOT = Path(__file__).resolve().parent
@@ -57,11 +57,11 @@ class WeakPeriodicRecognizer:
             m = int(min(w, h) * frac)
             if w > 2 * m and h > 2 * m:
                 crop = roi.crop((m, m, w - m, h - m))
-                cd = float(((np.asarray(crop.convert("L")) < 200) & (np.asarray(crop.convert("L")) > 5)).mean())
+                cd = float(ink_mask(np.asarray(crop.convert("L"))).mean())
                 # Skip margin crops that erased most of the fill
                 if cd >= 0.02 or frac <= 0.1:
                     views.append(crop)
-        ink = ((gray < 200) & (gray > 5)).astype(np.float32)
+        ink = ink_mask(gray).astype(np.float32)
         global_dens = float(ink.mean())
         # Sparse CAD fills (AR-CONC zoomed out) need a lower dens floor.
         dens_lo = 0.008 if global_dens < 0.06 else 0.025
@@ -107,14 +107,15 @@ class WeakPeriodicRecognizer:
         areas = []
         for v in views:
             g = np.asarray(v.convert("L"))
-            dens = float(((g < 200) & (g > 5)).mean())
+            dens = float(ink_mask(g).mean())
             dens_list.append(dens)
             areas.append(float(v.size[0] * v.size[1]))
         max_area = max(areas) if areas else 1.0
         for i, v in enumerate(views):
             dens = dens_list[i]
             # Near-empty margin crops dilute GRAVEL → AR-CONC; skip them.
-            if dens < 0.015 and i > 0:
+            # Keep low-dens views that still have measurable ink (ANSI line fills).
+            if dens < 0.008 and i > 0:
                 continue
             x = self.tf(v).unsqueeze(0).to(self.device)
             logits = self.model(x) / self.temperature
@@ -122,19 +123,22 @@ class WeakPeriodicRecognizer:
             dens_w = 0.35 + 1.2 * min(dens, 0.45)  # denser fill patches dominate
             area_w = 0.5 + 0.85 * (areas[i] / max_area)
             if i == 0:
-                area_w *= 1.1  # mild full-ROI bonus (was 1.25; dense locals often cleaner)
+                area_w *= 1.1  # mild full-ROI bonus
             conf = float(p.max())
             other_idx = self.classes.index("OTHER") if "OTHER" in self.classes else -1
-            if other_idx >= 0 and float(p[other_idx]) > 0.55:
-                # Full-frame OTHER often = border symbols; trust denser gravel patches more
-                area_w *= 0.45 if dens > 0.15 else 0.3
+            # Only down-weight OTHER on *dense* frames (border symbols on gravel),
+            # not on sparse line hatches where OTHER is the correct reject.
+            if other_idx >= 0 and float(p[other_idx]) > 0.55 and dens > 0.12:
+                area_w *= 0.45
             ar_idx = self.classes.index("AR-CONC") if "AR-CONC" in self.classes else -1
             if ar_idx >= 0 and dens < 0.05 and float(p[ar_idx]) > 0.5:
                 area_w *= 0.25
-            # Boost high-conf GRAVEL on dense patches (hatched interiors)
             gr_idx = self.classes.index("GRAVEL") if "GRAVEL" in self.classes else -1
             if gr_idx >= 0 and dens >= 0.2 and float(p[gr_idx]) > 0.85:
                 area_w *= 1.35
+            # Boost confident OTHER on sparse periodic-looking fills
+            if other_idx >= 0 and dens < 0.1 and float(p[other_idx]) > 0.85:
+                area_w *= 1.4
             probs.append(p)
             weights.append(dens_w * area_w * (0.5 + 0.5 * conf))
         if not probs:

@@ -40,20 +40,20 @@
       "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9871,
+      "confidence": 0.9868,
       "correct": true,
       "top": [
         {
           "name": "AR-CONC",
-          "confidence": 0.9871
+          "confidence": 0.9868
         },
         {
           "name": "OTHER",
-          "confidence": 0.0081
+          "confidence": 0.0083
         },
         {
           "name": "GRAVEL",
-          "confidence": 0.0048
+          "confidence": 0.005
         }
       ]
     },
@@ -61,12 +61,12 @@
       "file": "01a0d263-d93e-7705-873f-c3548132d977.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9689,
+      "confidence": 0.9687,
       "correct": true,
       "top": [
         {
           "name": "AR-CONC",
-          "confidence": 0.9689
+          "confidence": 0.9687
         },
         {
           "name": "OTHER",
@@ -74,7 +74,7 @@
         },
         {
           "name": "GRAVEL",
-          "confidence": 0.0139
+          "confidence": 0.014
         }
       ]
     },
@@ -82,20 +82,20 @@
       "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9955,
+      "confidence": 0.9915,
       "correct": true,
       "top": [
         {
           "name": "AR-CONC",
-          "confidence": 0.9955
+          "confidence": 0.9915
         },
         {
           "name": "GRAVEL",
-          "confidence": 0.0036
+          "confidence": 0.007
         },
         {
           "name": "OTHER",
-          "confidence": 0.001
+          "confidence": 0.0016
         }
       ]
     },
@@ -103,20 +103,20 @@
       "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9075,
+      "confidence": 0.9857,
       "correct": true,
       "top": [
         {
           "name": "AR-CONC",
-          "confidence": 0.9075
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0478
+          "confidence": 0.9857
         },
         {
           "name": "GRAVEL",
-          "confidence": 0.0447
+          "confidence": 0.0109
+        },
+        {
+          "name": "OTHER",
+          "confidence": 0.0034
         }
       ]
     },
@@ -133,7 +133,7 @@
         },
         {
           "name": "GRAVEL",
-          "confidence": 0.0004
+          "confidence": 0.0003
         },
         {
           "name": "OTHER",
@@ -145,12 +145,12 @@
       "file": "CE4D9686-1522-4EDE-A013-9618C6A66357_L0_001.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9834,
+      "confidence": 0.9833,
       "correct": true,
       "top": [
         {
           "name": "AR-CONC",
-          "confidence": 0.9834
+          "confidence": 0.9833
         },
         {
           "name": "GRAVEL",
@@ -166,20 +166,20 @@
       "file": "74CE6AD5-8D6B-4DAE-87CD-1593E8AF4A1C_L0_001.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9957,
+      "confidence": 0.9411,
       "correct": true,
       "top": [
         {
           "name": "AR-CONC",
-          "confidence": 0.9957
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.0029
+          "confidence": 0.9411
         },
         {
           "name": "OTHER",
-          "confidence": 0.0013
+          "confidence": 0.0345
+        },
+        {
+          "name": "GRAVEL",
+          "confidence": 0.0245
         }
       ]
     },
@@ -187,20 +187,20 @@
       "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.8182,
+      "confidence": 0.8078,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.8182
+          "confidence": 0.8078
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.1715
+          "confidence": 0.1822
         },
         {
           "name": "OTHER",
-          "confidence": 0.0103
+          "confidence": 0.01
         }
       ]
     },
@@ -208,20 +208,20 @@
       "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9027,
+      "confidence": 0.836,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.9027
+          "confidence": 0.836
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.0785
+          "confidence": 0.1379
         },
         {
           "name": "OTHER",
-          "confidence": 0.0188
+          "confidence": 0.0261
         }
       ]
     },
@@ -229,20 +229,20 @@
       "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9931,
+      "confidence": 0.9921,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.9931
+          "confidence": 0.9921
         },
         {
           "name": "OTHER",
-          "confidence": 0.0063
+          "confidence": 0.0071
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.0007
+          "confidence": 0.0008
         }
       ]
     },
@@ -250,20 +250,20 @@
       "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9981,
+      "confidence": 0.8951,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.9981
+          "confidence": 0.8951
         },
         {
           "name": "OTHER",
-          "confidence": 0.0012
+          "confidence": 0.1044
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.0007
+          "confidence": 0.0005
         }
       ]
     },
@@ -271,20 +271,20 @@
       "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9981,
+      "confidence": 0.8951,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.9981
+          "confidence": 0.8951
         },
         {
           "name": "OTHER",
-          "confidence": 0.0012
+          "confidence": 0.1044
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.0007
+          "confidence": 0.0005
         }
       ]
     },
@@ -292,20 +292,20 @@
       "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9981,
+      "confidence": 0.9947,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.9981
+          "confidence": 0.9947
         },
         {
           "name": "OTHER",
-          "confidence": 0.0016
+          "confidence": 0.004
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.0002
+          "confidence": 0.0012
         }
       ]
     },
@@ -313,20 +313,20 @@
       "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9027,
+      "confidence": 0.836,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.9027
+          "confidence": 0.836
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.0785
+          "confidence": 0.1379
         },
         {
           "name": "OTHER",
-          "confidence": 0.0188
+          "confidence": 0.0261
         }
       ]
     },
@@ -334,20 +334,20 @@
       "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.8355,
+      "confidence": 0.8264,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.8355
+          "confidence": 0.8264
         },
         {
           "name": "OTHER",
-          "confidence": 0.1481
+          "confidence": 0.157
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.0164
+          "confidence": 0.0166
         }
       ]
     },
@@ -355,16 +355,16 @@
       "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.8102,
+      "confidence": 0.8209,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.8102
+          "confidence": 0.8209
         },
         {
           "name": "OTHER",
-          "confidence": 0.1888
+          "confidence": 0.1781
         },
         {
           "name": "AR-CONC",
@@ -376,43 +376,62 @@
   "ansi": [
     {
       "file": "01a0d391-463e-79d9-b764-82bbd2babedc.jpg",
-      "pred": "GRAVEL",
-      "confidence": 0.4929,
+      "pred": "OTHER",
+      "confidence": 0.9459,
       "top": [
         {
+          "name": "OTHER",
+          "confidence": 0.9459
+        },
+        {
           "name": "GRAVEL",
-          "confidence": 0.4929
+          "confidence": 0.0531
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.2584
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.2487
+          "confidence": 0.001
         }
       ]
     },
     {
       "file": "01a0d392-8b75-708e-a99b-8f01264f4185.jpg",
       "pred": "OTHER",
-      "confidence": 0.4657,
+      "confidence": 0.7362,
       "top": [
         {
           "name": "OTHER",
-          "confidence": 0.4657
+          "confidence": 0.7362
         },
         {
           "name": "GRAVEL",
-          "confidence": 0.3825
+          "confidence": 0.2637
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.1518
+          "confidence": 0.0001
         }
       ]
     }
   ],
+  "user_ansi_test": {
+    "file": "df18af5f-a58b-45a7-baa4-1c5d1654819b.png",
+    "pred": "OTHER",
+    "confidence": 0.9457,
+    "top": [
+      {
+        "name": "OTHER",
+        "confidence": 0.9457
+      },
+      {
+        "name": "GRAVEL",
+        "confidence": 0.0532
+      },
+      {
+        "name": "AR-CONC",
+        "confidence": 0.0011
+      }
+    ]
+  },
   "gate": "none",
-  "notes": "TTA dens-aware fusion; synth only; no gating"
+  "notes": "fix binary ink (g==0); OTHER boost on sparse fills"
 }

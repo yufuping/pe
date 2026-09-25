@@ -30,11 +30,20 @@ def _to_gray(img: Image.Image) -> np.ndarray:
     return np.asarray(img.convert("L"), dtype=np.uint8)
 
 
+def ink_mask(gray: np.ndarray, hi: int = 200) -> np.ndarray:
+    """
+    Dark ink pixels. Include pure black (0) — binary CAD exports are 0/255.
+    Previously `g > 5` dropped all ink on such images and broke dens/TTA.
+    """
+    g = np.asarray(gray)
+    return g < hi
+
+
 def extract_hatch_roi(gray: np.ndarray, pad: float = 0.04) -> tuple[int, int, int, int]:
     """Tight bbox around dark ink (ignore sparse annotations)."""
     h, w = gray.shape
-    # Include soft anti-aliased ink (CAD screenshots often sit in gray 6–30).
-    ink = (gray < 205) & (gray > 5)
+    # Include soft anti-aliased ink and pure-black binary strokes.
+    ink = ink_mask(gray, hi=205)
     ys, xs = np.where(ink)
     if len(xs) < 50:
         return 0, 0, w, h
@@ -266,7 +275,7 @@ def analyze_aggregate(img: Image.Image) -> AggregateTexture:
     patch = Image.fromarray(gray).filter(ImageFilter.MedianFilter(size=3))
     gray = np.asarray(patch, dtype=np.uint8)
 
-    ink = (gray < 200) & (gray > 5)
+    ink = ink_mask(gray, hi=200)
     dens = float(ink.mean())
     stipple = _stipple_score(ink)
     loops = _closed_loop_score(gray)
