@@ -10,26 +10,48 @@ from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from PIL import Image
 
+from aggregate_predict import WeakPeriodicRecognizer
 from predict import HatchRecognizer, load_descriptions
 
 ROOT = Path(__file__).resolve().parent
-MODEL_PATH = ROOT / "models" / "best_model.pt"
+SPECIALIST_PATH = ROOT / "models" / "aggregate_specialist.pt"
+LEGACY_PATH = ROOT / "models" / "best_model.pt"
 META_PATH = ROOT / "data" / "dataset" / "meta.json"
 
-app = FastAPI(title="CAD Hatch Pattern Recognizer", version="1.0.0")
-recognizer: HatchRecognizer | None = None
+SPECIALIST_DESC = {
+    "AR-CONC": "混凝土：砂点 + 稀疏空心三角（弱周期）",
+    "GRAVEL": "砾石：密闭卵石/碎石轮廓（弱周期）",
+    "OTHER": "非弱周期目标（ANSI/LINE/NET/砖钢等，建议程序路由）",
+}
+
+app = FastAPI(title="CAD Hatch Pattern Recognizer", version="1.1.0")
+recognizer: WeakPeriodicRecognizer | HatchRecognizer | None = None
+recognizer_mode: str = "none"
 
 if (ROOT / "static").exists():
     app.mount("/static", StaticFiles(directory=str(ROOT / "static")), name="static")
 
 
-def get_recognizer() -> HatchRecognizer:
-    global recognizer
+def get_recognizer():
+    global recognizer, recognizer_mode
     if recognizer is None:
-        if not MODEL_PATH.exists():
-            raise FileNotFoundError(f"Model not found: {MODEL_PATH}. Run train.py first.")
-        recognizer = HatchRecognizer(MODEL_PATH, load_descriptions(META_PATH))
+        if SPECIALIST_PATH.exists():
+            recognizer = WeakPeriodicRecognizer(SPECIALIST_PATH)
+            recognizer_mode = "specialist"
+        elif LEGACY_PATH.exists():
+            recognizer = HatchRecognizer(LEGACY_PATH, load_descriptions(META_PATH))
+            recognizer_mode = "legacy"
+        else:
+            raise FileNotFoundError(
+                f"No model found. Expected {SPECIALIST_PATH} or {LEGACY_PATH}."
+            )
     return recognizer
+
+
+def _descriptions(rec) -> dict[str, str]:
+    if recognizer_mode == "specialist":
+        return {c: SPECIALIST_DESC.get(c, "") for c in rec.classes}
+    return {c: rec.descriptions.get(c, "") for c in rec.classes}
 
 
 INDEX_HTML = """<!doctype html>
@@ -167,7 +189,7 @@ INDEX_HTML = """<!doctype html>
 <body>
 <main>
   <h1>CAD 填充图案识别</h1>
-  <p class="sub">上传图纸中的填充区域截图，识别 ANSI / 混凝土等常用 PAT 填充名称。</p>
+  <p class="sub">弱周期专家：AR-CONC / GRAVEL / OTHER（合成训练，默认无程序路由门控）</p>
 
   <section class="panel">
     <label class="drop" id="drop" for="file">
@@ -243,8 +265,9 @@ INDEX_HTML = """<!doctype html>
   });
 
   fetch('/api/classes').then(r => r.json()).then(d => {
+    const mode = d.mode === 'specialist' ? '专家模型' : '旧 10 类模型';
     document.getElementById('classes').innerHTML =
-      '当前模型支持：' + d.classes.map(c => `<code>${c}</code>`).join(' ');
+      `${mode}（${d.model || ''}）：` + d.classes.map(c => `<code>${c}</code>`).join(' ');
   }).catch(() => {
     document.getElementById('classes').textContent = '模型尚未就绪，请先完成训练。';
   });
@@ -263,8 +286,12 @@ def index():
 def classes():
     rec = get_recognizer()
     return {
-        "classes": rec.classes,
-        "descriptions": {c: rec.descriptions.get(c, "") for c in rec.classes},
+        "classes": list(rec.classes),
+        "descriptions": _descriptions(rec),
+        "mode": recognizer_mode,
+        "model": str(
+            SPECIALIST_PATH.name if recognizer_mode == "specialist" else LEGACY_PATH.name
+        ),
     }
 
 
@@ -281,8 +308,27 @@ async def predict(file: UploadFile = File(...)):
     except Exception:
         return JSONResponse({"detail": "无法解析图片文件"}, status_code=400)
 
+    if recognizer_mode == "specialist":
+        out = rec.predict(image, top_k=3, use_router=False)
+        desc = _descriptions(rec)
+        preds = [
+            {
+                "name": t["name"],
+                "confidence": t["confidence"],
+                "description": desc.get(t["name"], ""),
+            }
+            for t in out["top"]
+        ]
+        return {
+            "filename": file.filename,
+            "predictions": preds,
+            "mode": "specialist",
+            "path": out.get("path", "cnn"),
+            "roi_box": out.get("roi_box"),
+        }
+
     preds = rec.predict(image, top_k=5)
-    return {"filename": file.filename, "predictions": preds}
+    return {"filename": file.filename, "predictions": preds, "mode": "legacy"}
 
 
 if __name__ == "__main__":
