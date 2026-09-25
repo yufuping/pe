@@ -1,7 +1,7 @@
 {
   "n": 17,
   "acc": 1.0,
-  "correct_and_hi80": 1.0,
+  "correct_and_hi80": 0.9411764705882353,
   "by_class": {
     "AR-CONC": {
       "n": 8,
@@ -11,7 +11,7 @@
     "GRAVEL": {
       "n": 9,
       "acc": 1.0,
-      "hi80_ok": 1.0
+      "hi80_ok": 0.8888888888888888
     }
   },
   "cases": [
@@ -19,20 +19,20 @@
       "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9999,
+      "confidence": 0.9993,
       "correct": true,
       "top": [
         {
           "name": "AR-CONC",
-          "confidence": 0.9999
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.0001
+          "confidence": 0.9993
         },
         {
           "name": "OTHER",
-          "confidence": 0.0
+          "confidence": 0.0005
+        },
+        {
+          "name": "GRAVEL",
+          "confidence": 0.0002
         }
       ]
     },
@@ -40,20 +40,20 @@
       "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9868,
+      "confidence": 0.999,
       "correct": true,
       "top": [
         {
           "name": "AR-CONC",
-          "confidence": 0.9868
+          "confidence": 0.999
         },
         {
           "name": "OTHER",
-          "confidence": 0.0083
+          "confidence": 0.0007
         },
         {
           "name": "GRAVEL",
-          "confidence": 0.005
+          "confidence": 0.0003
         }
       ]
     },
@@ -61,20 +61,20 @@
       "file": "01a0d263-d93e-7705-873f-c3548132d977.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9687,
+      "confidence": 0.993,
       "correct": true,
       "top": [
         {
           "name": "AR-CONC",
-          "confidence": 0.9687
+          "confidence": 0.993
         },
         {
           "name": "OTHER",
-          "confidence": 0.0173
+          "confidence": 0.005
         },
         {
           "name": "GRAVEL",
-          "confidence": 0.014
+          "confidence": 0.002
         }
       ]
     },
@@ -82,79 +82,16 @@
       "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9915,
+      "confidence": 0.9964,
       "correct": true,
       "top": [
         {
           "name": "AR-CONC",
-          "confidence": 0.9915
+          "confidence": 0.9964
         },
         {
           "name": "GRAVEL",
-          "confidence": 0.007
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0016
-        }
-      ]
-    },
-    {
-      "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
-      "true": "AR-CONC",
-      "pred": "AR-CONC",
-      "confidence": 0.9857,
-      "correct": true,
-      "top": [
-        {
-          "name": "AR-CONC",
-          "confidence": 0.9857
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.0109
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0034
-        }
-      ]
-    },
-    {
-      "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
-      "true": "AR-CONC",
-      "pred": "AR-CONC",
-      "confidence": 0.9995,
-      "correct": true,
-      "top": [
-        {
-          "name": "AR-CONC",
-          "confidence": 0.9995
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.0003
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0002
-        }
-      ]
-    },
-    {
-      "file": "CE4D9686-1522-4EDE-A013-9618C6A66357_L0_001.jpg",
-      "true": "AR-CONC",
-      "pred": "AR-CONC",
-      "confidence": 0.9833,
-      "correct": true,
-      "top": [
-        {
-          "name": "AR-CONC",
-          "confidence": 0.9833
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.0151
+          "confidence": 0.0021
         },
         {
           "name": "OTHER",
@@ -163,23 +100,86 @@
       ]
     },
     {
-      "file": "74CE6AD5-8D6B-4DAE-87CD-1593E8AF4A1C_L0_001.jpg",
+      "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9411,
+      "confidence": 0.9916,
       "correct": true,
       "top": [
         {
           "name": "AR-CONC",
-          "confidence": 0.9411
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0345
+          "confidence": 0.9916
         },
         {
           "name": "GRAVEL",
-          "confidence": 0.0245
+          "confidence": 0.0061
+        },
+        {
+          "name": "OTHER",
+          "confidence": 0.0023
+        }
+      ]
+    },
+    {
+      "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+      "true": "AR-CONC",
+      "pred": "AR-CONC",
+      "confidence": 0.9981,
+      "correct": true,
+      "top": [
+        {
+          "name": "AR-CONC",
+          "confidence": 0.9981
+        },
+        {
+          "name": "OTHER",
+          "confidence": 0.0013
+        },
+        {
+          "name": "GRAVEL",
+          "confidence": 0.0006
+        }
+      ]
+    },
+    {
+      "file": "CE4D9686-1522-4EDE-A013-9618C6A66357_L0_001.jpg",
+      "true": "AR-CONC",
+      "pred": "AR-CONC",
+      "confidence": 0.9921,
+      "correct": true,
+      "top": [
+        {
+          "name": "AR-CONC",
+          "confidence": 0.9921
+        },
+        {
+          "name": "GRAVEL",
+          "confidence": 0.0062
+        },
+        {
+          "name": "OTHER",
+          "confidence": 0.0017
+        }
+      ]
+    },
+    {
+      "file": "74CE6AD5-8D6B-4DAE-87CD-1593E8AF4A1C_L0_001.jpg",
+      "true": "AR-CONC",
+      "pred": "AR-CONC",
+      "confidence": 0.985,
+      "correct": true,
+      "top": [
+        {
+          "name": "AR-CONC",
+          "confidence": 0.985
+        },
+        {
+          "name": "GRAVEL",
+          "confidence": 0.0079
+        },
+        {
+          "name": "OTHER",
+          "confidence": 0.007
         }
       ]
     },
@@ -187,20 +187,20 @@
       "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.8078,
+      "confidence": 0.9901,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.8078
+          "confidence": 0.9901
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.1822
+          "confidence": 0.0095
         },
         {
           "name": "OTHER",
-          "confidence": 0.01
+          "confidence": 0.0004
         }
       ]
     },
@@ -208,20 +208,20 @@
       "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.836,
+      "confidence": 0.851,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.836
+          "confidence": 0.851
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.1379
+          "confidence": 0.1377
         },
         {
           "name": "OTHER",
-          "confidence": 0.0261
+          "confidence": 0.0113
         }
       ]
     },
@@ -229,20 +229,20 @@
       "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9921,
+      "confidence": 0.9934,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.9921
+          "confidence": 0.9934
         },
         {
           "name": "OTHER",
-          "confidence": 0.0071
+          "confidence": 0.0043
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.0008
+          "confidence": 0.0023
         }
       ]
     },
@@ -250,20 +250,20 @@
       "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.8951,
+      "confidence": 0.9877,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.8951
+          "confidence": 0.9877
         },
         {
           "name": "OTHER",
-          "confidence": 0.1044
+          "confidence": 0.0078
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.0005
+          "confidence": 0.0045
         }
       ]
     },
@@ -271,20 +271,20 @@
       "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.8951,
+      "confidence": 0.9877,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.8951
+          "confidence": 0.9877
         },
         {
           "name": "OTHER",
-          "confidence": 0.1044
+          "confidence": 0.0078
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.0005
+          "confidence": 0.0045
         }
       ]
     },
@@ -292,20 +292,20 @@
       "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9947,
+      "confidence": 0.9828,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.9947
+          "confidence": 0.9828
         },
         {
           "name": "OTHER",
-          "confidence": 0.004
+          "confidence": 0.0105
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.0012
+          "confidence": 0.0066
         }
       ]
     },
@@ -313,20 +313,20 @@
       "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.836,
+      "confidence": 0.851,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.836
+          "confidence": 0.851
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.1379
+          "confidence": 0.1377
         },
         {
           "name": "OTHER",
-          "confidence": 0.0261
+          "confidence": 0.0113
         }
       ]
     },
@@ -334,20 +334,20 @@
       "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.8264,
+      "confidence": 0.9863,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.8264
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.157
+          "confidence": 0.9863
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.0166
+          "confidence": 0.009
+        },
+        {
+          "name": "OTHER",
+          "confidence": 0.0047
         }
       ]
     },
@@ -355,83 +355,23 @@
       "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.8209,
+      "confidence": 0.6113,
       "correct": true,
       "top": [
         {
           "name": "GRAVEL",
-          "confidence": 0.8209
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.1781
+          "confidence": 0.6113
         },
         {
           "name": "AR-CONC",
-          "confidence": 0.001
+          "confidence": 0.3015
+        },
+        {
+          "name": "OTHER",
+          "confidence": 0.0871
         }
       ]
     }
   ],
-  "ansi": [
-    {
-      "file": "01a0d391-463e-79d9-b764-82bbd2babedc.jpg",
-      "pred": "OTHER",
-      "confidence": 0.9459,
-      "top": [
-        {
-          "name": "OTHER",
-          "confidence": 0.9459
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.0531
-        },
-        {
-          "name": "AR-CONC",
-          "confidence": 0.001
-        }
-      ]
-    },
-    {
-      "file": "01a0d392-8b75-708e-a99b-8f01264f4185.jpg",
-      "pred": "OTHER",
-      "confidence": 0.7362,
-      "top": [
-        {
-          "name": "OTHER",
-          "confidence": 0.7362
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.2637
-        },
-        {
-          "name": "AR-CONC",
-          "confidence": 0.0001
-        }
-      ]
-    }
-  ],
-  "user_ansi_test": {
-    "file": "df18af5f-a58b-45a7-baa4-1c5d1654819b.png",
-    "pred": "OTHER",
-    "confidence": 0.9457,
-    "top": [
-      {
-        "name": "OTHER",
-        "confidence": 0.9457
-      },
-      {
-        "name": "GRAVEL",
-        "confidence": 0.0532
-      },
-      {
-        "name": "AR-CONC",
-        "confidence": 0.0011
-      }
-    ]
-  },
-  "gate": "none",
-  "notes": "fix binary ink (g==0); OTHER boost on sparse fills"
+  "note": "honest TTA + local then dense FT"
 }

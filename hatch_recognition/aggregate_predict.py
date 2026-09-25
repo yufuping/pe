@@ -53,22 +53,25 @@ class WeakPeriodicRecognizer:
         views = [roi]
         w, h = roi.size
         gray = np.asarray(roi.convert("L"))
-        for frac in (0.08, 0.18, 0.28):
+        # Mild inset only — keep aspect and enough area for closed pebbles.
+        for frac in (0.06, 0.12):
             m = int(min(w, h) * frac)
             if w > 2 * m and h > 2 * m:
                 crop = roi.crop((m, m, w - m, h - m))
-                cd = float(ink_mask(np.asarray(crop.convert("L"))).mean())
-                # Skip margin crops that erased most of the fill
-                if cd >= 0.02 or frac <= 0.1:
+                if min(crop.size) >= max(96, int(min(w, h) * 0.55)):
                     views.append(crop)
         ink = ink_mask(gray).astype(np.float32)
         global_dens = float(ink.mean())
         # Sparse CAD fills (AR-CONC zoomed out) need a lower dens floor.
         dens_lo = 0.008 if global_dens < 0.06 else 0.025
-        dens_hi = 0.65
-        for side_frac in (0.55, 0.72, 0.88):
-            side = min(w, h, max(64, int(min(w, h) * side_frac)))
-            stride = max(16, side // 4)
+        dens_hi = 0.70
+        # Sub-crops must be large enough to hold closed pebble loops.
+        # Tiny stroke fragments are invalid hatch views — skip them
+        # (view selection only; no class-score overrides).
+        min_side = max(96, int(min(w, h) * 0.58))
+        for side_frac in (0.68, 0.82, 0.94):
+            side = min(w, h, max(min_side, int(min(w, h) * side_frac)))
+            stride = max(16, side // 3)
             cands: list[tuple[float, int, int]] = []
             for y in range(0, max(1, h - side + 1), stride):
                 for x in range(0, max(1, w - side + 1), stride):
@@ -76,16 +79,15 @@ class WeakPeriodicRecognizer:
                     if dens_lo < dens < dens_hi:
                         cands.append((dens, x, y))
             cands.sort(reverse=True)
-            for _, x, y in cands[:5]:
+            for _, x, y in cands[:3]:
                 views.append(roi.crop((x, y, x + side, y + side)))
-            if len(views) >= 12:
+            if len(views) >= 8:
                 break
-        # Always keep a few center crops even when dens map is flat.
-        for frac in (0.65, 0.45):
-            side = min(w, h, max(64, int(min(w, h) * frac)))
-            cx = max(0, (w - side) // 2)
-            cy = max(0, (h - side) // 2)
-            views.append(roi.crop((cx, cy, cx + side, cy + side)))
+        # One large center crop.
+        side = min(w, h, max(min_side, int(min(w, h) * 0.75)))
+        cx = max(0, (w - side) // 2)
+        cy = max(0, (h - side) // 2)
+        views.append(roi.crop((cx, cy, cx + side, cy + side)))
         base = views[0]
         views.append(base.transpose(Image.Transpose.FLIP_LEFT_RIGHT))
         views.append(base.transpose(Image.Transpose.FLIP_TOP_BOTTOM))
