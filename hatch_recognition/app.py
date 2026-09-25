@@ -6,6 +6,7 @@ from io import BytesIO
 from pathlib import Path
 
 from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from PIL import Image
@@ -25,6 +26,12 @@ SPECIALIST_DESC = {
 }
 
 app = FastAPI(title="CAD Hatch Pattern Recognizer", version="1.1.0")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 recognizer: WeakPeriodicRecognizer | HatchRecognizer | None = None
 recognizer_mode: str = "none"
 
