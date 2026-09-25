@@ -1,10 +1,10 @@
 """
-Train expandable weak-periodic specialist.
+Train expandable weak-periodic / material-fill specialist.
 
-Classes (temporary subset + reject):
-  - AR-CONC, GRAVEL  — weak-periodic targets
-  - OTHER            — strong-periodic / non-target (ANSI/LINE/NET/STEEL/BRICK/…)
-                       so the CNN itself refuses ANSI31 instead of forced GRAVEL
+Classes (alphabetical — must match ImageFolder):
+  - AR-CONC, AR-SAND, DOLMIT, EARTH, GRAVEL  — target CAD fills
+  - OTHER  — strong-periodic / non-target (ANSI/LINE/NET/STEEL/BRICK/…)
+             so the CNN itself refuses ANSI31 instead of forced GRAVEL
 
 Synthetic only — no real CAD screenshots.
 """
@@ -27,6 +27,7 @@ from renderer import (
     add_cad_crosshair,
     add_interference,
     render_ar_conc_aggregate,
+    render_ar_sand,
     render_gravel_cobbles,
     render_gravel_pebbles,
     render_pattern,
@@ -40,9 +41,11 @@ PAT = ROOT / "acad_4270.pat"
 SPEC_DATA = ROOT / "data" / "aggregate_specialist"
 MODEL_OUT = ROOT / "models" / "aggregate_specialist.pt"
 META_OUT = ROOT / "models" / "aggregate_specialist_meta.json"
-# Expandable; OTHER is the reject / non-weak-periodic bucket for now.
-CLASSES = ["AR-CONC", "GRAVEL", "OTHER"]
-OTHER_PATTERNS = ["ANSI31", "ANSI32", "LINE", "NET", "STEEL", "BRICK"]  # no SOLID (ambiguous)
+# ImageFolder sorts alphabetically — keep this order exact.
+CLASSES = ["AR-CONC", "AR-SAND", "DOLMIT", "EARTH", "GRAVEL", "OTHER"]
+TARGET_CLASSES = ["AR-CONC", "AR-SAND", "DOLMIT", "EARTH", "GRAVEL"]
+PAT_TARGETS = ["DOLMIT", "EARTH"]  # stroke-rendered from .pat
+OTHER_PATTERNS = ["ANSI31", "ANSI32", "LINE", "NET", "STEEL", "BRICK"]
 SIZE = 128
 
 
@@ -162,10 +165,34 @@ def _zoomed_out_scene(hatch: Image.Image, rng: np.random.Generator, size: int = 
     return sheet.resize((size, size), Image.Resampling.LANCZOS)
 
 
-def build_synthetic(n_target: int = 900, n_other: int = 480, seed: int = 20260926) -> None:
+def _pat_tile(name: str, patterns: dict, rng: np.random.Generator, size: int = 168) -> Image.Image:
+    pat = patterns[name]
+    return render_pattern(
+        pat,
+        size=size,
+        scale=suggest_scale(pat, size) * float(rng.uniform(0.75, 1.35)),
+        rotation=float(rng.uniform(0, 360)),
+        bg=255,
+        fg=0,
+        stroke=1,
+        shape="rect",
+        supersample=2 if rng.random() < 0.55 else 1,
+    )
+
+
+def _place(h: Image.Image, rng: np.random.Generator) -> Image.Image:
+    roll = float(rng.random())
+    if roll < 0.5:
+        return _apply_scene(h, rng)
+    if roll < 0.8:
+        return _zoomed_out_scene(h, rng)
+    return h.resize((SIZE, SIZE), Image.Resampling.LANCZOS)
+
+
+def build_synthetic(n_per_target: int = 520, n_other: int = 420, seed: int = 20260926) -> None:
     """
-    More AR-CONC/GRAVEL with scene interference + sparse zoomed-out views;
-    cleaner OTHER so reject class does not swallow messy real aggregate.
+    Balanced synth for 5 material fills + OTHER reject.
+    Procedural: AR-CONC / AR-SAND / GRAVEL. PAT strokes: DOLMIT / EARTH.
     """
     if SPEC_DATA.exists():
         shutil.rmtree(SPEC_DATA)
@@ -173,46 +200,53 @@ def build_synthetic(n_target: int = 900, n_other: int = 480, seed: int = 2026092
     patterns = parse_pat_file(PAT)
 
     splits = (
-        ("train", n_target, n_other),
-        ("val", max(100, n_target // 7), max(70, n_other // 7)),
+        ("train", n_per_target, n_other),
+        ("val", max(70, n_per_target // 7), max(55, n_other // 7)),
     )
     for split, n_t, n_o in splits:
         for cls in CLASSES:
             (SPEC_DATA / split / cls).mkdir(parents=True, exist_ok=True)
 
-        for i in tqdm(range(n_t), desc=f"synth {split} targets"):
-            # GRAVEL — include hatched-interior pebbles (common in real CAD)
+        for i in tqdm(range(n_t), desc=f"synth {split} gravel"):
+            dens_g = float(rng.uniform(0.7, 1.85))
             style_roll = float(rng.random())
-            dens_g = float(rng.uniform(0.7, 1.55))
             if style_roll < 0.4:
                 h = render_gravel_cobbles(168, rng, dens_g)
             elif style_roll < 0.75:
                 h = render_gravel_pebbles(168, rng, dens_g, style="round")
             else:
                 h = render_gravel_pebbles(168, rng, dens_g, style="mixed")
-            roll = float(rng.random())
-            if roll < 0.55:
-                gimg = _apply_scene(h, rng)
-            elif roll < 0.8:
-                gimg = _zoomed_out_scene(h, rng)
-            else:
-                gimg = h.resize((SIZE, SIZE))
-            _finalize(_aug(gimg, rng, heavy=True)).save(
+            _finalize(_aug(_place(h, rng), rng, heavy=True)).save(
                 SPEC_DATA / split / "GRAVEL" / f"g_{i:04d}.png"
             )
 
-            # AR-CONC — include sparse/zoomed-out stipple (real dens can be ~0.02)
+        for i in tqdm(range(n_t), desc=f"synth {split} ar-conc"):
             dens_a = float(rng.choice([rng.uniform(0.3, 0.7), rng.uniform(0.75, 1.5)]))
             h = render_ar_conc_aggregate(168, rng, dens_a)
-            roll = float(rng.random())
-            if roll < 0.5:
-                aimg = _apply_scene(h, rng)
-            elif roll < 0.82:
-                aimg = _zoomed_out_scene(h, rng)
-            else:
-                aimg = h.resize((SIZE, SIZE))
-            _finalize(_aug(aimg, rng, heavy=True)).save(
+            _finalize(_aug(_place(h, rng), rng, heavy=True)).save(
                 SPEC_DATA / split / "AR-CONC" / f"a_{i:04d}.png"
+            )
+
+        for i in tqdm(range(n_t), desc=f"synth {split} ar-sand"):
+            dens_s = float(rng.uniform(0.45, 1.7))
+            h = render_ar_sand(168, rng, dens_s)
+            # Mix in some PAT AR-SAND so stroke look is covered too
+            if rng.random() < 0.25:
+                h = _pat_tile("AR-SAND", patterns, rng, 168)
+            _finalize(_aug(_place(h, rng), rng, heavy=True)).save(
+                SPEC_DATA / split / "AR-SAND" / f"s_{i:04d}.png"
+            )
+
+        for i in tqdm(range(n_t), desc=f"synth {split} earth"):
+            h = _pat_tile("EARTH", patterns, rng, 168)
+            _finalize(_aug(_place(h, rng), rng, heavy=False)).save(
+                SPEC_DATA / split / "EARTH" / f"e_{i:04d}.png"
+            )
+
+        for i in tqdm(range(n_t), desc=f"synth {split} dolmit"):
+            h = _pat_tile("DOLMIT", patterns, rng, 168)
+            _finalize(_aug(_place(h, rng), rng, heavy=False)).save(
+                SPEC_DATA / split / "DOLMIT" / f"d_{i:04d}.png"
             )
 
         for i in tqdm(range(n_o), desc=f"synth {split} other"):
@@ -220,7 +254,6 @@ def build_synthetic(n_target: int = 900, n_other: int = 480, seed: int = 2026092
             pat = patterns[name]
             rot = float(rng.uniform(0, 360))
             ss = 2 if rng.random() < 0.5 else 1
-            # Prefer clean full-frame periodic (teaches "lines ≠ aggregate")
             if rng.random() < 0.75:
                 oimg = render_pattern(
                     pat,
@@ -279,10 +312,13 @@ def train(epochs: int = 24, batch_size: int = 64, lr: float = 8e-4) -> dict:
     inv = [1.0 / max(n, 1) for n in counts]
     w = torch.tensor(inv, dtype=torch.float32)
     w = w / w.mean()
-    # Prefer not to dump uncertain aggregate into OTHER
-    w[CLASSES.index("AR-CONC")] *= 1.5
-    w[CLASSES.index("GRAVEL")] *= 1.35
-    w[CLASSES.index("OTHER")] *= 0.7
+    # Prefer not to dump uncertain fills into OTHER
+    for c in TARGET_CLASSES:
+        w[CLASSES.index(c)] *= 1.25
+    w[CLASSES.index("AR-CONC")] *= 1.15
+    w[CLASSES.index("GRAVEL")] *= 1.1
+    w[CLASSES.index("AR-SAND")] *= 1.1
+    w[CLASSES.index("OTHER")] *= 0.75
 
     model = HatchCNN(num_classes=len(CLASSES)).to(device)
     crit = nn.CrossEntropyLoss(weight=w.to(device), label_smoothing=0.015)
@@ -291,6 +327,7 @@ def train(epochs: int = 24, batch_size: int = 64, lr: float = 8e-4) -> dict:
 
     best = -1.0
     history = []
+    target_idx = torch.tensor([CLASSES.index(c) for c in TARGET_CLASSES])
     for epoch in range(1, epochs + 1):
         model.train()
         cor = tot = 0
@@ -301,10 +338,9 @@ def train(epochs: int = 24, batch_size: int = 64, lr: float = 8e-4) -> dict:
             loss = crit(logits, y)
             probs = torch.softmax(logits, dim=1)
             correct_p = probs.gather(1, y.view(-1, 1)).squeeze(1)
-            # Stronger confidence shove on target classes only
-            is_target = (y == CLASSES.index("AR-CONC")) | (y == CLASSES.index("GRAVEL"))
+            is_target = torch.isin(y, target_idx.to(device))
             if is_target.any():
-                conf_loss = (0.92 - correct_p[is_target]).clamp(min=0).mean() * 0.7
+                conf_loss = (0.90 - correct_p[is_target]).clamp(min=0).mean() * 0.55
             else:
                 conf_loss = torch.tensor(0.0, device=device)
             (loss + conf_loss).backward()
@@ -337,10 +373,11 @@ def train(epochs: int = 24, batch_size: int = 64, lr: float = 8e-4) -> dict:
         va = vcor / max(vtot, 1)
         mean_conf = float(np.mean(confs)) if confs else 0.0
         hi = float(np.mean([c >= 0.8 for c in confs])) if confs else 0.0
-        # Prefer models that are both accurate and high-confidence on targets
-        hi_ar = per["AR-CONC"]["hi"] / max(per["AR-CONC"]["n"], 1)
-        hi_gr = per["GRAVEL"]["hi"] / max(per["GRAVEL"]["n"], 1)
-        score = 0.35 * va + 0.35 * hi + 0.15 * hi_ar + 0.15 * hi_gr
+        hi_targets = float(
+            np.mean([per[c]["hi"] / max(per[c]["n"], 1) for c in TARGET_CLASSES])
+        )
+        hi_other = per["OTHER"]["hi"] / max(per["OTHER"]["n"], 1)
+        score = 0.35 * va + 0.25 * hi + 0.30 * hi_targets + 0.10 * hi_other
         history.append(
             {
                 "epoch": epoch,
@@ -372,6 +409,7 @@ def train(epochs: int = 24, batch_size: int = 64, lr: float = 8e-4) -> dict:
                     "val_acc": va,
                     "score": score,
                     "temperature": 0.78,
+                    "finetune": "six_class_material_fills",
                 },
                 MODEL_OUT,
             )
@@ -383,8 +421,8 @@ def train(epochs: int = 24, batch_size: int = 64, lr: float = 8e-4) -> dict:
 
 
 def main() -> None:
-    build_synthetic(n_target=900, n_other=480)
-    train(epochs=24)
+    build_synthetic(n_per_target=720, n_other=450)
+    train(epochs=22)
 
 
 if __name__ == "__main__":

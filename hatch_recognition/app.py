@@ -21,8 +21,11 @@ META_PATH = ROOT / "data" / "dataset" / "meta.json"
 
 SPECIALIST_DESC = {
     "AR-CONC": "混凝土：砂点 + 稀疏空心三角（弱周期）",
+    "AR-SAND": "砂土：纯砂点/细粒点阵（弱周期，无三角）",
+    "DOLMIT": "白云石：斜向短划线簇（PAT 材质填充）",
+    "EARTH": "土壤/地面：交叉短线纹理（PAT 材质填充）",
     "GRAVEL": "砾石：密闭卵石/碎石轮廓（弱周期）",
-    "OTHER": "非弱周期目标（ANSI/LINE/NET/砖钢等，建议程序路由）",
+    "OTHER": "非目标填充（ANSI/LINE/NET/砖钢等，由 CNN 拒识）",
 }
 
 app = FastAPI(title="CAD Hatch Pattern Recognizer", version="1.1.0")
@@ -196,7 +199,7 @@ INDEX_HTML = """<!doctype html>
 <body>
 <main>
   <h1>CAD 填充图案识别</h1>
-  <p class="sub">弱周期专家：AR-CONC / GRAVEL / OTHER（合成训练，默认无程序路由门控）</p>
+  <p class="sub">材质填充专家：AR-CONC / AR-SAND / DOLMIT / EARTH / GRAVEL + OTHER（合成训练，无程序路由改写）</p>
 
   <section class="panel">
     <label class="drop" id="drop" for="file">

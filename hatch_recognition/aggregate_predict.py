@@ -3,7 +3,7 @@ Weak-periodic hatch recognition pipeline.
 
 Flow:
   1) Programmatic periodic router → ANSI/LINE/NET-like → do NOT use CNN
-  2) Else weak-periodic specialist CNN (AR-CONC / GRAVEL / OTHER, expandable)
+  2) Else material-fill specialist CNN (AR-CONC / AR-SAND / DOLMIT / EARTH / GRAVEL / OTHER)
 
 No classical prior gating that overrides CNN scores (that would hide CNN defects).
 OTHER is learned so ANSI31 is rejected by the model itself when routing is skipped.

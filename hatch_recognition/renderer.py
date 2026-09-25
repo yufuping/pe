@@ -402,7 +402,7 @@ def render_gravel_pebbles(
     img = Image.new("L", (S, S), bg)
     draw = ImageDraw.Draw(img)
 
-    # ~12-20 pebbles across; density>1.6 packs tighter (real dense CAD fills ~ink 0.35¨C0.45)
+    # ~12-20 pebbles across; density>1.6 packs tighter (real dense CAD fills ~ink 0.35ï¿½C0.45)
     dens_clip = float(np.clip(density, 0.55, 2.2))
     target_across = float(rng.uniform(11, 18)) * dens_clip
     mean_d = S / target_across
@@ -411,7 +411,7 @@ def render_gravel_pebbles(
     centers: list[tuple[float, float, float, float]] = []
     tries = int(3200 * (size / 128) ** 2)
     max_n = int(target_across ** 2 * 1.25)
-    # Higher density ¡ú allow closer packing (real hex gravel is nearly edge-touching)
+    # Higher density ï¿½ï¿½ allow closer packing (real hex gravel is nearly edge-touching)
     sep = 1.15 if dens_clip < 1.4 else (1.02 if dens_clip < 1.8 else 0.92)
     for _ in range(tries):
         cx = float(rng.uniform(0, S))
@@ -531,7 +531,7 @@ def render_ar_conc_aggregate(
     # Allow very sparse (zoomed-out CAD) through dense close-ups.
     dens = float(np.clip(density, 0.25, 1.9))
 
-    # Dense sand / grit ¡ª dominant look
+    # Dense sand / grit ï¿½ï¿½ dominant look
     n_dots = int(1400 * dens * (size / 128) ** 2)
     for _ in range(n_dots):
         x = int(rng.integers(0, S))
@@ -549,7 +549,7 @@ def render_ar_conc_aggregate(
             else:
                 draw.point((x, y), fill=fg)
 
-    # Sparse hollow triangles ¡ª key differentiator vs GRAVEL
+    # Sparse hollow triangles ï¿½ï¿½ key differentiator vs GRAVEL
     n_tri = int(22 * dens * (size / 128) ** 2)
     n_tri = max(4, min(n_tri, 55))
     for _ in range(n_tri):
@@ -577,5 +577,40 @@ def render_ar_conc_aggregate(
                 width=max(1, ss // 2),
             )
 
-    # No pebble-like closed polygons â€? those leak into GRAVEL confusion.
+    # No pebble-like closed polygons ï¿½? those leak into GRAVEL confusion.
+    return img.resize((size, size), Image.Resampling.LANCZOS)
+
+
+def render_ar_sand(
+    size: int = 128,
+    rng: np.random.Generator | None = None,
+    density: float = 1.0,
+    bg: int = 255,
+    fg: int = 0,
+) -> Image.Image:
+    """
+    AR-SAND: sand / grit stipple only â€” no triangles (vs AR-CONC), no pebble loops.
+    """
+    rng = rng or np.random.default_rng()
+    ss = 2
+    S = size * ss
+    img = Image.new("L", (S, S), bg)
+    draw = ImageDraw.Draw(img)
+    dens = float(np.clip(density, 0.3, 1.9))
+    n_dots = int(1600 * dens * (size / 128) ** 2)
+    for _ in range(n_dots):
+        x = int(rng.integers(0, S))
+        y = int(rng.integers(0, S))
+        u = float(rng.random())
+        if u < 0.7:
+            draw.point((x, y), fill=fg)
+        elif u < 0.9:
+            draw.point((x, y), fill=fg)
+            if rng.random() < 0.5:
+                draw.point((min(S - 1, x + 1), y), fill=fg)
+            else:
+                draw.point((x, min(S - 1, y + 1)), fill=fg)
+        else:
+            r = 1 if rng.random() < 0.6 else ss
+            draw.ellipse([x - r, y - r, x + r, y + r], fill=fg)
     return img.resize((size, size), Image.Resampling.LANCZOS)
