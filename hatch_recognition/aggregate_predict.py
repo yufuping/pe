@@ -56,7 +56,11 @@ class WeakPeriodicRecognizer:
         for frac in (0.08, 0.18, 0.28):
             m = int(min(w, h) * frac)
             if w > 2 * m and h > 2 * m:
-                views.append(roi.crop((m, m, w - m, h - m)))
+                crop = roi.crop((m, m, w - m, h - m))
+                cd = float(((np.asarray(crop.convert("L")) < 200) & (np.asarray(crop.convert("L")) > 5)).mean())
+                # Skip margin crops that erased most of the fill
+                if cd >= 0.02 or frac <= 0.1:
+                    views.append(crop)
         ink = ((gray < 200) & (gray > 5)).astype(np.float32)
         global_dens = float(ink.mean())
         # Sparse CAD fills (AR-CONC zoomed out) need a lower dens floor.
@@ -99,31 +103,50 @@ class WeakPeriodicRecognizer:
     @torch.no_grad()
     def _cnn_probs(self, views: list[Image.Image]) -> torch.Tensor:
         probs, weights = [], []
-        areas = [float(v.size[0] * v.size[1]) for v in views]
+        dens_list = []
+        areas = []
+        for v in views:
+            g = np.asarray(v.convert("L"))
+            dens = float(((g < 200) & (g > 5)).mean())
+            dens_list.append(dens)
+            areas.append(float(v.size[0] * v.size[1]))
         max_area = max(areas) if areas else 1.0
         for i, v in enumerate(views):
+            dens = dens_list[i]
+            # Near-empty margin crops dilute GRAVEL → AR-CONC; skip them.
+            if dens < 0.015 and i > 0:
+                continue
             x = self.tf(v).unsqueeze(0).to(self.device)
             logits = self.model(x) / self.temperature
             p = F.softmax(logits, dim=1)[0]
-            g = np.asarray(v.convert("L"))
-            dens = float(((g < 200) & (g > 5)).mean())
-            dens_w = 0.55 + min(dens, 0.35)
-            # Prefer larger / full-ROI views (small crops often hit border lines → OTHER)
-            area_w = 0.55 + 0.9 * (areas[i] / max_area)
+            dens_w = 0.35 + 1.2 * min(dens, 0.45)  # denser fill patches dominate
+            area_w = 0.5 + 0.85 * (areas[i] / max_area)
             if i == 0:
-                area_w *= 1.35  # full ROI bonus
+                area_w *= 1.1  # mild full-ROI bonus (was 1.25; dense locals often cleaner)
             conf = float(p.max())
-            # Soften overconfident OTHER on tiny crops
             other_idx = self.classes.index("OTHER") if "OTHER" in self.classes else -1
-            if other_idx >= 0 and areas[i] < 0.45 * max_area and float(p[other_idx]) > 0.7:
-                area_w *= 0.35
+            if other_idx >= 0 and float(p[other_idx]) > 0.55:
+                # Full-frame OTHER often = border symbols; trust denser gravel patches more
+                area_w *= 0.45 if dens > 0.15 else 0.3
+            ar_idx = self.classes.index("AR-CONC") if "AR-CONC" in self.classes else -1
+            if ar_idx >= 0 and dens < 0.05 and float(p[ar_idx]) > 0.5:
+                area_w *= 0.25
+            # Boost high-conf GRAVEL on dense patches (hatched interiors)
+            gr_idx = self.classes.index("GRAVEL") if "GRAVEL" in self.classes else -1
+            if gr_idx >= 0 and dens >= 0.2 and float(p[gr_idx]) > 0.85:
+                area_w *= 1.35
             probs.append(p)
-            weights.append(dens_w * area_w * (0.55 + 0.45 * conf))
+            weights.append(dens_w * area_w * (0.5 + 0.5 * conf))
+        if not probs:
+            # Fallback: at least the full ROI
+            v = views[0]
+            x = self.tf(v).unsqueeze(0).to(self.device)
+            return F.softmax(self.model(x) / self.temperature, dim=1)[0]
         stack = torch.stack(probs, dim=0)
         w = torch.tensor(weights, device=self.device).view(-1, 1)
         avg = (stack * w).sum(0) / w.sum()
         soft = (stack * w).amax(0)
-        return 0.7 * avg + 0.3 * soft
+        return 0.72 * avg + 0.28 * soft
 
     def predict_cnn_only(self, image: Image.Image | str | Path, top_k: int = 3) -> dict:
         """CNN path only (no router). Used for debugging / ablating routing."""
