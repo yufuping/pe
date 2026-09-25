@@ -402,14 +402,17 @@ def render_gravel_pebbles(
     img = Image.new("L", (S, S), bg)
     draw = ImageDraw.Draw(img)
 
-    # ~12-20 pebbles across a tile in real screenshots
-    target_across = float(rng.uniform(11, 18)) * float(np.clip(density, 0.6, 1.6))
+    # ~12-20 pebbles across; density>1.6 packs tighter (real dense CAD fills ~ink 0.35¨C0.45)
+    dens_clip = float(np.clip(density, 0.55, 2.2))
+    target_across = float(rng.uniform(11, 18)) * dens_clip
     mean_d = S / target_across
-    mean_d = float(np.clip(mean_d, S * 0.04, S * 0.12))
+    mean_d = float(np.clip(mean_d, S * 0.035, S * 0.12))
 
     centers: list[tuple[float, float, float, float]] = []
-    tries = int(2500 * (size / 128) ** 2)
-    max_n = int(target_across ** 2 * 1.15)
+    tries = int(3200 * (size / 128) ** 2)
+    max_n = int(target_across ** 2 * 1.25)
+    # Higher density ¡ú allow closer packing (real hex gravel is nearly edge-touching)
+    sep = 1.15 if dens_clip < 1.4 else (1.02 if dens_clip < 1.8 else 0.92)
     for _ in range(tries):
         cx = float(rng.uniform(0, S))
         cy = float(rng.uniform(0, S))
@@ -424,7 +427,7 @@ def render_gravel_pebbles(
         ry = rx * float(rng.uniform(0.7, 1.25))
         ok = True
         for ox, oy, orx, ory in centers:
-            need = (min(rx, ry) + min(orx, ory)) * 1.15
+            need = (min(rx, ry) + min(orx, ory)) * sep
             if (cx - ox) ** 2 + (cy - oy) ** 2 < need ** 2:
                 ok = False
                 break
@@ -436,6 +439,8 @@ def render_gravel_pebbles(
     use_angular = style in ("cobble", "angular") or (style == "mixed" and rng.random() < 0.4)
     # Real CAD GRAVEL often has diagonal hatch *inside* some pebbles.
     hatch_frac = float(rng.uniform(0.15, 0.55)) if style != "outline_only" else 0.0
+    # Slightly thicker outlines at high density (screenshot AA / plot weight)
+    ow = max(1, ss // 2 + (1 if dens_clip >= 1.5 else 0))
     for cx, cy, rx, ry in centers:
         if use_angular:
             sides = int(rng.integers(5, 8))
@@ -444,7 +449,7 @@ def render_gravel_pebbles(
                 a = i * 2 * math.pi / sides + float(rng.uniform(-0.2, 0.2))
                 rr = float(rng.uniform(0.82, 1.12))
                 pts.append((cx + rr * rx * math.cos(a), cy + rr * ry * math.sin(a)))
-            draw.polygon(pts, outline=fg)
+            draw.polygon(pts, outline=fg, width=ow)
         else:
             sides = int(rng.integers(10, 16))
             pts = []
@@ -452,7 +457,7 @@ def render_gravel_pebbles(
                 a = i * 2 * math.pi / sides
                 rr = float(rng.uniform(0.9, 1.08))
                 pts.append((cx + rr * rx * math.cos(a), cy + rr * ry * math.sin(a)))
-            draw.polygon(pts, outline=fg)
+            draw.polygon(pts, outline=fg, width=ow)
 
         if hatch_frac > 0 and rng.random() < hatch_frac and min(rx, ry) > 3 * ss:
             # Diagonal hatch clipped to pebble mask (real CAD often fills some stones).
