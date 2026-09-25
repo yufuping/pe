@@ -1,451 +1,152 @@
 {
   "n": 17,
-  "acc": 1.0,
-  "correct_and_hi80": 1.0,
-  "by_class": {
-    "AR-CONC": {
-      "n": 8,
-      "acc": 1.0,
-      "hi80_ok": 1.0
-    },
-    "GRAVEL": {
-      "n": 9,
-      "acc": 1.0,
-      "hi80_ok": 1.0
-    }
+  "acc": 0.9411764705882353,
+  "hi80": 0.7647058823529411,
+  "ansi_other": true,
+  "ansi_pred": "OTHER",
+  "ansi_conf": 0.5975,
+  "user_gravel": {
+    "pred": "GRAVEL",
+    "conf": 0.4171,
+    "ok": true,
+    "hi80": false
   },
-  "cases": [
+  "rows": [
     {
       "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9984,
-      "correct": true,
-      "top": [
-        {
-          "name": "AR-CONC",
-          "confidence": 0.9984
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0009
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.0008
-        }
-      ]
+      "conf": 0.9146,
+      "ok": true,
+      "hi80": true
     },
     {
       "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9972,
-      "correct": true,
-      "top": [
-        {
-          "name": "AR-CONC",
-          "confidence": 0.9972
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0017
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.0011
-        }
-      ]
+      "conf": 0.9958,
+      "ok": true,
+      "hi80": true
     },
     {
       "file": "01a0d263-d93e-7705-873f-c3548132d977.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9795,
-      "correct": true,
-      "top": [
-        {
-          "name": "AR-CONC",
-          "confidence": 0.9795
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0124
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.008
-        }
-      ]
+      "conf": 0.8659,
+      "ok": true,
+      "hi80": true
     },
     {
       "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9893,
-      "correct": true,
-      "top": [
-        {
-          "name": "AR-CONC",
-          "confidence": 0.9893
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.0072
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0035
-        }
-      ]
+      "conf": 0.99,
+      "ok": true,
+      "hi80": true
     },
     {
       "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9524,
-      "correct": true,
-      "top": [
-        {
-          "name": "AR-CONC",
-          "confidence": 0.9524
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.0404
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0072
-        }
-      ]
+      "conf": 0.5116,
+      "ok": true,
+      "hi80": false
     },
     {
       "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9934,
-      "correct": true,
-      "top": [
-        {
-          "name": "AR-CONC",
-          "confidence": 0.9934
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.0039
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0028
-        }
-      ]
+      "conf": 0.9974,
+      "ok": true,
+      "hi80": true
     },
     {
       "file": "CE4D9686-1522-4EDE-A013-9618C6A66357_L0_001.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9695,
-      "correct": true,
-      "top": [
-        {
-          "name": "AR-CONC",
-          "confidence": 0.9695
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.026
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0044
-        }
-      ]
+      "conf": 0.9384,
+      "ok": true,
+      "hi80": true
     },
     {
       "file": "74CE6AD5-8D6B-4DAE-87CD-1593E8AF4A1C_L0_001.jpg",
       "true": "AR-CONC",
       "pred": "AR-CONC",
-      "confidence": 0.9155,
-      "correct": true,
-      "top": [
-        {
-          "name": "AR-CONC",
-          "confidence": 0.9155
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0554
-        },
-        {
-          "name": "GRAVEL",
-          "confidence": 0.029
-        }
-      ]
+      "conf": 0.6479,
+      "ok": true,
+      "hi80": false
     },
     {
       "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
       "true": "GRAVEL",
-      "pred": "GRAVEL",
-      "confidence": 0.9965,
-      "correct": true,
-      "top": [
-        {
-          "name": "GRAVEL",
-          "confidence": 0.9965
-        },
-        {
-          "name": "AR-CONC",
-          "confidence": 0.0026
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0009
-        }
-      ]
+      "pred": "EARTH",
+      "conf": 0.2775,
+      "ok": false,
+      "hi80": false
     },
     {
       "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9263,
-      "correct": true,
-      "top": [
-        {
-          "name": "GRAVEL",
-          "confidence": 0.9263
-        },
-        {
-          "name": "AR-CONC",
-          "confidence": 0.0579
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0158
-        }
-      ]
+      "conf": 0.9253,
+      "ok": true,
+      "hi80": true
     },
     {
       "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9902,
-      "correct": true,
-      "top": [
-        {
-          "name": "GRAVEL",
-          "confidence": 0.9902
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0079
-        },
-        {
-          "name": "AR-CONC",
-          "confidence": 0.0019
-        }
-      ]
+      "conf": 0.9576,
+      "ok": true,
+      "hi80": true
     },
     {
       "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9789,
-      "correct": true,
-      "top": [
-        {
-          "name": "GRAVEL",
-          "confidence": 0.9789
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.015
-        },
-        {
-          "name": "AR-CONC",
-          "confidence": 0.0061
-        }
-      ]
+      "conf": 0.879,
+      "ok": true,
+      "hi80": true
     },
     {
       "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9789,
-      "correct": true,
-      "top": [
-        {
-          "name": "GRAVEL",
-          "confidence": 0.9789
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.015
-        },
-        {
-          "name": "AR-CONC",
-          "confidence": 0.0061
-        }
-      ]
+      "conf": 0.879,
+      "ok": true,
+      "hi80": true
     },
     {
       "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9786,
-      "correct": true,
-      "top": [
-        {
-          "name": "GRAVEL",
-          "confidence": 0.9786
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0155
-        },
-        {
-          "name": "AR-CONC",
-          "confidence": 0.0059
-        }
-      ]
+      "conf": 0.9815,
+      "ok": true,
+      "hi80": true
     },
     {
       "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9263,
-      "correct": true,
-      "top": [
-        {
-          "name": "GRAVEL",
-          "confidence": 0.9263
-        },
-        {
-          "name": "AR-CONC",
-          "confidence": 0.0579
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0158
-        }
-      ]
+      "conf": 0.9253,
+      "ok": true,
+      "hi80": true
     },
     {
       "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9826,
-      "correct": true,
-      "top": [
-        {
-          "name": "GRAVEL",
-          "confidence": 0.9826
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0098
-        },
-        {
-          "name": "AR-CONC",
-          "confidence": 0.0075
-        }
-      ]
+      "conf": 0.9427,
+      "ok": true,
+      "hi80": true
     },
     {
       "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
       "true": "GRAVEL",
       "pred": "GRAVEL",
-      "confidence": 0.9826,
-      "correct": true,
-      "top": [
-        {
-          "name": "GRAVEL",
-          "confidence": 0.9826
-        },
-        {
-          "name": "OTHER",
-          "confidence": 0.0141
-        },
-        {
-          "name": "AR-CONC",
-          "confidence": 0.0033
-        }
-      ]
-    }
-  ],
-  "note": "safe_dense_mix with held-out guard",
-  "history": [
-    {
-      "epoch": 0,
-      "acc": 1.0,
-      "hi80": 0.9411764705882353,
-      "c473": 0.6113,
-      "user": 0.997,
-      "ansi": 0.8191
-    },
-    {
-      "epoch": 1,
-      "acc": 1.0,
-      "hi80": 1.0,
-      "c473": 0.9796,
-      "user": 0.9946,
-      "ansi": 0.9407
-    },
-    {
-      "epoch": 2,
-      "acc": 1.0,
-      "hi80": 1.0,
-      "c473": 0.9811,
-      "user": 0.9935,
-      "ansi": 0.9229
-    },
-    {
-      "epoch": 3,
-      "acc": 1.0,
-      "hi80": 1.0,
-      "c473": 0.9826,
-      "user": 0.9923,
-      "ansi": 0.9099
-    },
-    {
-      "epoch": 4,
-      "acc": 1.0,
-      "hi80": 1.0,
-      "c473": 0.9811,
-      "user": 0.9896,
-      "ansi": 0.9655
-    },
-    {
-      "epoch": 5,
-      "acc": 1.0,
-      "hi80": 1.0,
-      "c473": 0.9702,
-      "user": 0.9888,
-      "ansi": 0.9821
-    },
-    {
-      "epoch": 6,
-      "acc": 1.0,
-      "hi80": 1.0,
-      "c473": 0.9793,
-      "user": 0.9874,
-      "ansi": 0.9832
-    },
-    {
-      "epoch": 7,
-      "acc": 1.0,
-      "hi80": 1.0,
-      "c473": 0.9744,
-      "user": 0.9872,
-      "ansi": 0.9917
-    },
-    {
-      "epoch": 8,
-      "acc": 1.0,
-      "hi80": 1.0,
-      "c473": 0.9775,
-      "user": 0.9873,
-      "ansi": 0.9873
+      "conf": 0.4005,
+      "ok": true,
+      "hi80": false
     }
   ]
 }

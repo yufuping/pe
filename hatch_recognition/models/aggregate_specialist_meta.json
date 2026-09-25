@@ -758,5 +758,1137 @@
     "GRAVEL",
     "OTHER"
   ],
-  "synthetic_only": true
+  "synthetic_only": true,
+  "six_class_safe_heldout_ft": {
+    "best_ho_score": 0.47352941176470587,
+    "baseline_heldout": {
+      "n": 17,
+      "acc": 0.47058823529411764,
+      "hi80": 0.35294117647058826,
+      "ansi_other": false,
+      "ansi_pred": "DOLMIT",
+      "user_gravel": {
+        "pred": "OTHER",
+        "conf": 0.4799,
+        "ok": false,
+        "hi80": false
+      }
+    },
+    "history": [
+      {
+        "epoch": 1,
+        "val_acc": 0.8816326530612245,
+        "heldout": {
+          "n": 17,
+          "acc": 0.47058823529411764,
+          "hi80": 0.4117647058823529,
+          "ansi_other": false,
+          "ansi_pred": "DOLMIT",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.4509,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.3911764705882353,
+        "per_class": {
+          "AR-CONC": {
+            "acc": 1.0,
+            "hi80": 0.8666666666666667
+          },
+          "AR-SAND": {
+            "acc": 1.0,
+            "hi80": 0.8928571428571429
+          },
+          "DOLMIT": {
+            "acc": 0.8571428571428571,
+            "hi80": 0.32142857142857145
+          },
+          "EARTH": {
+            "acc": 0.9285714285714286,
+            "hi80": 0.8571428571428571
+          },
+          "GRAVEL": {
+            "acc": 1.0,
+            "hi80": 0.9775280898876404
+          },
+          "OTHER": {
+            "acc": 0.4523809523809524,
+            "hi80": 0.2619047619047619
+          }
+        }
+      },
+      {
+        "epoch": 2,
+        "val_acc": 0.8857142857142857,
+        "heldout": {
+          "n": 17,
+          "acc": 0.35294117647058826,
+          "hi80": 0.23529411764705882,
+          "ansi_other": false,
+          "ansi_pred": "DOLMIT",
+          "user_gravel": {
+            "pred": "DOLMIT",
+            "conf": 0.5394,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.2529411764705882,
+        "per_class": {
+          "AR-CONC": {
+            "acc": 1.0,
+            "hi80": 0.9
+          },
+          "AR-SAND": {
+            "acc": 1.0,
+            "hi80": 0.8928571428571429
+          },
+          "DOLMIT": {
+            "acc": 0.7857142857142857,
+            "hi80": 0.0
+          },
+          "EARTH": {
+            "acc": 0.9642857142857143,
+            "hi80": 0.8928571428571429
+          },
+          "GRAVEL": {
+            "acc": 1.0,
+            "hi80": 0.9550561797752809
+          },
+          "OTHER": {
+            "acc": 0.5,
+            "hi80": 0.2619047619047619
+          }
+        }
+      },
+      {
+        "epoch": 3,
+        "val_acc": 0.889795918367347,
+        "heldout": {
+          "n": 17,
+          "acc": 0.4117647058823529,
+          "hi80": 0.23529411764705882,
+          "ansi_other": false,
+          "ansi_pred": "DOLMIT",
+          "user_gravel": {
+            "pred": "DOLMIT",
+            "conf": 0.5218,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.2735294117647059,
+        "per_class": {
+          "AR-CONC": {
+            "acc": 1.0,
+            "hi80": 0.9333333333333333
+          },
+          "AR-SAND": {
+            "acc": 1.0,
+            "hi80": 0.8928571428571429
+          },
+          "DOLMIT": {
+            "acc": 0.8571428571428571,
+            "hi80": 0.0
+          },
+          "EARTH": {
+            "acc": 0.9642857142857143,
+            "hi80": 0.8928571428571429
+          },
+          "GRAVEL": {
+            "acc": 1.0,
+            "hi80": 0.9775280898876404
+          },
+          "OTHER": {
+            "acc": 0.47619047619047616,
+            "hi80": 0.2619047619047619
+          }
+        }
+      },
+      {
+        "epoch": 4,
+        "val_acc": 0.8775510204081632,
+        "heldout": {
+          "n": 17,
+          "acc": 0.6470588235294118,
+          "hi80": 0.23529411764705882,
+          "ansi_other": false,
+          "ansi_pred": "DOLMIT",
+          "user_gravel": {
+            "pred": "DOLMIT",
+            "conf": 0.3483,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.3558823529411765,
+        "per_class": {
+          "AR-CONC": {
+            "acc": 1.0,
+            "hi80": 1.0
+          },
+          "AR-SAND": {
+            "acc": 0.9642857142857143,
+            "hi80": 0.9642857142857143
+          },
+          "DOLMIT": {
+            "acc": 0.8214285714285714,
+            "hi80": 0.0
+          },
+          "EARTH": {
+            "acc": 1.0,
+            "hi80": 0.9285714285714286
+          },
+          "GRAVEL": {
+            "acc": 0.9887640449438202,
+            "hi80": 0.9775280898876404
+          },
+          "OTHER": {
+            "acc": 0.4523809523809524,
+            "hi80": 0.2619047619047619
+          }
+        }
+      },
+      {
+        "epoch": 5,
+        "val_acc": 0.8857142857142857,
+        "heldout": {
+          "n": 17,
+          "acc": 0.7058823529411765,
+          "hi80": 0.29411764705882354,
+          "ansi_other": false,
+          "ansi_pred": "DOLMIT",
+          "user_gravel": {
+            "pred": "DOLMIT",
+            "conf": 0.4151,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.4088235294117647,
+        "per_class": {
+          "AR-CONC": {
+            "acc": 1.0,
+            "hi80": 1.0
+          },
+          "AR-SAND": {
+            "acc": 1.0,
+            "hi80": 0.9642857142857143
+          },
+          "DOLMIT": {
+            "acc": 0.9285714285714286,
+            "hi80": 0.0
+          },
+          "EARTH": {
+            "acc": 1.0,
+            "hi80": 0.9642857142857143
+          },
+          "GRAVEL": {
+            "acc": 1.0,
+            "hi80": 0.9775280898876404
+          },
+          "OTHER": {
+            "acc": 0.38095238095238093,
+            "hi80": 0.2619047619047619
+          }
+        }
+      },
+      {
+        "epoch": 6,
+        "val_acc": 0.8979591836734694,
+        "heldout": {
+          "n": 17,
+          "acc": 0.5294117647058824,
+          "hi80": 0.17647058823529413,
+          "ansi_other": false,
+          "ansi_pred": "DOLMIT",
+          "user_gravel": {
+            "pred": "DOLMIT",
+            "conf": 0.4137,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.2823529411764706,
+        "per_class": {
+          "AR-CONC": {
+            "acc": 1.0,
+            "hi80": 0.9
+          },
+          "AR-SAND": {
+            "acc": 1.0,
+            "hi80": 0.9642857142857143
+          },
+          "DOLMIT": {
+            "acc": 0.9285714285714286,
+            "hi80": 0.0
+          },
+          "EARTH": {
+            "acc": 1.0,
+            "hi80": 0.9642857142857143
+          },
+          "GRAVEL": {
+            "acc": 1.0,
+            "hi80": 0.9887640449438202
+          },
+          "OTHER": {
+            "acc": 0.4523809523809524,
+            "hi80": 0.3333333333333333
+          }
+        }
+      },
+      {
+        "epoch": 7,
+        "val_acc": 0.8938775510204081,
+        "heldout": {
+          "n": 17,
+          "acc": 0.7058823529411765,
+          "hi80": 0.29411764705882354,
+          "ansi_other": false,
+          "ansi_pred": "DOLMIT",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.6241,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.4088235294117647,
+        "per_class": {
+          "AR-CONC": {
+            "acc": 1.0,
+            "hi80": 0.9666666666666667
+          },
+          "AR-SAND": {
+            "acc": 0.9642857142857143,
+            "hi80": 0.9642857142857143
+          },
+          "DOLMIT": {
+            "acc": 0.8571428571428571,
+            "hi80": 0.0
+          },
+          "EARTH": {
+            "acc": 1.0,
+            "hi80": 1.0
+          },
+          "GRAVEL": {
+            "acc": 1.0,
+            "hi80": 0.9775280898876404
+          },
+          "OTHER": {
+            "acc": 0.5,
+            "hi80": 0.3333333333333333
+          }
+        }
+      },
+      {
+        "epoch": 8,
+        "val_acc": 0.9061224489795918,
+        "heldout": {
+          "n": 17,
+          "acc": 0.7058823529411765,
+          "hi80": 0.35294117647058826,
+          "ansi_other": false,
+          "ansi_pred": "DOLMIT",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.6279,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.44117647058823534,
+        "per_class": {
+          "AR-CONC": {
+            "acc": 1.0,
+            "hi80": 0.9666666666666667
+          },
+          "AR-SAND": {
+            "acc": 1.0,
+            "hi80": 0.9642857142857143
+          },
+          "DOLMIT": {
+            "acc": 0.9285714285714286,
+            "hi80": 0.03571428571428571
+          },
+          "EARTH": {
+            "acc": 1.0,
+            "hi80": 1.0
+          },
+          "GRAVEL": {
+            "acc": 0.9887640449438202,
+            "hi80": 0.9775280898876404
+          },
+          "OTHER": {
+            "acc": 0.5238095238095238,
+            "hi80": 0.2857142857142857
+          }
+        }
+      },
+      {
+        "epoch": 9,
+        "val_acc": 0.8938775510204081,
+        "heldout": {
+          "n": 17,
+          "acc": 0.5294117647058824,
+          "hi80": 0.35294117647058826,
+          "ansi_other": false,
+          "ansi_pred": "DOLMIT",
+          "user_gravel": {
+            "pred": "DOLMIT",
+            "conf": 0.3914,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.37941176470588234,
+        "per_class": {
+          "AR-CONC": {
+            "acc": 1.0,
+            "hi80": 0.9333333333333333
+          },
+          "AR-SAND": {
+            "acc": 1.0,
+            "hi80": 0.9642857142857143
+          },
+          "DOLMIT": {
+            "acc": 0.9285714285714286,
+            "hi80": 0.03571428571428571
+          },
+          "EARTH": {
+            "acc": 1.0,
+            "hi80": 1.0
+          },
+          "GRAVEL": {
+            "acc": 1.0,
+            "hi80": 0.9887640449438202
+          },
+          "OTHER": {
+            "acc": 0.42857142857142855,
+            "hi80": 0.30952380952380953
+          }
+        }
+      },
+      {
+        "epoch": 10,
+        "val_acc": 0.889795918367347,
+        "heldout": {
+          "n": 17,
+          "acc": 0.7058823529411765,
+          "hi80": 0.4117647058823529,
+          "ansi_other": false,
+          "ansi_pred": "DOLMIT",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.6559,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.47352941176470587,
+        "per_class": {
+          "AR-CONC": {
+            "acc": 1.0,
+            "hi80": 1.0
+          },
+          "AR-SAND": {
+            "acc": 1.0,
+            "hi80": 0.9642857142857143
+          },
+          "DOLMIT": {
+            "acc": 0.8571428571428571,
+            "hi80": 0.03571428571428571
+          },
+          "EARTH": {
+            "acc": 1.0,
+            "hi80": 1.0
+          },
+          "GRAVEL": {
+            "acc": 1.0,
+            "hi80": 0.9887640449438202
+          },
+          "OTHER": {
+            "acc": 0.4523809523809524,
+            "hi80": 0.30952380952380953
+          }
+        }
+      },
+      {
+        "epoch": 11,
+        "val_acc": 0.8979591836734694,
+        "heldout": {
+          "n": 17,
+          "acc": 0.7058823529411765,
+          "hi80": 0.29411764705882354,
+          "ansi_other": false,
+          "ansi_pred": "DOLMIT",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.5731,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.4088235294117647,
+        "per_class": {
+          "AR-CONC": {
+            "acc": 1.0,
+            "hi80": 1.0
+          },
+          "AR-SAND": {
+            "acc": 1.0,
+            "hi80": 0.9642857142857143
+          },
+          "DOLMIT": {
+            "acc": 0.9285714285714286,
+            "hi80": 0.03571428571428571
+          },
+          "EARTH": {
+            "acc": 1.0,
+            "hi80": 1.0
+          },
+          "GRAVEL": {
+            "acc": 1.0,
+            "hi80": 0.9887640449438202
+          },
+          "OTHER": {
+            "acc": 0.4523809523809524,
+            "hi80": 0.2857142857142857
+          }
+        }
+      },
+      {
+        "epoch": 12,
+        "val_acc": 0.8979591836734694,
+        "heldout": {
+          "n": 17,
+          "acc": 0.7058823529411765,
+          "hi80": 0.29411764705882354,
+          "ansi_other": false,
+          "ansi_pred": "DOLMIT",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.5452,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.4088235294117647,
+        "per_class": {
+          "AR-CONC": {
+            "acc": 1.0,
+            "hi80": 1.0
+          },
+          "AR-SAND": {
+            "acc": 1.0,
+            "hi80": 0.9642857142857143
+          },
+          "DOLMIT": {
+            "acc": 0.9285714285714286,
+            "hi80": 0.03571428571428571
+          },
+          "EARTH": {
+            "acc": 1.0,
+            "hi80": 1.0
+          },
+          "GRAVEL": {
+            "acc": 1.0,
+            "hi80": 0.9887640449438202
+          },
+          "OTHER": {
+            "acc": 0.4523809523809524,
+            "hi80": 0.2857142857142857
+          }
+        }
+      }
+    ]
+  },
+  "six_class_kd_heldout_ft": {
+    "best_ho_score": 0.8247058823529412,
+    "baseline_heldout": {
+      "n": 17,
+      "acc": 0.7058823529411765,
+      "hi80": 0.4117647058823529,
+      "ansi_other": false,
+      "ansi_pred": "DOLMIT",
+      "user_gravel": {
+        "pred": "AR-CONC",
+        "conf": 0.6559,
+        "ok": false,
+        "hi80": false
+      }
+    },
+    "history": [
+      {
+        "epoch": 1,
+        "val_acc": 0.9102040816326531,
+        "heldout": {
+          "n": 17,
+          "acc": 0.9411764705882353,
+          "hi80": 0.7647058823529411,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.7808,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.7847058823529411,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 0.9642857142857143,
+          "DOLMIT": 0.5357142857142857,
+          "EARTH": 1.0,
+          "GRAVEL": 1.0,
+          "OTHER": 0.8095238095238095
+        }
+      },
+      {
+        "epoch": 2,
+        "val_acc": 0.8816326530612245,
+        "heldout": {
+          "n": 17,
+          "acc": 0.8235294117647058,
+          "hi80": 0.6470588235294118,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.6779,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.6905882352941176,
+        "per_class": {
+          "AR-CONC": 0.9666666666666667,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.21428571428571427,
+          "EARTH": 0.9642857142857143,
+          "GRAVEL": 1.0,
+          "OTHER": 0.8809523809523809
+        }
+      },
+      {
+        "epoch": 3,
+        "val_acc": 0.8857142857142857,
+        "heldout": {
+          "n": 17,
+          "acc": 0.7058823529411765,
+          "hi80": 0.6470588235294118,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "GRAVEL",
+            "conf": 0.3056,
+            "ok": true,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.6952941176470588,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.21428571428571427,
+          "EARTH": 1.0,
+          "GRAVEL": 0.9775280898876404,
+          "OTHER": 0.9047619047619048
+        }
+      },
+      {
+        "epoch": 4,
+        "val_acc": 0.9020408163265307,
+        "heldout": {
+          "n": 17,
+          "acc": 0.8823529411764706,
+          "hi80": 0.6470588235294118,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.4272,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.7082352941176471,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.2857142857142857,
+          "EARTH": 1.0,
+          "GRAVEL": 1.0,
+          "OTHER": 0.9047619047619048
+        }
+      },
+      {
+        "epoch": 5,
+        "val_acc": 0.9102040816326531,
+        "heldout": {
+          "n": 17,
+          "acc": 0.9411764705882353,
+          "hi80": 0.7647058823529411,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "GRAVEL",
+            "conf": 0.4171,
+            "ok": true,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.8247058823529412,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.25,
+          "EARTH": 1.0,
+          "GRAVEL": 1.0,
+          "OTHER": 0.9761904761904762
+        }
+      },
+      {
+        "epoch": 6,
+        "val_acc": 0.9061224489795918,
+        "heldout": {
+          "n": 17,
+          "acc": 0.7647058823529411,
+          "hi80": 0.35294117647058826,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "GRAVEL",
+            "conf": 0.3015,
+            "ok": true,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.5658823529411765,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.21428571428571427,
+          "EARTH": 1.0,
+          "GRAVEL": 1.0,
+          "OTHER": 0.9761904761904762
+        }
+      },
+      {
+        "epoch": 7,
+        "val_acc": 0.9102040816326531,
+        "heldout": {
+          "n": 17,
+          "acc": 0.8823529411764706,
+          "hi80": 0.6470588235294118,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.5429,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.7082352941176471,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.2857142857142857,
+          "EARTH": 1.0,
+          "GRAVEL": 1.0,
+          "OTHER": 0.9523809523809523
+        }
+      },
+      {
+        "epoch": 8,
+        "val_acc": 0.9102040816326531,
+        "heldout": {
+          "n": 17,
+          "acc": 0.9411764705882353,
+          "hi80": 0.7058823529411765,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.5021,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.7552941176470588,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.2857142857142857,
+          "EARTH": 1.0,
+          "GRAVEL": 1.0,
+          "OTHER": 0.9523809523809523
+        }
+      },
+      {
+        "epoch": 9,
+        "val_acc": 0.9102040816326531,
+        "heldout": {
+          "n": 17,
+          "acc": 0.8823529411764706,
+          "hi80": 0.47058823529411764,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "GRAVEL",
+            "conf": 0.384,
+            "ok": true,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.66,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.35714285714285715,
+          "EARTH": 1.0,
+          "GRAVEL": 1.0,
+          "OTHER": 0.9047619047619048
+        }
+      },
+      {
+        "epoch": 10,
+        "val_acc": 0.9142857142857143,
+        "heldout": {
+          "n": 17,
+          "acc": 0.8823529411764706,
+          "hi80": 0.7647058823529411,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "GRAVEL",
+            "conf": 0.4623,
+            "ok": true,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.8070588235294117,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.32142857142857145,
+          "EARTH": 1.0,
+          "GRAVEL": 1.0,
+          "OTHER": 0.9523809523809523
+        }
+      },
+      {
+        "epoch": 11,
+        "val_acc": 0.9142857142857143,
+        "heldout": {
+          "n": 17,
+          "acc": 0.8823529411764706,
+          "hi80": 0.7647058823529411,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.5513,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.7670588235294117,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.32142857142857145,
+          "EARTH": 1.0,
+          "GRAVEL": 1.0,
+          "OTHER": 0.9523809523809523
+        }
+      },
+      {
+        "epoch": 12,
+        "val_acc": 0.9224489795918367,
+        "heldout": {
+          "n": 17,
+          "acc": 0.8823529411764706,
+          "hi80": 0.6470588235294118,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "GRAVEL",
+            "conf": 0.4138,
+            "ok": true,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.7482352941176471,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.39285714285714285,
+          "EARTH": 1.0,
+          "GRAVEL": 1.0,
+          "OTHER": 0.9523809523809523
+        }
+      },
+      {
+        "epoch": 13,
+        "val_acc": 0.9224489795918367,
+        "heldout": {
+          "n": 17,
+          "acc": 0.7647058823529411,
+          "hi80": 0.47058823529411764,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "DOLMIT",
+            "conf": 0.317,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.5847058823529412,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.35714285714285715,
+          "EARTH": 1.0,
+          "GRAVEL": 1.0,
+          "OTHER": 0.9761904761904762
+        }
+      },
+      {
+        "epoch": 14,
+        "val_acc": 0.926530612244898,
+        "heldout": {
+          "n": 17,
+          "acc": 0.8823529411764706,
+          "hi80": 0.5294117647058824,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.3621,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.6494117647058824,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.39285714285714285,
+          "EARTH": 1.0,
+          "GRAVEL": 1.0,
+          "OTHER": 0.9761904761904762
+        }
+      },
+      {
+        "epoch": 15,
+        "val_acc": 0.9224489795918367,
+        "heldout": {
+          "n": 17,
+          "acc": 0.8823529411764706,
+          "hi80": 0.7647058823529411,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.4867,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.7670588235294117,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.39285714285714285,
+          "EARTH": 1.0,
+          "GRAVEL": 1.0,
+          "OTHER": 0.9523809523809523
+        }
+      },
+      {
+        "epoch": 16,
+        "val_acc": 0.926530612244898,
+        "heldout": {
+          "n": 17,
+          "acc": 0.8823529411764706,
+          "hi80": 0.7058823529411765,
+          "ansi_other": true,
+          "ansi_pred": "OTHER",
+          "user_gravel": {
+            "pred": "AR-CONC",
+            "conf": 0.5407,
+            "ok": false,
+            "hi80": false
+          }
+        },
+        "ho_score": 0.7376470588235294,
+        "per_class": {
+          "AR-CONC": 1.0,
+          "AR-SAND": 1.0,
+          "DOLMIT": 0.39285714285714285,
+          "EARTH": 1.0,
+          "GRAVEL": 1.0,
+          "OTHER": 0.9761904761904762
+        }
+      }
+    ]
+  },
+  "six_class_kd_balance": {
+    "n": 17,
+    "acc": 0.9411764705882353,
+    "hi80": 0.7647058823529411,
+    "ansi_other": true,
+    "ansi_pred": "OTHER",
+    "ansi_conf": 0.5975,
+    "user_gravel": {
+      "pred": "GRAVEL",
+      "conf": 0.4171,
+      "ok": true,
+      "hi80": false
+    },
+    "rows": [
+      {
+        "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+        "true": "AR-CONC",
+        "pred": "AR-CONC",
+        "conf": 0.9146,
+        "ok": true,
+        "hi80": true
+      },
+      {
+        "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+        "true": "AR-CONC",
+        "pred": "AR-CONC",
+        "conf": 0.9958,
+        "ok": true,
+        "hi80": true
+      },
+      {
+        "file": "01a0d263-d93e-7705-873f-c3548132d977.jpg",
+        "true": "AR-CONC",
+        "pred": "AR-CONC",
+        "conf": 0.8659,
+        "ok": true,
+        "hi80": true
+      },
+      {
+        "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+        "true": "AR-CONC",
+        "pred": "AR-CONC",
+        "conf": 0.99,
+        "ok": true,
+        "hi80": true
+      },
+      {
+        "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+        "true": "AR-CONC",
+        "pred": "AR-CONC",
+        "conf": 0.5116,
+        "ok": true,
+        "hi80": false
+      },
+      {
+        "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+        "true": "AR-CONC",
+        "pred": "AR-CONC",
+        "conf": 0.9974,
+        "ok": true,
+        "hi80": true
+      },
+      {
+        "file": "CE4D9686-1522-4EDE-A013-9618C6A66357_L0_001.jpg",
+        "true": "AR-CONC",
+        "pred": "AR-CONC",
+        "conf": 0.9384,
+        "ok": true,
+        "hi80": true
+      },
+      {
+        "file": "74CE6AD5-8D6B-4DAE-87CD-1593E8AF4A1C_L0_001.jpg",
+        "true": "AR-CONC",
+        "pred": "AR-CONC",
+        "conf": 0.6479,
+        "ok": true,
+        "hi80": false
+      },
+      {
+        "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+        "true": "GRAVEL",
+        "pred": "EARTH",
+        "conf": 0.2775,
+        "ok": false,
+        "hi80": false
+      },
+      {
+        "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+        "true": "GRAVEL",
+        "pred": "GRAVEL",
+        "conf": 0.9253,
+        "ok": true,
+        "hi80": true
+      },
+      {
+        "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+        "true": "GRAVEL",
+        "pred": "GRAVEL",
+        "conf": 0.9576,
+        "ok": true,
+        "hi80": true
+      },
+      {
+        "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+        "true": "GRAVEL",
+        "pred": "GRAVEL",
+        "conf": 0.879,
+        "ok": true,
+        "hi80": true
+      },
+      {
+        "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+        "true": "GRAVEL",
+        "pred": "GRAVEL",
+        "conf": 0.879,
+        "ok": true,
+        "hi80": true
+      },
+      {
+        "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+        "true": "GRAVEL",
+        "pred": "GRAVEL",
+        "conf": 0.9815,
+        "ok": true,
+        "hi80": true
+      },
+      {
+        "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+        "true": "GRAVEL",
+        "pred": "GRAVEL",
+        "conf": 0.9253,
+        "ok": true,
+        "hi80": true
+      },
+      {
+        "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+        "true": "GRAVEL",
+        "pred": "GRAVEL",
+        "conf": 0.9427,
+        "ok": true,
+        "hi80": true
+      },
+      {
+        "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+        "true": "GRAVEL",
+        "pred": "GRAVEL",
+        "conf": 0.4005,
+        "ok": true,
+        "hi80": false
+      }
+    ]
+  }
 }
