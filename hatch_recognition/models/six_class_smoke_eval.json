@@ -1,0 +1,226 @@
+{
+  "classes": [
+    "AR-CONC",
+    "AR-SAND",
+    "DOLMIT",
+    "EARTH",
+    "GRAVEL",
+    "OTHER"
+  ],
+  "n": 21,
+  "acc": 0.619,
+  "hi80": 0.4762,
+  "by_source": {
+    "pat": {
+      "n": 4,
+      "acc": 0.75,
+      "hi80": 0.5
+    },
+    "real": {
+      "n": 13,
+      "acc": 0.5385,
+      "hi80": 0.3846
+    },
+    "synth": {
+      "n": 3,
+      "acc": 1.0,
+      "hi80": 1.0
+    },
+    "user": {
+      "n": 1,
+      "acc": 0.0,
+      "hi80": 0.0
+    }
+  },
+  "rows": [
+    {
+      "source": "synth",
+      "file": "AR-CONC",
+      "true": "AR-CONC",
+      "pred": "AR-CONC",
+      "conf": 0.9996,
+      "ok": true,
+      "hi80": true
+    },
+    {
+      "source": "synth",
+      "file": "AR-SAND",
+      "true": "AR-SAND",
+      "pred": "AR-SAND",
+      "conf": 0.9528,
+      "ok": true,
+      "hi80": true
+    },
+    {
+      "source": "synth",
+      "file": "GRAVEL",
+      "true": "GRAVEL",
+      "pred": "GRAVEL",
+      "conf": 1.0,
+      "ok": true,
+      "hi80": true
+    },
+    {
+      "source": "pat",
+      "file": "DOLMIT",
+      "true": "DOLMIT",
+      "pred": "DOLMIT",
+      "conf": 0.7,
+      "ok": true,
+      "hi80": false
+    },
+    {
+      "source": "pat",
+      "file": "EARTH",
+      "true": "EARTH",
+      "pred": "EARTH",
+      "conf": 0.9697,
+      "ok": true,
+      "hi80": true
+    },
+    {
+      "source": "pat",
+      "file": "AR-SAND",
+      "true": "AR-SAND",
+      "pred": "AR-SAND",
+      "conf": 0.943,
+      "ok": true,
+      "hi80": true
+    },
+    {
+      "source": "pat",
+      "file": "OTHER",
+      "true": "OTHER",
+      "pred": "DOLMIT",
+      "conf": 0.8439,
+      "ok": false,
+      "hi80": false
+    },
+    {
+      "source": "real",
+      "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+      "true": "AR-CONC",
+      "pred": "AR-CONC",
+      "conf": 0.7936,
+      "ok": true,
+      "hi80": false
+    },
+    {
+      "source": "real",
+      "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+      "true": "AR-CONC",
+      "pred": "AR-CONC",
+      "conf": 0.9988,
+      "ok": true,
+      "hi80": true
+    },
+    {
+      "source": "real",
+      "file": "01a0d263-d93e-7705-873f-c3548132d977.jpg",
+      "true": "AR-CONC",
+      "pred": "AR-CONC",
+      "conf": 0.5216,
+      "ok": true,
+      "hi80": false
+    },
+    {
+      "source": "real",
+      "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+      "true": "AR-CONC",
+      "pred": "AR-CONC",
+      "conf": 0.9104,
+      "ok": true,
+      "hi80": true
+    },
+    {
+      "source": "real",
+      "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+      "true": "AR-CONC",
+      "pred": "AR-CONC",
+      "conf": 0.8895,
+      "ok": true,
+      "hi80": true
+    },
+    {
+      "source": "real",
+      "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+      "true": "AR-CONC",
+      "pred": "AR-CONC",
+      "conf": 1.0,
+      "ok": true,
+      "hi80": true
+    },
+    {
+      "source": "real",
+      "file": "CE4D9686-1522-4EDE-A013-9618C6A66357_L0_001.jpg",
+      "true": "AR-CONC",
+      "pred": "AR-CONC",
+      "conf": 0.9793,
+      "ok": true,
+      "hi80": true
+    },
+    {
+      "source": "real",
+      "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+      "true": "GRAVEL",
+      "pred": "DOLMIT",
+      "conf": 0.8738,
+      "ok": false,
+      "hi80": false
+    },
+    {
+      "source": "real",
+      "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+      "true": "GRAVEL",
+      "pred": "OTHER",
+      "conf": 0.6876,
+      "ok": false,
+      "hi80": false
+    },
+    {
+      "source": "real",
+      "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+      "true": "GRAVEL",
+      "pred": "OTHER",
+      "conf": 0.9614,
+      "ok": false,
+      "hi80": false
+    },
+    {
+      "source": "real",
+      "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+      "true": "GRAVEL",
+      "pred": "OTHER",
+      "conf": 0.9683,
+      "ok": false,
+      "hi80": false
+    },
+    {
+      "source": "real",
+      "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+      "true": "GRAVEL",
+      "pred": "OTHER",
+      "conf": 0.9683,
+      "ok": false,
+      "hi80": false
+    },
+    {
+      "source": "real",
+      "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+      "true": "GRAVEL",
+      "pred": "EARTH",
+      "conf": 0.9314,
+      "ok": false,
+      "hi80": false
+    },
+    {
+      "source": "user",
+      "file": "USER_GRAVEL_crop.png",
+      "true": "GRAVEL",
+      "pred": "OTHER",
+      "conf": 0.4799,
+      "ok": false,
+      "hi80": false
+    }
+  ]
+}
