@@ -10,7 +10,12 @@ import numpy as np
 from tqdm import tqdm
 
 from pat_parser import COMMON_PATTERNS, parse_pat_file
-from renderer import add_interference, render_pattern, suggest_scale
+from renderer import add_interference, render_pattern, suggest_scale, _apply_shape_mask
+
+
+def _apply_shape_only(img, shape: str, bg: int):
+    """Clip a full-frame procedural hatch into a region shape."""
+    return _apply_shape_mask(img, shape, bg)
 
 
 def generate_dataset(
@@ -68,26 +73,58 @@ def generate_dataset(
             if rng.random() < 0.08:
                 bg, fg = 30, 220
             else:
-                bg, fg = 255, 0
+                # Soft dark ink (not pure black) matches CAD screenshots better
+                bg, fg = 255, int(rng.choice([0, 0, 0, 15, 25]))
 
-            img = render_pattern(
-                pattern,
-                size=size,
-                scale=scale,
-                rotation=rotation,
-                offset=offset,
-                bg=bg,
-                fg=fg,
-                stroke=stroke,
-                shape=shape,
-            )
+            # GRAVEL / AR-CONC: PAT strokes are short dashes and do NOT form the
+            # closed pebble loops seen in real AutoCAD. Use procedural aggregate.
+            if name == "GRAVEL":
+                from renderer import render_gravel_pebbles
+
+                style = "cobble" if rng.random() < 0.35 else "round"
+                img = render_gravel_pebbles(
+                    size=size,
+                    rng=rng,
+                    density=float(rng.uniform(0.85, 1.4)),
+                    bg=bg,
+                    fg=fg,
+                    style=style,
+                )
+                img = _apply_shape_only(img, shape, bg)
+            elif name == "AR-CONC":
+                from renderer import render_ar_conc_aggregate
+
+                img = render_ar_conc_aggregate(
+                    size=size,
+                    rng=rng,
+                    density=float(rng.uniform(0.8, 1.4)),
+                    bg=bg,
+                    fg=fg,
+                )
+                img = _apply_shape_only(img, shape, bg)
+            else:
+                # ~60% anti-aliased (supersample) to match real CAD display
+                ss = 2 if rng.random() < 0.6 else 1
+                img = render_pattern(
+                    pattern,
+                    size=size,
+                    scale=scale,
+                    rotation=rotation,
+                    offset=offset,
+                    bg=bg,
+                    fg=fg,
+                    stroke=stroke,
+                    shape=shape,
+                    supersample=ss,
+                )
             img = add_interference(
                 img,
                 rng=rng,
-                noise=float(rng.uniform(0.01, 0.08)),
+                noise=float(rng.uniform(0.01, 0.06)),
                 lines=True,
                 blur=True,
                 invert_chance=0.03,
+                crosshair_chance=0.4,
             )
 
             r = rng.random()

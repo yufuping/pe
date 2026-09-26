@@ -1,13 +1,13 @@
-__pycache__/
+data/aggregate_ft_hatched/
+data/aggregate_ft_local_gravel/
+data/aggregate_specialist/
+.DS_Store
+*.egg-info/
 *.pyc
+__pycache__/
+.pytest_cache/
+samples/preview/audit/
+samples/preview/GRAVEL_dbg_*.png
+samples/preview/*_noisy.png
 .venv/
 venv/
-*.egg-info/
-.pytest_cache/
-data/dataset/train/
-data/dataset/val/
-data/dataset/test/
-# keep meta and small previews
-!data/dataset/meta.json
-samples/preview/*_noisy.png
-.DS_Store

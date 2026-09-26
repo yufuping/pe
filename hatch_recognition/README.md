@@ -17,7 +17,7 @@
 | GRAVEL | 沙砾 |
 | SOLID | 实体填充 |
 
-当前模型测试集准确率约 **80%**。
+当前模型测试集准确率约 **80%**。已针对真实 CAD 截图（抗锯齿、十字光标干扰）做微调。
 
 ## 快速开始
 
@@ -31,6 +31,8 @@ pip install -r requirements.txt
 # 或分步：
 python generate_dataset.py --samples 200 --size 128
 python train.py --epochs 25 --batch-size 64
+# 可选：用真实 CAD 风格样本 + 标注截图微调
+python finetune_real.py
 python predict.py path/to/hatch.png
 python app.py   # http://localhost:7860
 ```

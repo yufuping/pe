@@ -36,9 +36,30 @@ def suggest_scale(pattern: HatchPattern, size: int = 128, target_px: float = 10.
     """Choose a scale so densest family spacing is about target_px pixels."""
     if pattern.name == "SOLID":
         return 1.0
+
+    # GRAVEL / AR-CONC: many short-dash families. Using min-spacing + strong
+    # inflate zooms too far and shows isolated strokes instead of packed pebbles.
+    if pattern.name in ("GRAVEL", "AR-CONC"):
+        vals = []
+        for line in pattern.lines:
+            span = math.hypot(line.delta_x, line.delta_y)
+            if span > 1e-6:
+                vals.append(span)
+        vals.sort()
+        spacing = vals[len(vals) // 2] if vals else 1.0  # median
+        # Absolute scale band that fills the tile with many small marks.
+        if pattern.name == "GRAVEL":
+            # Empirically ~8-22 matches CAD screenshots of packed pebbles.
+            base = float(np.clip(target_px * 0.9, 7.0, 22.0))
+            return base
+        scale = target_px / max(spacing, 1e-6)
+        n = len(pattern.lines)
+        if n >= 8:
+            scale *= 1.0 + 0.03 * (n - 4)
+        return max(scale, 0.5)
+
     spacing = typical_spacing(pattern)
     scale = target_px / max(spacing, 1e-6)
-    # Patterns with many overlapping families need extra zoom-out (larger scale).
     n = len(pattern.lines)
     if n >= 8:
         scale *= 1.0 + 0.08 * (n - 4)
@@ -172,7 +193,7 @@ def _render_line_family(
         cx, cy = size / 2, size / 2
         # point on line closest to center
         dist = abs((cx - ox) * (-uy) + (cy - oy) * ux)  # using perp of dir... 
-        # Actually distance from point to line: |(P-O) ¡Á dir|
+        # Actually distance from point to line: |(P-O) ï¿½ï¿½ dir|
         dist = abs((cx - ox) * uy - (cy - oy) * ux)
         if dist > half:
             continue
@@ -198,33 +219,51 @@ def render_pattern(
     fg: int = 0,
     stroke: int = 1,
     shape: str = "rect",
+    supersample: int = 1,
 ) -> Image.Image:
+    """
+    Render a hatch pattern.
+
+    supersample > 1 renders at higher resolution then downscales for CAD-like
+    anti-aliased edges (real AutoCAD screenshots are rarely pure binary).
+    """
+    ss = max(1, int(supersample))
+    render_size = size * ss
+    render_scale = (scale if scale is not None else suggest_scale(pattern, size=size)) * ss
+    render_offset = None
+    if offset is not None:
+        render_offset = (offset[0] * ss, offset[1] * ss)
+    else:
+        render_offset = (render_size / 2.0, render_size / 2.0)
+
     if pattern.name == "SOLID":
-        img = Image.new("L", (size, size), fg)
-        return _apply_shape_mask(img, shape, bg)
+        img = Image.new("L", (render_size, render_size), fg)
+        img = _apply_shape_mask(img, shape, bg)
+        if ss > 1:
+            img = img.resize((size, size), Image.Resampling.LANCZOS)
+        return img
 
-    if scale is None:
-        scale = suggest_scale(pattern, size=size)
-
-    img = Image.new("L", (size, size), bg)
+    img = Image.new("L", (render_size, render_size), bg)
     draw = ImageDraw.Draw(img)
-    if offset is None:
-        offset = (size / 2.0, size / 2.0)
 
     for line in pattern.lines:
         _render_line_family(
             draw,
             line,
-            size,
-            scale=scale,
+            render_size,
+            scale=render_scale,
             rotation=rotation,
-            offset_x=offset[0],
-            offset_y=offset[1],
+            offset_x=render_offset[0],
+            offset_y=render_offset[1],
             color=fg,
-            stroke=stroke,
+            stroke=max(1, stroke * ss),
         )
 
-    return _apply_shape_mask(img, shape, bg)
+    img = _apply_shape_mask(img, shape, bg)
+    if ss > 1:
+        img = img.resize((size, size), Image.Resampling.LANCZOS)
+    return img
+
 
 
 def _apply_shape_mask(img: Image.Image, shape: str, bg: int) -> Image.Image:
@@ -262,6 +301,28 @@ def _apply_shape_mask(img: Image.Image, shape: str, bg: int) -> Image.Image:
     return out
 
 
+def add_cad_crosshair(
+    img: Image.Image,
+    rng: np.random.Generator | None = None,
+) -> Image.Image:
+    """Overlay a CAD-style pickbox / crosshair (common screenshot interference)."""
+    rng = rng or np.random.default_rng()
+    out = img.copy()
+    draw = ImageDraw.Draw(out)
+    w, h = out.size
+    cx = int(rng.integers(int(w * 0.15), int(w * 0.85)))
+    cy = int(rng.integers(int(h * 0.15), int(h * 0.85)))
+    arm = int(rng.integers(max(8, w // 10), max(16, w // 3)))
+    box = int(rng.integers(3, max(5, w // 25)))
+    color = int(rng.choice([0, 20, 40]))
+    # Full crosshair arms
+    draw.line([(cx - arm, cy), (cx + arm, cy)], fill=color, width=1)
+    draw.line([(cx, cy - arm), (cx, cy + arm)], fill=color, width=1)
+    # Pickbox square
+    draw.rectangle([cx - box, cy - box, cx + box, cy + box], outline=color, width=1)
+    return out
+
+
 def add_interference(
     img: Image.Image,
     rng: np.random.Generator | None = None,
@@ -269,6 +330,7 @@ def add_interference(
     lines: bool = True,
     blur: bool = True,
     invert_chance: float = 0.05,
+    crosshair_chance: float = 0.35,
 ) -> Image.Image:
     rng = rng or np.random.default_rng()
     arr = np.array(img, dtype=np.float32)
@@ -285,7 +347,7 @@ def add_interference(
     draw = ImageDraw.Draw(out)
     w, h = out.size
 
-    if lines and rng.random() < 0.65:
+    if lines and rng.random() < 0.55:
         for _ in range(int(rng.integers(1, 3))):
             if rng.random() < 0.5:
                 x = int(rng.integers(0, w))
@@ -300,17 +362,255 @@ def add_interference(
             y1 = y0 + int(rng.integers(-35, 35))
             draw.line([(x0, y0), (x1, y1)], fill=0, width=1)
 
-    if blur and rng.random() < 0.3:
-        out = out.filter(ImageFilter.GaussianBlur(radius=float(rng.uniform(0.2, 0.9))))
+    if rng.random() < crosshair_chance:
+        out = add_cad_crosshair(out, rng)
+
+    # Soften to mimic screen anti-alias / JPEG
+    if blur and rng.random() < 0.55:
+        out = out.filter(ImageFilter.GaussianBlur(radius=float(rng.uniform(0.15, 0.7))))
 
     if rng.random() < invert_chance:
         out = Image.fromarray(255 - np.array(out), mode="L")
 
-    if rng.random() < 0.45:
+    if rng.random() < 0.55:
         a = np.array(out, dtype=np.float32)
-        contrast = float(rng.uniform(0.8, 1.2))
-        brightness = float(rng.uniform(-15, 15))
+        contrast = float(rng.uniform(0.85, 1.15))
+        brightness = float(rng.uniform(-12, 18))
         a = (a - 127.5) * contrast + 127.5 + brightness
         out = Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), mode="L")
 
     return out
+
+
+def render_gravel_pebbles(
+    size: int = 128,
+    rng: np.random.Generator | None = None,
+    density: float = 1.0,
+    bg: int = 255,
+    fg: int = 0,
+    style: str = "round",
+) -> Image.Image:
+    """
+    CAD GRAVEL: packed *closed* pebble outlines (ovals / soft polygons).
+
+    acad_4270.pat GRAVEL is short-dash families; our stroke renderer never forms
+    the closed loops seen in real AutoCAD screenshots. Use this for GRAVEL data.
+    """
+    rng = rng or np.random.default_rng()
+    ss = 2
+    S = size * ss
+    img = Image.new("L", (S, S), bg)
+    draw = ImageDraw.Draw(img)
+
+    # ~12-20 pebbles across; density>1.6 packs tighter (real dense CAD fills ~ink 0.35ï¿½C0.45)
+    dens_clip = float(np.clip(density, 0.55, 2.2))
+    target_across = float(rng.uniform(11, 18)) * dens_clip
+    mean_d = S / target_across
+    mean_d = float(np.clip(mean_d, S * 0.035, S * 0.12))
+
+    centers: list[tuple[float, float, float, float]] = []
+    tries = int(3200 * (size / 128) ** 2)
+    max_n = int(target_across ** 2 * 1.25)
+    # Higher density ï¿½ï¿½ allow closer packing (real hex gravel is nearly edge-touching)
+    sep = 1.15 if dens_clip < 1.4 else (1.02 if dens_clip < 1.8 else 0.92)
+    for _ in range(tries):
+        cx = float(rng.uniform(0, S))
+        cy = float(rng.uniform(0, S))
+        u = float(rng.random())
+        if u < 0.15:
+            scale = float(rng.uniform(0.35, 0.55))
+        elif u < 0.85:
+            scale = float(rng.uniform(0.7, 1.05))
+        else:
+            scale = float(rng.uniform(1.1, 1.45))
+        rx = mean_d * 0.42 * scale
+        ry = rx * float(rng.uniform(0.7, 1.25))
+        ok = True
+        for ox, oy, orx, ory in centers:
+            need = (min(rx, ry) + min(orx, ory)) * sep
+            if (cx - ox) ** 2 + (cy - oy) ** 2 < need ** 2:
+                ok = False
+                break
+        if ok:
+            centers.append((cx, cy, rx, ry))
+        if len(centers) >= max_n:
+            break
+
+    use_angular = style in ("cobble", "angular") or (style == "mixed" and rng.random() < 0.4)
+    # Real CAD GRAVEL often has diagonal hatch *inside* some pebbles.
+    hatch_frac = float(rng.uniform(0.15, 0.55)) if style != "outline_only" else 0.0
+    # Slightly thicker outlines at high density (screenshot AA / plot weight)
+    ow = max(1, ss // 2 + (1 if dens_clip >= 1.5 else 0))
+    for cx, cy, rx, ry in centers:
+        if use_angular:
+            sides = int(rng.integers(5, 8))
+            pts = []
+            for i in range(sides):
+                a = i * 2 * math.pi / sides + float(rng.uniform(-0.2, 0.2))
+                rr = float(rng.uniform(0.82, 1.12))
+                pts.append((cx + rr * rx * math.cos(a), cy + rr * ry * math.sin(a)))
+            draw.polygon(pts, outline=fg, width=ow)
+        else:
+            sides = int(rng.integers(10, 16))
+            pts = []
+            for i in range(sides):
+                a = i * 2 * math.pi / sides
+                rr = float(rng.uniform(0.9, 1.08))
+                pts.append((cx + rr * rx * math.cos(a), cy + rr * ry * math.sin(a)))
+            draw.polygon(pts, outline=fg, width=ow)
+
+        if hatch_frac > 0 and rng.random() < hatch_frac and min(rx, ry) > 3 * ss:
+            # Diagonal hatch clipped to pebble mask (real CAD often fills some stones).
+            ang = float(rng.choice([math.radians(45), math.radians(-45), math.radians(30), math.radians(60)]))
+            ux, uy = math.cos(ang), math.sin(ang)
+            px, py = -uy, ux
+            spacing = max(2.2 * ss, min(rx, ry) * float(rng.uniform(0.18, 0.32)))
+            # Build a small mask for this pebble and draw hatch into it.
+            bx0 = max(0, int(cx - rx - 2))
+            by0 = max(0, int(cy - ry - 2))
+            bx1 = min(S, int(cx + rx + 3))
+            by1 = min(S, int(cy + ry + 3))
+            mw, mh = bx1 - bx0, by1 - by0
+            if mw > 4 and mh > 4:
+                mask = Image.new("L", (mw, mh), 0)
+                md = ImageDraw.Draw(mask)
+                local_pts = [(p[0] - bx0, p[1] - by0) for p in pts]
+                md.polygon(local_pts, fill=255)
+                hatch = Image.new("L", (mw, mh), 0)
+                hd = ImageDraw.Draw(hatch)
+                half = max(rx, ry) * 1.3
+                n_lines = int(2 * half / spacing) + 1
+                lcx, lcy = cx - bx0, cy - by0
+                for k in range(-n_lines, n_lines + 1):
+                    ox = lcx + k * spacing * px
+                    oy = lcy + k * spacing * py
+                    tip = half
+                    hd.line(
+                        [(ox - ux * tip, oy - uy * tip), (ox + ux * tip, oy + uy * tip)],
+                        fill=fg,
+                        width=max(1, ss // 2),
+                    )
+                # Keep only hatch inside the outline
+                hatch = Image.composite(hatch, Image.new("L", (mw, mh), bg), mask)
+                img.paste(hatch, (bx0, by0), mask=mask)
+
+    return img.resize((size, size), Image.Resampling.LANCZOS)
+
+
+def render_gravel_cobbles(
+    size: int = 128,
+    rng: np.random.Generator | None = None,
+    density: float = 1.0,
+    bg: int = 255,
+    fg: int = 0,
+) -> Image.Image:
+    """Angular cobble / stone-fill variant of CAD GRAVEL."""
+    return render_gravel_pebbles(
+        size=size, rng=rng, density=density, bg=bg, fg=fg, style="cobble"
+    )
+
+
+def render_ar_conc_aggregate(
+    size: int = 128,
+    rng: np.random.Generator | None = None,
+    density: float = 1.0,
+    bg: int = 255,
+    fg: int = 0,
+) -> Image.Image:
+    """
+    AR-CONC: dense sand stipple + sparse hollow triangles (often with a tick).
+
+    Must NOT look like GRAVEL (no packed closed pebble loops). Real CAD AR-CONC
+    is mostly dots with occasional sharp triangular aggregate marks.
+    """
+    rng = rng or np.random.default_rng()
+    ss = 2
+    S = size * ss
+    img = Image.new("L", (S, S), bg)
+    draw = ImageDraw.Draw(img)
+    # Allow very sparse (zoomed-out CAD) through dense close-ups.
+    dens = float(np.clip(density, 0.25, 1.9))
+
+    # Dense sand / grit ï¿½ï¿½ dominant look
+    n_dots = int(1400 * dens * (size / 128) ** 2)
+    for _ in range(n_dots):
+        x = int(rng.integers(0, S))
+        y = int(rng.integers(0, S))
+        u = float(rng.random())
+        if u < 0.75:
+            draw.point((x, y), fill=fg)
+        elif u < 0.92:
+            draw.point((x, y), fill=fg)
+            draw.point((min(S - 1, x + 1), y), fill=fg)
+        else:
+            r = ss if rng.random() < 0.5 else 0
+            if r:
+                draw.ellipse([x - r, y - r, x + r, y + r], fill=fg)
+            else:
+                draw.point((x, y), fill=fg)
+
+    # Sparse hollow triangles ï¿½ï¿½ key differentiator vs GRAVEL
+    n_tri = int(22 * dens * (size / 128) ** 2)
+    n_tri = max(4, min(n_tri, 55))
+    for _ in range(n_tri):
+        cx = float(rng.uniform(0, S))
+        cy = float(rng.uniform(0, S))
+        r = float(rng.uniform(S * 0.014, S * 0.038))
+        rot = float(rng.uniform(0, 2 * math.pi))
+        pts = []
+        for i in range(3):
+            a = rot + i * 2 * math.pi / 3 + float(rng.uniform(-0.08, 0.08))
+            rr = r * float(rng.uniform(0.9, 1.1))
+            pts.append((cx + rr * math.cos(a), cy + rr * math.sin(a)))
+        draw.polygon(pts, outline=fg)
+        if rng.random() < 0.65:
+            i = int(rng.integers(0, 3))
+            x0, y0 = pts[i]
+            x1, y1 = pts[(i + 1) % 3]
+            mx, my = (x0 + x1) / 2, (y0 + y1) / 2
+            vx, vy = mx - cx, my - cy
+            norm = math.hypot(vx, vy) + 1e-6
+            tl = r * float(rng.uniform(0.35, 0.7))
+            draw.line(
+                [(mx, my), (mx + tl * vx / norm, my + tl * vy / norm)],
+                fill=fg,
+                width=max(1, ss // 2),
+            )
+
+    # No pebble-like closed polygons ï¿½? those leak into GRAVEL confusion.
+    return img.resize((size, size), Image.Resampling.LANCZOS)
+
+
+def render_ar_sand(
+    size: int = 128,
+    rng: np.random.Generator | None = None,
+    density: float = 1.0,
+    bg: int = 255,
+    fg: int = 0,
+) -> Image.Image:
+    """
+    AR-SAND: sand / grit stipple only â€” no triangles (vs AR-CONC), no pebble loops.
+    """
+    rng = rng or np.random.default_rng()
+    ss = 2
+    S = size * ss
+    img = Image.new("L", (S, S), bg)
+    draw = ImageDraw.Draw(img)
+    dens = float(np.clip(density, 0.3, 1.9))
+    n_dots = int(1600 * dens * (size / 128) ** 2)
+    for _ in range(n_dots):
+        x = int(rng.integers(0, S))
+        y = int(rng.integers(0, S))
+        u = float(rng.random())
+        if u < 0.7:
+            draw.point((x, y), fill=fg)
+        elif u < 0.9:
+            draw.point((x, y), fill=fg)
+            if rng.random() < 0.5:
+                draw.point((min(S - 1, x + 1), y), fill=fg)
+            else:
+                draw.point((x, min(S - 1, y + 1)), fill=fg)
+        else:
+            r = 1 if rng.random() < 0.6 else ss
+            draw.ellipse([x - r, y - r, x + r, y + r], fill=fg)
+    return img.resize((size, size), Image.Resampling.LANCZOS)

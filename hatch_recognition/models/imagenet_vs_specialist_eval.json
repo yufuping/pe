@@ -1,0 +1,120 @@
+{
+  "rows": [
+    {
+      "file": "01a0db7b-e2b1-74c5-b6fd-e3f91198908d.jpg",
+      "imagenet": {
+        "name": "AR-SAND",
+        "confidence": 0.8885,
+        "top": [
+          {
+            "name": "AR-SAND",
+            "confidence": 0.8885
+          },
+          {
+            "name": "AR-CONC",
+            "confidence": 0.0658
+          },
+          {
+            "name": "DOLMIT",
+            "confidence": 0.0414
+          },
+          {
+            "name": "OTHER",
+            "confidence": 0.0036
+          },
+          {
+            "name": "EARTH",
+            "confidence": 0.0007
+          },
+          {
+            "name": "GRAVEL",
+            "confidence": 0.0001
+          }
+        ],
+        "roi_box": [
+          68,
+          75,
+          844,
+          645
+        ]
+      },
+      "specialist": {
+        "name": "AR-CONC",
+        "confidence": 0.9802,
+        "top": [
+          {
+            "name": "AR-CONC",
+            "confidence": 0.9802
+          },
+          {
+            "name": "AR-SAND",
+            "confidence": 0.0186
+          },
+          {
+            "name": "OTHER",
+            "confidence": 0.0004
+          }
+        ]
+      }
+    },
+    {
+      "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+      "imagenet": {
+        "name": "AR-SAND",
+        "confidence": 0.5333,
+        "top": [
+          {
+            "name": "AR-SAND",
+            "confidence": 0.5333
+          },
+          {
+            "name": "AR-CONC",
+            "confidence": 0.3568
+          },
+          {
+            "name": "DOLMIT",
+            "confidence": 0.0903
+          },
+          {
+            "name": "OTHER",
+            "confidence": 0.0133
+          },
+          {
+            "name": "EARTH",
+            "confidence": 0.0063
+          },
+          {
+            "name": "GRAVEL",
+            "confidence": 0.0001
+          }
+        ],
+        "roi_box": [
+          116,
+          123,
+          892,
+          693
+        ]
+      },
+      "specialist": {
+        "name": "AR-CONC",
+        "confidence": 0.9742,
+        "top": [
+          {
+            "name": "AR-CONC",
+            "confidence": 0.9742
+          },
+          {
+            "name": "AR-SAND",
+            "confidence": 0.0182
+          },
+          {
+            "name": "OTHER",
+            "confidence": 0.0032
+          }
+        ]
+      }
+    }
+  ],
+  "imagenet_val_acc": 0.9512195121951219,
+  "imagenet_score": 0.9346614458791647
+}
