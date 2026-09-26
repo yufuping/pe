@@ -1,0 +1,233 @@
+{
+  "size": 128,
+  "classes": [
+    "AR-CONC",
+    "AR-SAND",
+    "DOLMIT",
+    "EARTH",
+    "GRAVEL",
+    "OTHER"
+  ],
+  "rows": [
+    {
+      "file": "01a0db7b-e2b1-74c5-b6fd-e3f91198908d.jpg",
+      "preds": {
+        "specialist_hatchcnn": {
+          "name": "AR-CONC",
+          "confidence": 0.9802,
+          "top2": [
+            {
+              "name": "AR-CONC",
+              "confidence": 0.9802
+            },
+            {
+              "name": "AR-SAND",
+              "confidence": 0.0186
+            }
+          ]
+        },
+        "resnet18_imagenet_128": {
+          "name": "AR-SAND",
+          "confidence": 0.8885,
+          "top2": [
+            {
+              "name": "AR-SAND",
+              "confidence": 0.8885
+            },
+            {
+              "name": "AR-CONC",
+              "confidence": 0.0658
+            }
+          ],
+          "val_acc": 0.9512195121951219
+        },
+        "gabor_cnn": {
+          "name": "AR-SAND",
+          "confidence": 0.3719,
+          "top2": [
+            {
+              "name": "AR-SAND",
+              "confidence": 0.3719
+            },
+            {
+              "name": "AR-CONC",
+              "confidence": 0.3173
+            }
+          ],
+          "val_acc": 0.9024390243902439,
+          "trainable_params": 385638
+        },
+        "bilinear_cnn": {
+          "name": "AR-CONC",
+          "confidence": 0.6933,
+          "top2": [
+            {
+              "name": "AR-CONC",
+              "confidence": 0.6933
+            },
+            {
+              "name": "AR-SAND",
+              "confidence": 0.2924
+            }
+          ],
+          "val_acc": 0.7456445993031359,
+          "trainable_params": 366022
+        },
+        "gabor_stem_resnet18": {
+          "name": "AR-CONC",
+          "confidence": 0.5594,
+          "top2": [
+            {
+              "name": "AR-CONC",
+              "confidence": 0.5594
+            },
+            {
+              "name": "AR-SAND",
+              "confidence": 0.3622
+            }
+          ],
+          "val_acc": 0.9494773519163763,
+          "trainable_params": 11172422
+        }
+      }
+    },
+    {
+      "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+      "preds": {
+        "specialist_hatchcnn": {
+          "name": "AR-CONC",
+          "confidence": 0.9742,
+          "top2": [
+            {
+              "name": "AR-CONC",
+              "confidence": 0.9742
+            },
+            {
+              "name": "AR-SAND",
+              "confidence": 0.0182
+            }
+          ]
+        },
+        "resnet18_imagenet_128": {
+          "name": "AR-SAND",
+          "confidence": 0.5333,
+          "top2": [
+            {
+              "name": "AR-SAND",
+              "confidence": 0.5333
+            },
+            {
+              "name": "AR-CONC",
+              "confidence": 0.3568
+            }
+          ],
+          "val_acc": 0.9512195121951219
+        },
+        "gabor_cnn": {
+          "name": "DOLMIT",
+          "confidence": 0.3364,
+          "top2": [
+            {
+              "name": "DOLMIT",
+              "confidence": 0.3364
+            },
+            {
+              "name": "AR-CONC",
+              "confidence": 0.2933
+            }
+          ],
+          "val_acc": 0.9024390243902439,
+          "trainable_params": 385638
+        },
+        "bilinear_cnn": {
+          "name": "AR-CONC",
+          "confidence": 0.6913,
+          "top2": [
+            {
+              "name": "AR-CONC",
+              "confidence": 0.6913
+            },
+            {
+              "name": "AR-SAND",
+              "confidence": 0.2929
+            }
+          ],
+          "val_acc": 0.7456445993031359,
+          "trainable_params": 366022
+        },
+        "gabor_stem_resnet18": {
+          "name": "DOLMIT",
+          "confidence": 0.4566,
+          "top2": [
+            {
+              "name": "DOLMIT",
+              "confidence": 0.4566
+            },
+            {
+              "name": "AR-SAND",
+              "confidence": 0.2888
+            }
+          ],
+          "val_acc": 0.9494773519163763,
+          "trainable_params": 11172422
+        }
+      }
+    }
+  ],
+  "train_summaries": {
+    "gabor_cnn": {
+      "best_val": 0.9024390243902439,
+      "checkpoint": "/workspace/hatch_recognition/models/aggregate_gabor_cnn.pt",
+      "trainable_params": 385638,
+      "last_epoch": {
+        "epoch": 12,
+        "train_acc": 0.8580246913580247,
+        "val_acc": 0.9024390243902439,
+        "per_class": {
+          "AR-CONC": 0.8627450980392157,
+          "AR-SAND": 0.8431372549019608,
+          "DOLMIT": 0.8627450980392157,
+          "EARTH": 0.9901960784313726,
+          "GRAVEL": 0.9313725490196079,
+          "OTHER": 0.9375
+        }
+      }
+    },
+    "bilinear_cnn": {
+      "best_val": 0.7456445993031359,
+      "checkpoint": "/workspace/hatch_recognition/models/aggregate_bilinear_cnn.pt",
+      "trainable_params": 366022,
+      "last_epoch": {
+        "epoch": 12,
+        "train_acc": 0.7296296296296296,
+        "val_acc": 0.7456445993031359,
+        "per_class": {
+          "AR-CONC": 0.8235294117647058,
+          "AR-SAND": 0.3333333333333333,
+          "DOLMIT": 0.9313725490196079,
+          "EARTH": 0.8333333333333334,
+          "GRAVEL": 0.7941176470588235,
+          "OTHER": 0.765625
+        }
+      }
+    },
+    "gabor_stem_resnet18": {
+      "best_val": 0.9494773519163763,
+      "checkpoint": "/workspace/hatch_recognition/models/aggregate_gabor_stem_resnet18.pt",
+      "trainable_params": 11172422,
+      "last_epoch": {
+        "epoch": 8,
+        "train_acc": 0.948395061728395,
+        "val_acc": 0.9494773519163763,
+        "per_class": {
+          "AR-CONC": 0.9019607843137255,
+          "AR-SAND": 0.9509803921568627,
+          "DOLMIT": 0.9313725490196079,
+          "EARTH": 0.9901960784313726,
+          "GRAVEL": 0.9901960784313726,
+          "OTHER": 0.921875
+        }
+      }
+    }
+  }
+}
