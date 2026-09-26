@@ -1,0 +1,337 @@
+{
+  "size": 224,
+  "classes": [
+    "AR-CONC",
+    "AR-SAND",
+    "DOLMIT",
+    "EARTH",
+    "GRAVEL",
+    "OTHER"
+  ],
+  "rows": [
+    {
+      "file": "01a0db7b-e2b1-74c5-b6fd-e3f91198908d.jpg",
+      "preds": {
+        "specialist_hatchcnn": {
+          "name": "AR-CONC",
+          "confidence": 0.9802,
+          "top2": [
+            {
+              "name": "AR-CONC",
+              "confidence": 0.9802
+            },
+            {
+              "name": "AR-SAND",
+              "confidence": 0.0186
+            }
+          ]
+        },
+        "resnet18_imagenet_128": {
+          "name": "AR-SAND",
+          "confidence": 0.8885,
+          "top2": [
+            {
+              "name": "AR-SAND",
+              "confidence": 0.8885
+            },
+            {
+              "name": "AR-CONC",
+              "confidence": 0.0658
+            }
+          ],
+          "val_acc": 0.9512195121951219
+        },
+        "effnet_b0_224": {
+          "name": "AR-SAND",
+          "confidence": 0.3234,
+          "top2": [
+            {
+              "name": "AR-SAND",
+              "confidence": 0.3234
+            },
+            {
+              "name": "DOLMIT",
+              "confidence": 0.2039
+            }
+          ],
+          "val_acc": 0.9790940766550522
+        },
+        "dinov2_vits14_224": {
+          "name": "DOLMIT",
+          "confidence": 0.5797,
+          "top2": [
+            {
+              "name": "DOLMIT",
+              "confidence": 0.5797
+            },
+            {
+              "name": "AR-CONC",
+              "confidence": 0.1939
+            }
+          ],
+          "val_acc": 0.9146341463414634
+        }
+      }
+    },
+    {
+      "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+      "preds": {
+        "specialist_hatchcnn": {
+          "name": "AR-CONC",
+          "confidence": 0.9742,
+          "top2": [
+            {
+              "name": "AR-CONC",
+              "confidence": 0.9742
+            },
+            {
+              "name": "AR-SAND",
+              "confidence": 0.0182
+            }
+          ]
+        },
+        "resnet18_imagenet_128": {
+          "name": "AR-SAND",
+          "confidence": 0.5333,
+          "top2": [
+            {
+              "name": "AR-SAND",
+              "confidence": 0.5333
+            },
+            {
+              "name": "AR-CONC",
+              "confidence": 0.3568
+            }
+          ],
+          "val_acc": 0.9512195121951219
+        },
+        "effnet_b0_224": {
+          "name": "OTHER",
+          "confidence": 0.328,
+          "top2": [
+            {
+              "name": "OTHER",
+              "confidence": 0.328
+            },
+            {
+              "name": "AR-CONC",
+              "confidence": 0.2636
+            }
+          ],
+          "val_acc": 0.9790940766550522
+        },
+        "dinov2_vits14_224": {
+          "name": "AR-CONC",
+          "confidence": 0.6292,
+          "top2": [
+            {
+              "name": "AR-CONC",
+              "confidence": 0.6292
+            },
+            {
+              "name": "AR-SAND",
+              "confidence": 0.294
+            }
+          ],
+          "val_acc": 0.9146341463414634
+        }
+      }
+    }
+  ],
+  "train_summaries": {
+    "effnet_b0_224": {
+      "best_val": 0.9790940766550522,
+      "history": [
+        {
+          "epoch": 1,
+          "train_acc": 0.5925925925925926,
+          "val_acc": 0.7526132404181185,
+          "per_class": {
+            "AR-CONC": 0.8431372549019608,
+            "AR-SAND": 0.45098039215686275,
+            "DOLMIT": 0.7156862745098039,
+            "EARTH": 0.9607843137254902,
+            "GRAVEL": 0.8627450980392157,
+            "OTHER": 0.640625
+          }
+        },
+        {
+          "epoch": 2,
+          "train_acc": 0.7535802469135803,
+          "val_acc": 0.8170731707317073,
+          "per_class": {
+            "AR-CONC": 0.8431372549019608,
+            "AR-SAND": 0.6274509803921569,
+            "DOLMIT": 0.8235294117647058,
+            "EARTH": 0.9705882352941176,
+            "GRAVEL": 0.8725490196078431,
+            "OTHER": 0.734375
+          }
+        },
+        {
+          "epoch": 3,
+          "train_acc": 0.8528395061728395,
+          "val_acc": 0.9442508710801394,
+          "per_class": {
+            "AR-CONC": 0.803921568627451,
+            "AR-SAND": 0.9803921568627451,
+            "DOLMIT": 0.9705882352941176,
+            "EARTH": 1.0,
+            "GRAVEL": 0.9803921568627451,
+            "OTHER": 0.921875
+          }
+        },
+        {
+          "epoch": 4,
+          "train_acc": 0.92,
+          "val_acc": 0.9634146341463414,
+          "per_class": {
+            "AR-CONC": 0.9117647058823529,
+            "AR-SAND": 0.9411764705882353,
+            "DOLMIT": 0.9705882352941176,
+            "EARTH": 1.0,
+            "GRAVEL": 0.9901960784313726,
+            "OTHER": 0.96875
+          }
+        },
+        {
+          "epoch": 5,
+          "train_acc": 0.9422222222222222,
+          "val_acc": 0.9790940766550522,
+          "per_class": {
+            "AR-CONC": 0.9509803921568627,
+            "AR-SAND": 0.9607843137254902,
+            "DOLMIT": 0.9901960784313726,
+            "EARTH": 0.9901960784313726,
+            "GRAVEL": 1.0,
+            "OTHER": 0.984375
+          }
+        },
+        {
+          "epoch": 6,
+          "train_acc": 0.9555555555555556,
+          "val_acc": 0.9721254355400697,
+          "per_class": {
+            "AR-CONC": 0.9215686274509803,
+            "AR-SAND": 0.9509803921568627,
+            "DOLMIT": 0.9803921568627451,
+            "EARTH": 1.0,
+            "GRAVEL": 0.9901960784313726,
+            "OTHER": 1.0
+          }
+        },
+        {
+          "epoch": 7,
+          "train_acc": 0.96,
+          "val_acc": 0.9773519163763066,
+          "per_class": {
+            "AR-CONC": 0.9411764705882353,
+            "AR-SAND": 0.9705882352941176,
+            "DOLMIT": 0.9803921568627451,
+            "EARTH": 0.9901960784313726,
+            "GRAVEL": 0.9901960784313726,
+            "OTHER": 1.0
+          }
+        },
+        {
+          "epoch": 8,
+          "train_acc": 0.9629629629629629,
+          "val_acc": 0.975609756097561,
+          "per_class": {
+            "AR-CONC": 0.9313725490196079,
+            "AR-SAND": 0.9705882352941176,
+            "DOLMIT": 0.9803921568627451,
+            "EARTH": 0.9901960784313726,
+            "GRAVEL": 1.0,
+            "OTHER": 0.984375
+          }
+        }
+      ],
+      "checkpoint": "/workspace/hatch_recognition/models/aggregate_effnet_b0_224.pt"
+    },
+    "dinov2_vits14_224": {
+      "best_val": 0.9146341463414634,
+      "history": [
+        {
+          "epoch": 1,
+          "train_acc": 0.7903703703703704,
+          "val_acc": 0.9024390243902439,
+          "per_class": {
+            "AR-CONC": 0.7941176470588235,
+            "AR-SAND": 0.8921568627450981,
+            "DOLMIT": 0.8725490196078431,
+            "EARTH": 0.9607843137254902,
+            "GRAVEL": 0.9313725490196079,
+            "OTHER": 1.0
+          }
+        },
+        {
+          "epoch": 2,
+          "train_acc": 0.9002469135802469,
+          "val_acc": 0.8797909407665505,
+          "per_class": {
+            "AR-CONC": 0.9019607843137255,
+            "AR-SAND": 0.8725490196078431,
+            "DOLMIT": 0.7745098039215687,
+            "EARTH": 0.8333333333333334,
+            "GRAVEL": 0.9411764705882353,
+            "OTHER": 1.0
+          }
+        },
+        {
+          "epoch": 3,
+          "train_acc": 0.9212345679012346,
+          "val_acc": 0.9146341463414634,
+          "per_class": {
+            "AR-CONC": 0.9117647058823529,
+            "AR-SAND": 0.8333333333333334,
+            "DOLMIT": 0.9607843137254902,
+            "EARTH": 0.9019607843137255,
+            "GRAVEL": 0.9215686274509803,
+            "OTHER": 0.984375
+          }
+        },
+        {
+          "epoch": 4,
+          "train_acc": 0.3417283950617284,
+          "val_acc": 0.43031358885017423,
+          "per_class": {
+            "AR-CONC": 0.0,
+            "AR-SAND": 0.7549019607843137,
+            "DOLMIT": 0.0784313725490196,
+            "EARTH": 0.8529411764705882,
+            "GRAVEL": 0.5294117647058824,
+            "OTHER": 0.328125
+          }
+        },
+        {
+          "epoch": 5,
+          "train_acc": 0.5202469135802469,
+          "val_acc": 0.47038327526132406,
+          "per_class": {
+            "AR-CONC": 0.5784313725490197,
+            "AR-SAND": 0.3333333333333333,
+            "DOLMIT": 0.7549019607843137,
+            "EARTH": 0.00980392156862745,
+            "GRAVEL": 0.8137254901960784,
+            "OTHER": 0.25
+          }
+        },
+        {
+          "epoch": 6,
+          "train_acc": 0.6434567901234568,
+          "val_acc": 0.6742160278745645,
+          "per_class": {
+            "AR-CONC": 0.7352941176470589,
+            "AR-SAND": 0.4411764705882353,
+            "DOLMIT": 0.7647058823529411,
+            "EARTH": 0.8137254901960784,
+            "GRAVEL": 0.6470588235294118,
+            "OTHER": 0.625
+          }
+        }
+      ],
+      "checkpoint": "/workspace/hatch_recognition/models/aggregate_dinov2_vits14_224.pt"
+    }
+  }
+}

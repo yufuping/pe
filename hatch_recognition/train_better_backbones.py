@@ -289,14 +289,14 @@ def main() -> None:
         freeze_epochs=2,
         batch_size=24,
     )
-    # DINOv2: freeze longer, train head then light FT — 6 epochs (ViT slower on CPU)
+    # DINOv2: head-only (full unfreeze collapsed val ~0.92→0.43 on CPU AdamW).
     results["dinov2_vits14_224"] = train_one(
         "dinov2_vits14",
         DinoV2Hatch(len(CLASSES)),
         ROOT / "models" / "aggregate_dinov2_vits14_224.pt",
         epochs=6,
         lr=1e-3,
-        freeze_epochs=3,
+        freeze_epochs=6,
         batch_size=16,
     )
     compare = eval_all(
