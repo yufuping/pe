@@ -1,0 +1,3255 @@
+{
+  "classes": [
+    "AR-CONC",
+    "AR-SAND",
+    "DOLMIT",
+    "EARTH",
+    "GRAVEL",
+    "OTHER"
+  ],
+  "models": {
+    "specialist_hatchcnn": {
+      "checkpoint": "/workspace/hatch_recognition/models/aggregate_specialist.pt",
+      "synth_val_acc": null,
+      "heldout_real": {
+        "n": 17,
+        "acc": 0.9412,
+        "hi80": 0.8235,
+        "by_class": {
+          "AR-CONC": {
+            "n": 8,
+            "acc": 1.0,
+            "hi80": 0.875
+          },
+          "GRAVEL": {
+            "n": 9,
+            "acc": 0.8889,
+            "hi80": 0.7778
+          }
+        },
+        "fails": [
+          {
+            "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.3337
+          }
+        ]
+      },
+      "real_labeled_all": {
+        "n": 20,
+        "acc": 0.8,
+        "hi80": 0.7,
+        "by_class": {
+          "AR-CONC": {
+            "n": 8,
+            "acc": 1.0,
+            "hi80": 0.875
+          },
+          "AR-SAND": {
+            "n": 2,
+            "acc": 0.0,
+            "hi80": 0.0
+          },
+          "GRAVEL": {
+            "n": 10,
+            "acc": 0.8,
+            "hi80": 0.7
+          }
+        },
+        "fails": [
+          {
+            "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.3337
+          },
+          {
+            "file": "01a0db7b-e2b1-74c5-b6fd-e3f91198908d.jpg",
+            "true": "AR-SAND",
+            "pred": "AR-CONC",
+            "conf": 0.9802
+          },
+          {
+            "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+            "true": "AR-SAND",
+            "pred": "AR-CONC",
+            "conf": 0.9742
+          },
+          {
+            "file": "USER_GRAVEL_crop.png",
+            "true": "GRAVEL",
+            "pred": "AR-CONC",
+            "conf": 0.6693
+          }
+        ]
+      },
+      "by_suite": {
+        "smoke_synth": {
+          "n": 3,
+          "acc": 1.0,
+          "hi80": 1.0,
+          "by_class": {
+            "AR-CONC": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "AR-SAND": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "GRAVEL": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            }
+          },
+          "fails": []
+        },
+        "smoke_pat": {
+          "n": 4,
+          "acc": 0.75,
+          "hi80": 0.5,
+          "by_class": {
+            "AR-SAND": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "DOLMIT": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            },
+            "EARTH": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "OTHER": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "DOLMIT",
+              "true": "DOLMIT",
+              "pred": "OTHER",
+              "conf": 0.6356
+            }
+          ]
+        },
+        "heldout_real": {
+          "n": 17,
+          "acc": 0.9412,
+          "hi80": 0.8235,
+          "by_class": {
+            "AR-CONC": {
+              "n": 8,
+              "acc": 1.0,
+              "hi80": 0.875
+            },
+            "GRAVEL": {
+              "n": 9,
+              "acc": 0.8889,
+              "hi80": 0.7778
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.3337
+            }
+          ]
+        },
+        "smoke_real": {
+          "n": 17,
+          "acc": 0.9412,
+          "hi80": 0.8235,
+          "by_class": {
+            "AR-CONC": {
+              "n": 8,
+              "acc": 1.0,
+              "hi80": 0.875
+            },
+            "GRAVEL": {
+              "n": 9,
+              "acc": 0.8889,
+              "hi80": 0.7778
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.3337
+            }
+          ]
+        },
+        "user_gravel": {
+          "n": 1,
+          "acc": 0.0,
+          "hi80": 0.0,
+          "by_class": {
+            "GRAVEL": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "USER_GRAVEL_crop.png",
+              "true": "GRAVEL",
+              "pred": "AR-CONC",
+              "conf": 0.6693
+            }
+          ]
+        },
+        "user_sand": {
+          "n": 2,
+          "acc": 0.0,
+          "hi80": 0.0,
+          "by_class": {
+            "AR-SAND": {
+              "n": 2,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0db7b-e2b1-74c5-b6fd-e3f91198908d.jpg",
+              "true": "AR-SAND",
+              "pred": "AR-CONC",
+              "conf": 0.9802
+            },
+            {
+              "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+              "true": "AR-SAND",
+              "pred": "AR-CONC",
+              "conf": 0.9742
+            }
+          ]
+        },
+        "ansi_reject": {
+          "n": 1,
+          "acc": 1.0,
+          "hi80": 0.0,
+          "by_class": {
+            "OTHER": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": []
+        }
+      }
+    },
+    "resnet18_imagenet_128": {
+      "checkpoint": "/workspace/hatch_recognition/models/aggregate_imagenet_resnet18.pt",
+      "synth_val_acc": 0.9512195121951219,
+      "heldout_real": {
+        "n": 17,
+        "acc": 0.2941,
+        "hi80": 0.1176,
+        "by_class": {
+          "AR-CONC": {
+            "n": 8,
+            "acc": 0.375,
+            "hi80": 0.25
+          },
+          "GRAVEL": {
+            "n": 9,
+            "acc": 0.2222,
+            "hi80": 0.0
+          }
+        },
+        "fails": [
+          {
+            "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.7836
+          },
+          {
+            "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.9084
+          },
+          {
+            "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.6613
+          },
+          {
+            "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+            "true": "AR-CONC",
+            "pred": "DOLMIT",
+            "conf": 0.5218
+          },
+          {
+            "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.984
+          },
+          {
+            "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.9901
+          },
+          {
+            "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.7965
+          },
+          {
+            "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.5946
+          },
+          {
+            "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.5946
+          },
+          {
+            "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.5797
+          },
+          {
+            "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.9916
+          },
+          {
+            "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.8656
+          }
+        ]
+      },
+      "real_labeled_all": {
+        "n": 20,
+        "acc": 0.35,
+        "hi80": 0.15,
+        "by_class": {
+          "AR-CONC": {
+            "n": 8,
+            "acc": 0.375,
+            "hi80": 0.25
+          },
+          "AR-SAND": {
+            "n": 2,
+            "acc": 1.0,
+            "hi80": 0.5
+          },
+          "GRAVEL": {
+            "n": 10,
+            "acc": 0.2,
+            "hi80": 0.0
+          }
+        },
+        "fails": [
+          {
+            "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.7836
+          },
+          {
+            "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.9084
+          },
+          {
+            "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.6613
+          },
+          {
+            "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+            "true": "AR-CONC",
+            "pred": "DOLMIT",
+            "conf": 0.5218
+          },
+          {
+            "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.984
+          },
+          {
+            "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.9901
+          },
+          {
+            "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.7965
+          },
+          {
+            "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.5946
+          },
+          {
+            "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.5946
+          },
+          {
+            "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.5797
+          },
+          {
+            "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.9916
+          },
+          {
+            "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.8656
+          },
+          {
+            "file": "USER_GRAVEL_crop.png",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.4506
+          }
+        ]
+      },
+      "by_suite": {
+        "smoke_synth": {
+          "n": 3,
+          "acc": 1.0,
+          "hi80": 1.0,
+          "by_class": {
+            "AR-CONC": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "AR-SAND": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "GRAVEL": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            }
+          },
+          "fails": []
+        },
+        "smoke_pat": {
+          "n": 4,
+          "acc": 1.0,
+          "hi80": 1.0,
+          "by_class": {
+            "AR-SAND": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "DOLMIT": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "EARTH": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "OTHER": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            }
+          },
+          "fails": []
+        },
+        "heldout_real": {
+          "n": 17,
+          "acc": 0.2941,
+          "hi80": 0.1176,
+          "by_class": {
+            "AR-CONC": {
+              "n": 8,
+              "acc": 0.375,
+              "hi80": 0.25
+            },
+            "GRAVEL": {
+              "n": 9,
+              "acc": 0.2222,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.7836
+            },
+            {
+              "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.9084
+            },
+            {
+              "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.6613
+            },
+            {
+              "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+              "true": "AR-CONC",
+              "pred": "DOLMIT",
+              "conf": 0.5218
+            },
+            {
+              "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.984
+            },
+            {
+              "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.9901
+            },
+            {
+              "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.7965
+            },
+            {
+              "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.5946
+            },
+            {
+              "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.5946
+            },
+            {
+              "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.5797
+            },
+            {
+              "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.9916
+            },
+            {
+              "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.8656
+            }
+          ]
+        },
+        "smoke_real": {
+          "n": 17,
+          "acc": 0.2941,
+          "hi80": 0.1176,
+          "by_class": {
+            "AR-CONC": {
+              "n": 8,
+              "acc": 0.375,
+              "hi80": 0.25
+            },
+            "GRAVEL": {
+              "n": 9,
+              "acc": 0.2222,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.7836
+            },
+            {
+              "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.9084
+            },
+            {
+              "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.6613
+            },
+            {
+              "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+              "true": "AR-CONC",
+              "pred": "DOLMIT",
+              "conf": 0.5218
+            },
+            {
+              "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.984
+            },
+            {
+              "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.9901
+            },
+            {
+              "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.7965
+            },
+            {
+              "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.5946
+            },
+            {
+              "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.5946
+            },
+            {
+              "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.5797
+            },
+            {
+              "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.9916
+            },
+            {
+              "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.8656
+            }
+          ]
+        },
+        "user_gravel": {
+          "n": 1,
+          "acc": 0.0,
+          "hi80": 0.0,
+          "by_class": {
+            "GRAVEL": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "USER_GRAVEL_crop.png",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.4506
+            }
+          ]
+        },
+        "user_sand": {
+          "n": 2,
+          "acc": 1.0,
+          "hi80": 0.5,
+          "by_class": {
+            "AR-SAND": {
+              "n": 2,
+              "acc": 1.0,
+              "hi80": 0.5
+            }
+          },
+          "fails": []
+        },
+        "ansi_reject": {
+          "n": 1,
+          "acc": 1.0,
+          "hi80": 1.0,
+          "by_class": {
+            "OTHER": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            }
+          },
+          "fails": []
+        }
+      }
+    },
+    "gabor_cnn_128": {
+      "checkpoint": "/workspace/hatch_recognition/models/aggregate_gabor_cnn.pt",
+      "synth_val_acc": 0.9024390243902439,
+      "heldout_real": {
+        "n": 17,
+        "acc": 0.2353,
+        "hi80": 0.0588,
+        "by_class": {
+          "AR-CONC": {
+            "n": 8,
+            "acc": 0.5,
+            "hi80": 0.125
+          },
+          "GRAVEL": {
+            "n": 9,
+            "acc": 0.0,
+            "hi80": 0.0
+          }
+        },
+        "fails": [
+          {
+            "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.7014
+          },
+          {
+            "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.7511
+          },
+          {
+            "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.5088
+          },
+          {
+            "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.4979
+          },
+          {
+            "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.4858
+          },
+          {
+            "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-CONC",
+            "conf": 0.3379
+          },
+          {
+            "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.3798
+          },
+          {
+            "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.8715
+          },
+          {
+            "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.8715
+          },
+          {
+            "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.8039
+          },
+          {
+            "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-CONC",
+            "conf": 0.3379
+          },
+          {
+            "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.431
+          },
+          {
+            "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.584
+          }
+        ]
+      },
+      "real_labeled_all": {
+        "n": 20,
+        "acc": 0.25,
+        "hi80": 0.05,
+        "by_class": {
+          "AR-CONC": {
+            "n": 8,
+            "acc": 0.5,
+            "hi80": 0.125
+          },
+          "AR-SAND": {
+            "n": 2,
+            "acc": 0.5,
+            "hi80": 0.0
+          },
+          "GRAVEL": {
+            "n": 10,
+            "acc": 0.0,
+            "hi80": 0.0
+          }
+        },
+        "fails": [
+          {
+            "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.7014
+          },
+          {
+            "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.7511
+          },
+          {
+            "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.5088
+          },
+          {
+            "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.4979
+          },
+          {
+            "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.4858
+          },
+          {
+            "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-CONC",
+            "conf": 0.3379
+          },
+          {
+            "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.3798
+          },
+          {
+            "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.8715
+          },
+          {
+            "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.8715
+          },
+          {
+            "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.8039
+          },
+          {
+            "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-CONC",
+            "conf": 0.3379
+          },
+          {
+            "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.431
+          },
+          {
+            "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.584
+          },
+          {
+            "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+            "true": "AR-SAND",
+            "pred": "DOLMIT",
+            "conf": 0.3364
+          },
+          {
+            "file": "USER_GRAVEL_crop.png",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.6583
+          }
+        ]
+      },
+      "by_suite": {
+        "smoke_synth": {
+          "n": 3,
+          "acc": 1.0,
+          "hi80": 0.3333,
+          "by_class": {
+            "AR-CONC": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 0.0
+            },
+            "AR-SAND": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 0.0
+            },
+            "GRAVEL": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            }
+          },
+          "fails": []
+        },
+        "smoke_pat": {
+          "n": 4,
+          "acc": 0.75,
+          "hi80": 0.5,
+          "by_class": {
+            "AR-SAND": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "DOLMIT": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 0.0
+            },
+            "EARTH": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "OTHER": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "ANSI31",
+              "true": "OTHER",
+              "pred": "DOLMIT",
+              "conf": 0.9904
+            }
+          ]
+        },
+        "heldout_real": {
+          "n": 17,
+          "acc": 0.2353,
+          "hi80": 0.0588,
+          "by_class": {
+            "AR-CONC": {
+              "n": 8,
+              "acc": 0.5,
+              "hi80": 0.125
+            },
+            "GRAVEL": {
+              "n": 9,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.7014
+            },
+            {
+              "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.7511
+            },
+            {
+              "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.5088
+            },
+            {
+              "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.4979
+            },
+            {
+              "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.4858
+            },
+            {
+              "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-CONC",
+              "conf": 0.3379
+            },
+            {
+              "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.3798
+            },
+            {
+              "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.8715
+            },
+            {
+              "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.8715
+            },
+            {
+              "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.8039
+            },
+            {
+              "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-CONC",
+              "conf": 0.3379
+            },
+            {
+              "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.431
+            },
+            {
+              "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.584
+            }
+          ]
+        },
+        "smoke_real": {
+          "n": 17,
+          "acc": 0.2353,
+          "hi80": 0.0588,
+          "by_class": {
+            "AR-CONC": {
+              "n": 8,
+              "acc": 0.5,
+              "hi80": 0.125
+            },
+            "GRAVEL": {
+              "n": 9,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.7014
+            },
+            {
+              "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.7511
+            },
+            {
+              "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.5088
+            },
+            {
+              "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.4979
+            },
+            {
+              "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.4858
+            },
+            {
+              "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-CONC",
+              "conf": 0.3379
+            },
+            {
+              "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.3798
+            },
+            {
+              "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.8715
+            },
+            {
+              "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.8715
+            },
+            {
+              "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.8039
+            },
+            {
+              "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-CONC",
+              "conf": 0.3379
+            },
+            {
+              "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.431
+            },
+            {
+              "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.584
+            }
+          ]
+        },
+        "user_gravel": {
+          "n": 1,
+          "acc": 0.0,
+          "hi80": 0.0,
+          "by_class": {
+            "GRAVEL": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "USER_GRAVEL_crop.png",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.6583
+            }
+          ]
+        },
+        "user_sand": {
+          "n": 2,
+          "acc": 0.5,
+          "hi80": 0.0,
+          "by_class": {
+            "AR-SAND": {
+              "n": 2,
+              "acc": 0.5,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+              "true": "AR-SAND",
+              "pred": "DOLMIT",
+              "conf": 0.3364
+            }
+          ]
+        },
+        "ansi_reject": {
+          "n": 1,
+          "acc": 0.0,
+          "hi80": 0.0,
+          "by_class": {
+            "OTHER": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "ANSI31_rot45",
+              "true": "OTHER",
+              "pred": "DOLMIT",
+              "conf": 0.7744
+            }
+          ]
+        }
+      }
+    },
+    "bilinear_cnn_128": {
+      "checkpoint": "/workspace/hatch_recognition/models/aggregate_bilinear_cnn.pt",
+      "synth_val_acc": 0.7456445993031359,
+      "heldout_real": {
+        "n": 17,
+        "acc": 0.4118,
+        "hi80": 0.0,
+        "by_class": {
+          "AR-CONC": {
+            "n": 8,
+            "acc": 0.75,
+            "hi80": 0.0
+          },
+          "GRAVEL": {
+            "n": 9,
+            "acc": 0.1111,
+            "hi80": 0.0
+          }
+        },
+        "fails": [
+          {
+            "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+            "true": "AR-CONC",
+            "pred": "DOLMIT",
+            "conf": 0.3487
+          },
+          {
+            "file": "CE4D9686-1522-4EDE-A013-9618C6A66357_L0_001.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.5003
+          },
+          {
+            "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.903
+          },
+          {
+            "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.6692
+          },
+          {
+            "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.8912
+          },
+          {
+            "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.8912
+          },
+          {
+            "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.8516
+          },
+          {
+            "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.6692
+          },
+          {
+            "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.8672
+          },
+          {
+            "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.4248
+          }
+        ]
+      },
+      "real_labeled_all": {
+        "n": 20,
+        "acc": 0.35,
+        "hi80": 0.0,
+        "by_class": {
+          "AR-CONC": {
+            "n": 8,
+            "acc": 0.75,
+            "hi80": 0.0
+          },
+          "AR-SAND": {
+            "n": 2,
+            "acc": 0.0,
+            "hi80": 0.0
+          },
+          "GRAVEL": {
+            "n": 10,
+            "acc": 0.1,
+            "hi80": 0.0
+          }
+        },
+        "fails": [
+          {
+            "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+            "true": "AR-CONC",
+            "pred": "DOLMIT",
+            "conf": 0.3487
+          },
+          {
+            "file": "CE4D9686-1522-4EDE-A013-9618C6A66357_L0_001.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.5003
+          },
+          {
+            "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.903
+          },
+          {
+            "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.6692
+          },
+          {
+            "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.8912
+          },
+          {
+            "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.8912
+          },
+          {
+            "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.8516
+          },
+          {
+            "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.6692
+          },
+          {
+            "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.8672
+          },
+          {
+            "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.4248
+          },
+          {
+            "file": "01a0db7b-e2b1-74c5-b6fd-e3f91198908d.jpg",
+            "true": "AR-SAND",
+            "pred": "AR-CONC",
+            "conf": 0.6933
+          },
+          {
+            "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+            "true": "AR-SAND",
+            "pred": "AR-CONC",
+            "conf": 0.6913
+          },
+          {
+            "file": "USER_GRAVEL_crop.png",
+            "true": "GRAVEL",
+            "pred": "DOLMIT",
+            "conf": 0.7415
+          }
+        ]
+      },
+      "by_suite": {
+        "smoke_synth": {
+          "n": 3,
+          "acc": 0.6667,
+          "hi80": 0.3333,
+          "by_class": {
+            "AR-CONC": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 0.0
+            },
+            "AR-SAND": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            },
+            "GRAVEL": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            }
+          },
+          "fails": [
+            {
+              "file": "AR-SAND",
+              "true": "AR-SAND",
+              "pred": "AR-CONC",
+              "conf": 0.5673
+            }
+          ]
+        },
+        "smoke_pat": {
+          "n": 4,
+          "acc": 0.75,
+          "hi80": 0.25,
+          "by_class": {
+            "AR-SAND": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 0.0
+            },
+            "DOLMIT": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 0.0
+            },
+            "EARTH": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "OTHER": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "ANSI31",
+              "true": "OTHER",
+              "pred": "DOLMIT",
+              "conf": 0.8499
+            }
+          ]
+        },
+        "heldout_real": {
+          "n": 17,
+          "acc": 0.4118,
+          "hi80": 0.0,
+          "by_class": {
+            "AR-CONC": {
+              "n": 8,
+              "acc": 0.75,
+              "hi80": 0.0
+            },
+            "GRAVEL": {
+              "n": 9,
+              "acc": 0.1111,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+              "true": "AR-CONC",
+              "pred": "DOLMIT",
+              "conf": 0.3487
+            },
+            {
+              "file": "CE4D9686-1522-4EDE-A013-9618C6A66357_L0_001.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.5003
+            },
+            {
+              "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.903
+            },
+            {
+              "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.6692
+            },
+            {
+              "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.8912
+            },
+            {
+              "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.8912
+            },
+            {
+              "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.8516
+            },
+            {
+              "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.6692
+            },
+            {
+              "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.8672
+            },
+            {
+              "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.4248
+            }
+          ]
+        },
+        "smoke_real": {
+          "n": 17,
+          "acc": 0.4118,
+          "hi80": 0.0,
+          "by_class": {
+            "AR-CONC": {
+              "n": 8,
+              "acc": 0.75,
+              "hi80": 0.0
+            },
+            "GRAVEL": {
+              "n": 9,
+              "acc": 0.1111,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+              "true": "AR-CONC",
+              "pred": "DOLMIT",
+              "conf": 0.3487
+            },
+            {
+              "file": "CE4D9686-1522-4EDE-A013-9618C6A66357_L0_001.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.5003
+            },
+            {
+              "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.903
+            },
+            {
+              "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.6692
+            },
+            {
+              "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.8912
+            },
+            {
+              "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.8912
+            },
+            {
+              "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.8516
+            },
+            {
+              "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.6692
+            },
+            {
+              "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.8672
+            },
+            {
+              "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.4248
+            }
+          ]
+        },
+        "user_gravel": {
+          "n": 1,
+          "acc": 0.0,
+          "hi80": 0.0,
+          "by_class": {
+            "GRAVEL": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "USER_GRAVEL_crop.png",
+              "true": "GRAVEL",
+              "pred": "DOLMIT",
+              "conf": 0.7415
+            }
+          ]
+        },
+        "user_sand": {
+          "n": 2,
+          "acc": 0.0,
+          "hi80": 0.0,
+          "by_class": {
+            "AR-SAND": {
+              "n": 2,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0db7b-e2b1-74c5-b6fd-e3f91198908d.jpg",
+              "true": "AR-SAND",
+              "pred": "AR-CONC",
+              "conf": 0.6933
+            },
+            {
+              "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+              "true": "AR-SAND",
+              "pred": "AR-CONC",
+              "conf": 0.6913
+            }
+          ]
+        },
+        "ansi_reject": {
+          "n": 1,
+          "acc": 0.0,
+          "hi80": 0.0,
+          "by_class": {
+            "OTHER": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "ANSI31_rot45",
+              "true": "OTHER",
+              "pred": "DOLMIT",
+              "conf": 0.5394
+            }
+          ]
+        }
+      }
+    },
+    "gabor_stem_resnet18_128": {
+      "checkpoint": "/workspace/hatch_recognition/models/aggregate_gabor_stem_resnet18.pt",
+      "synth_val_acc": 0.9494773519163763,
+      "heldout_real": {
+        "n": 17,
+        "acc": 0.2941,
+        "hi80": 0.1765,
+        "by_class": {
+          "AR-CONC": {
+            "n": 8,
+            "acc": 0.375,
+            "hi80": 0.25
+          },
+          "GRAVEL": {
+            "n": 9,
+            "acc": 0.2222,
+            "hi80": 0.1111
+          }
+        },
+        "fails": [
+          {
+            "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.625
+          },
+          {
+            "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.6979
+          },
+          {
+            "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.8499
+          },
+          {
+            "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+            "true": "AR-CONC",
+            "pred": "DOLMIT",
+            "conf": 0.9055
+          },
+          {
+            "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.9621
+          },
+          {
+            "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.9446
+          },
+          {
+            "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.8025
+          },
+          {
+            "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.9133
+          },
+          {
+            "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.9133
+          },
+          {
+            "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.9135
+          },
+          {
+            "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.8025
+          },
+          {
+            "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.9015
+          }
+        ]
+      },
+      "real_labeled_all": {
+        "n": 20,
+        "acc": 0.25,
+        "hi80": 0.15,
+        "by_class": {
+          "AR-CONC": {
+            "n": 8,
+            "acc": 0.375,
+            "hi80": 0.25
+          },
+          "AR-SAND": {
+            "n": 2,
+            "acc": 0.0,
+            "hi80": 0.0
+          },
+          "GRAVEL": {
+            "n": 10,
+            "acc": 0.2,
+            "hi80": 0.1
+          }
+        },
+        "fails": [
+          {
+            "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.625
+          },
+          {
+            "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.6979
+          },
+          {
+            "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.8499
+          },
+          {
+            "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+            "true": "AR-CONC",
+            "pred": "DOLMIT",
+            "conf": 0.9055
+          },
+          {
+            "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.9621
+          },
+          {
+            "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.9446
+          },
+          {
+            "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.8025
+          },
+          {
+            "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.9133
+          },
+          {
+            "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.9133
+          },
+          {
+            "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.9135
+          },
+          {
+            "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.8025
+          },
+          {
+            "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.9015
+          },
+          {
+            "file": "01a0db7b-e2b1-74c5-b6fd-e3f91198908d.jpg",
+            "true": "AR-SAND",
+            "pred": "AR-CONC",
+            "conf": 0.5594
+          },
+          {
+            "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+            "true": "AR-SAND",
+            "pred": "DOLMIT",
+            "conf": 0.4566
+          },
+          {
+            "file": "USER_GRAVEL_crop.png",
+            "true": "GRAVEL",
+            "pred": "AR-CONC",
+            "conf": 0.9356
+          }
+        ]
+      },
+      "by_suite": {
+        "smoke_synth": {
+          "n": 3,
+          "acc": 1.0,
+          "hi80": 1.0,
+          "by_class": {
+            "AR-CONC": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "AR-SAND": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "GRAVEL": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            }
+          },
+          "fails": []
+        },
+        "smoke_pat": {
+          "n": 4,
+          "acc": 0.75,
+          "hi80": 0.75,
+          "by_class": {
+            "AR-SAND": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "DOLMIT": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "EARTH": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "OTHER": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "ANSI31",
+              "true": "OTHER",
+              "pred": "DOLMIT",
+              "conf": 0.782
+            }
+          ]
+        },
+        "heldout_real": {
+          "n": 17,
+          "acc": 0.2941,
+          "hi80": 0.1765,
+          "by_class": {
+            "AR-CONC": {
+              "n": 8,
+              "acc": 0.375,
+              "hi80": 0.25
+            },
+            "GRAVEL": {
+              "n": 9,
+              "acc": 0.2222,
+              "hi80": 0.1111
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.625
+            },
+            {
+              "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.6979
+            },
+            {
+              "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.8499
+            },
+            {
+              "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+              "true": "AR-CONC",
+              "pred": "DOLMIT",
+              "conf": 0.9055
+            },
+            {
+              "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.9621
+            },
+            {
+              "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.9446
+            },
+            {
+              "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.8025
+            },
+            {
+              "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.9133
+            },
+            {
+              "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.9133
+            },
+            {
+              "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.9135
+            },
+            {
+              "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.8025
+            },
+            {
+              "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.9015
+            }
+          ]
+        },
+        "smoke_real": {
+          "n": 17,
+          "acc": 0.2941,
+          "hi80": 0.1765,
+          "by_class": {
+            "AR-CONC": {
+              "n": 8,
+              "acc": 0.375,
+              "hi80": 0.25
+            },
+            "GRAVEL": {
+              "n": 9,
+              "acc": 0.2222,
+              "hi80": 0.1111
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.625
+            },
+            {
+              "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.6979
+            },
+            {
+              "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.8499
+            },
+            {
+              "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+              "true": "AR-CONC",
+              "pred": "DOLMIT",
+              "conf": 0.9055
+            },
+            {
+              "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.9621
+            },
+            {
+              "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.9446
+            },
+            {
+              "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.8025
+            },
+            {
+              "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.9133
+            },
+            {
+              "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.9133
+            },
+            {
+              "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.9135
+            },
+            {
+              "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.8025
+            },
+            {
+              "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.9015
+            }
+          ]
+        },
+        "user_gravel": {
+          "n": 1,
+          "acc": 0.0,
+          "hi80": 0.0,
+          "by_class": {
+            "GRAVEL": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "USER_GRAVEL_crop.png",
+              "true": "GRAVEL",
+              "pred": "AR-CONC",
+              "conf": 0.9356
+            }
+          ]
+        },
+        "user_sand": {
+          "n": 2,
+          "acc": 0.0,
+          "hi80": 0.0,
+          "by_class": {
+            "AR-SAND": {
+              "n": 2,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0db7b-e2b1-74c5-b6fd-e3f91198908d.jpg",
+              "true": "AR-SAND",
+              "pred": "AR-CONC",
+              "conf": 0.5594
+            },
+            {
+              "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+              "true": "AR-SAND",
+              "pred": "DOLMIT",
+              "conf": 0.4566
+            }
+          ]
+        },
+        "ansi_reject": {
+          "n": 1,
+          "acc": 1.0,
+          "hi80": 1.0,
+          "by_class": {
+            "OTHER": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            }
+          },
+          "fails": []
+        }
+      }
+    },
+    "effnet_b0_224": {
+      "checkpoint": "/workspace/hatch_recognition/models/aggregate_effnet_b0_224.pt",
+      "synth_val_acc": 0.9790940766550522,
+      "heldout_real": {
+        "n": 17,
+        "acc": 0.1765,
+        "hi80": 0.1176,
+        "by_class": {
+          "AR-CONC": {
+            "n": 8,
+            "acc": 0.375,
+            "hi80": 0.25
+          },
+          "GRAVEL": {
+            "n": 9,
+            "acc": 0.0,
+            "hi80": 0.0
+          }
+        },
+        "fails": [
+          {
+            "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+            "true": "AR-CONC",
+            "pred": "DOLMIT",
+            "conf": 0.4954
+          },
+          {
+            "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.5273
+          },
+          {
+            "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.5156
+          },
+          {
+            "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.716
+          },
+          {
+            "file": "74CE6AD5-8D6B-4DAE-87CD-1593E8AF4A1C_L0_001.jpg",
+            "true": "AR-CONC",
+            "pred": "OTHER",
+            "conf": 0.7583
+          },
+          {
+            "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.9721
+          },
+          {
+            "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.7114
+          },
+          {
+            "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.4488
+          },
+          {
+            "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.9774
+          },
+          {
+            "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.9774
+          },
+          {
+            "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.7879
+          },
+          {
+            "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.7114
+          },
+          {
+            "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.9395
+          },
+          {
+            "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.7594
+          }
+        ]
+      },
+      "real_labeled_all": {
+        "n": 20,
+        "acc": 0.25,
+        "hi80": 0.15,
+        "by_class": {
+          "AR-CONC": {
+            "n": 8,
+            "acc": 0.375,
+            "hi80": 0.25
+          },
+          "AR-SAND": {
+            "n": 2,
+            "acc": 0.5,
+            "hi80": 0.0
+          },
+          "GRAVEL": {
+            "n": 10,
+            "acc": 0.1,
+            "hi80": 0.1
+          }
+        },
+        "fails": [
+          {
+            "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+            "true": "AR-CONC",
+            "pred": "DOLMIT",
+            "conf": 0.4954
+          },
+          {
+            "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.5273
+          },
+          {
+            "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.5156
+          },
+          {
+            "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.716
+          },
+          {
+            "file": "74CE6AD5-8D6B-4DAE-87CD-1593E8AF4A1C_L0_001.jpg",
+            "true": "AR-CONC",
+            "pred": "OTHER",
+            "conf": 0.7583
+          },
+          {
+            "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-SAND",
+            "conf": 0.9721
+          },
+          {
+            "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.7114
+          },
+          {
+            "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.4488
+          },
+          {
+            "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.9774
+          },
+          {
+            "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.9774
+          },
+          {
+            "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.7879
+          },
+          {
+            "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.7114
+          },
+          {
+            "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.9395
+          },
+          {
+            "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.7594
+          },
+          {
+            "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+            "true": "AR-SAND",
+            "pred": "OTHER",
+            "conf": 0.328
+          }
+        ]
+      },
+      "by_suite": {
+        "smoke_synth": {
+          "n": 3,
+          "acc": 1.0,
+          "hi80": 1.0,
+          "by_class": {
+            "AR-CONC": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "AR-SAND": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "GRAVEL": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            }
+          },
+          "fails": []
+        },
+        "smoke_pat": {
+          "n": 4,
+          "acc": 0.5,
+          "hi80": 0.0,
+          "by_class": {
+            "AR-SAND": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 0.0
+            },
+            "DOLMIT": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            },
+            "EARTH": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            },
+            "OTHER": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "DOLMIT",
+              "true": "DOLMIT",
+              "pred": "OTHER",
+              "conf": 0.8752
+            },
+            {
+              "file": "EARTH",
+              "true": "EARTH",
+              "pred": "OTHER",
+              "conf": 0.8997
+            }
+          ]
+        },
+        "heldout_real": {
+          "n": 17,
+          "acc": 0.1765,
+          "hi80": 0.1176,
+          "by_class": {
+            "AR-CONC": {
+              "n": 8,
+              "acc": 0.375,
+              "hi80": 0.25
+            },
+            "GRAVEL": {
+              "n": 9,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+              "true": "AR-CONC",
+              "pred": "DOLMIT",
+              "conf": 0.4954
+            },
+            {
+              "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.5273
+            },
+            {
+              "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.5156
+            },
+            {
+              "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.716
+            },
+            {
+              "file": "74CE6AD5-8D6B-4DAE-87CD-1593E8AF4A1C_L0_001.jpg",
+              "true": "AR-CONC",
+              "pred": "OTHER",
+              "conf": 0.7583
+            },
+            {
+              "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.9721
+            },
+            {
+              "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.7114
+            },
+            {
+              "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.4488
+            },
+            {
+              "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.9774
+            },
+            {
+              "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.9774
+            },
+            {
+              "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.7879
+            },
+            {
+              "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.7114
+            },
+            {
+              "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.9395
+            },
+            {
+              "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.7594
+            }
+          ]
+        },
+        "smoke_real": {
+          "n": 17,
+          "acc": 0.1765,
+          "hi80": 0.1176,
+          "by_class": {
+            "AR-CONC": {
+              "n": 8,
+              "acc": 0.375,
+              "hi80": 0.25
+            },
+            "GRAVEL": {
+              "n": 9,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+              "true": "AR-CONC",
+              "pred": "DOLMIT",
+              "conf": 0.4954
+            },
+            {
+              "file": "01a0d262-d1c9-742e-9e6e-26968ab74972.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.5273
+            },
+            {
+              "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.5156
+            },
+            {
+              "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.716
+            },
+            {
+              "file": "74CE6AD5-8D6B-4DAE-87CD-1593E8AF4A1C_L0_001.jpg",
+              "true": "AR-CONC",
+              "pred": "OTHER",
+              "conf": 0.7583
+            },
+            {
+              "file": "01a0d27e-806d-7840-9018-9a389ae6733b.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-SAND",
+              "conf": 0.9721
+            },
+            {
+              "file": "01a0d281-37df-7874-a0f8-445326aa781f.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.7114
+            },
+            {
+              "file": "01a0d2af-a2a6-7beb-9388-c0936f5ad85a.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.4488
+            },
+            {
+              "file": "01a0d2b4-45f1-7a20-a74b-4ea28e36ccc8.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.9774
+            },
+            {
+              "file": "01a0d377-c779-774f-981b-7b04deb8cef1.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.9774
+            },
+            {
+              "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.7879
+            },
+            {
+              "file": "01a0d380-566d-77d8-b43f-b9539db33eb0.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.7114
+            },
+            {
+              "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.9395
+            },
+            {
+              "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.7594
+            }
+          ]
+        },
+        "user_gravel": {
+          "n": 1,
+          "acc": 1.0,
+          "hi80": 1.0,
+          "by_class": {
+            "GRAVEL": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            }
+          },
+          "fails": []
+        },
+        "user_sand": {
+          "n": 2,
+          "acc": 0.5,
+          "hi80": 0.0,
+          "by_class": {
+            "AR-SAND": {
+              "n": 2,
+              "acc": 0.5,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+              "true": "AR-SAND",
+              "pred": "OTHER",
+              "conf": 0.328
+            }
+          ]
+        },
+        "ansi_reject": {
+          "n": 1,
+          "acc": 1.0,
+          "hi80": 1.0,
+          "by_class": {
+            "OTHER": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            }
+          },
+          "fails": []
+        }
+      }
+    },
+    "dinov2_vits14_224": {
+      "checkpoint": "/workspace/hatch_recognition/models/aggregate_dinov2_vits14_224.pt",
+      "synth_val_acc": 0.9146341463414634,
+      "heldout_real": {
+        "n": 17,
+        "acc": 0.5294,
+        "hi80": 0.1176,
+        "by_class": {
+          "AR-CONC": {
+            "n": 8,
+            "acc": 0.375,
+            "hi80": 0.125
+          },
+          "GRAVEL": {
+            "n": 9,
+            "acc": 0.6667,
+            "hi80": 0.1111
+          }
+        },
+        "fails": [
+          {
+            "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.455
+          },
+          {
+            "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.4184
+          },
+          {
+            "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+            "true": "AR-CONC",
+            "pred": "DOLMIT",
+            "conf": 0.3474
+          },
+          {
+            "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+            "true": "AR-CONC",
+            "pred": "DOLMIT",
+            "conf": 0.6743
+          },
+          {
+            "file": "74CE6AD5-8D6B-4DAE-87CD-1593E8AF4A1C_L0_001.jpg",
+            "true": "AR-CONC",
+            "pred": "DOLMIT",
+            "conf": 0.4581
+          },
+          {
+            "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.7985
+          },
+          {
+            "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-CONC",
+            "conf": 0.2902
+          },
+          {
+            "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.3351
+          }
+        ]
+      },
+      "real_labeled_all": {
+        "n": 20,
+        "acc": 0.45,
+        "hi80": 0.1,
+        "by_class": {
+          "AR-CONC": {
+            "n": 8,
+            "acc": 0.375,
+            "hi80": 0.125
+          },
+          "AR-SAND": {
+            "n": 2,
+            "acc": 0.0,
+            "hi80": 0.0
+          },
+          "GRAVEL": {
+            "n": 10,
+            "acc": 0.6,
+            "hi80": 0.1
+          }
+        },
+        "fails": [
+          {
+            "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.455
+          },
+          {
+            "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+            "true": "AR-CONC",
+            "pred": "AR-SAND",
+            "conf": 0.4184
+          },
+          {
+            "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+            "true": "AR-CONC",
+            "pred": "DOLMIT",
+            "conf": 0.3474
+          },
+          {
+            "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+            "true": "AR-CONC",
+            "pred": "DOLMIT",
+            "conf": 0.6743
+          },
+          {
+            "file": "74CE6AD5-8D6B-4DAE-87CD-1593E8AF4A1C_L0_001.jpg",
+            "true": "AR-CONC",
+            "pred": "DOLMIT",
+            "conf": 0.4581
+          },
+          {
+            "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+            "true": "GRAVEL",
+            "pred": "OTHER",
+            "conf": 0.7985
+          },
+          {
+            "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+            "true": "GRAVEL",
+            "pred": "AR-CONC",
+            "conf": 0.2902
+          },
+          {
+            "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+            "true": "GRAVEL",
+            "pred": "EARTH",
+            "conf": 0.3351
+          },
+          {
+            "file": "01a0db7b-e2b1-74c5-b6fd-e3f91198908d.jpg",
+            "true": "AR-SAND",
+            "pred": "DOLMIT",
+            "conf": 0.5797
+          },
+          {
+            "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+            "true": "AR-SAND",
+            "pred": "AR-CONC",
+            "conf": 0.6292
+          },
+          {
+            "file": "USER_GRAVEL_crop.png",
+            "true": "GRAVEL",
+            "pred": "AR-CONC",
+            "conf": 0.9639
+          }
+        ]
+      },
+      "by_suite": {
+        "smoke_synth": {
+          "n": 3,
+          "acc": 1.0,
+          "hi80": 1.0,
+          "by_class": {
+            "AR-CONC": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "AR-SAND": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "GRAVEL": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            }
+          },
+          "fails": []
+        },
+        "smoke_pat": {
+          "n": 4,
+          "acc": 1.0,
+          "hi80": 1.0,
+          "by_class": {
+            "AR-SAND": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "DOLMIT": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "EARTH": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            },
+            "OTHER": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            }
+          },
+          "fails": []
+        },
+        "heldout_real": {
+          "n": 17,
+          "acc": 0.5294,
+          "hi80": 0.1176,
+          "by_class": {
+            "AR-CONC": {
+              "n": 8,
+              "acc": 0.375,
+              "hi80": 0.125
+            },
+            "GRAVEL": {
+              "n": 9,
+              "acc": 0.6667,
+              "hi80": 0.1111
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.455
+            },
+            {
+              "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.4184
+            },
+            {
+              "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+              "true": "AR-CONC",
+              "pred": "DOLMIT",
+              "conf": 0.3474
+            },
+            {
+              "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+              "true": "AR-CONC",
+              "pred": "DOLMIT",
+              "conf": 0.6743
+            },
+            {
+              "file": "74CE6AD5-8D6B-4DAE-87CD-1593E8AF4A1C_L0_001.jpg",
+              "true": "AR-CONC",
+              "pred": "DOLMIT",
+              "conf": 0.4581
+            },
+            {
+              "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.7985
+            },
+            {
+              "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-CONC",
+              "conf": 0.2902
+            },
+            {
+              "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.3351
+            }
+          ]
+        },
+        "smoke_real": {
+          "n": 17,
+          "acc": 0.5294,
+          "hi80": 0.1176,
+          "by_class": {
+            "AR-CONC": {
+              "n": 8,
+              "acc": 0.375,
+              "hi80": 0.125
+            },
+            "GRAVEL": {
+              "n": 9,
+              "acc": 0.6667,
+              "hi80": 0.1111
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0d261-8064-7965-bbcb-9be9d02e1e5c.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.455
+            },
+            {
+              "file": "01a0d264-a8fa-7635-a753-8ac1bd36e145.jpg",
+              "true": "AR-CONC",
+              "pred": "AR-SAND",
+              "conf": 0.4184
+            },
+            {
+              "file": "01a0d265-ce06-7d31-a510-70df7088e275.jpg",
+              "true": "AR-CONC",
+              "pred": "DOLMIT",
+              "conf": 0.3474
+            },
+            {
+              "file": "01a0d379-4779-708f-bc09-f6f27b708e8f.jpg",
+              "true": "AR-CONC",
+              "pred": "DOLMIT",
+              "conf": 0.6743
+            },
+            {
+              "file": "74CE6AD5-8D6B-4DAE-87CD-1593E8AF4A1C_L0_001.jpg",
+              "true": "AR-CONC",
+              "pred": "DOLMIT",
+              "conf": 0.4581
+            },
+            {
+              "file": "01a0d37c-8b58-7e0a-9441-b1da57b885f5.jpg",
+              "true": "GRAVEL",
+              "pred": "OTHER",
+              "conf": 0.7985
+            },
+            {
+              "file": "01a0d383-62b2-7a63-a041-d12e7df2eeaf.jpg",
+              "true": "GRAVEL",
+              "pred": "AR-CONC",
+              "conf": 0.2902
+            },
+            {
+              "file": "47331B81-87A0-489D-BAE1-EE211207F0C1_L0_001.jpg",
+              "true": "GRAVEL",
+              "pred": "EARTH",
+              "conf": 0.3351
+            }
+          ]
+        },
+        "user_gravel": {
+          "n": 1,
+          "acc": 0.0,
+          "hi80": 0.0,
+          "by_class": {
+            "GRAVEL": {
+              "n": 1,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "USER_GRAVEL_crop.png",
+              "true": "GRAVEL",
+              "pred": "AR-CONC",
+              "conf": 0.9639
+            }
+          ]
+        },
+        "user_sand": {
+          "n": 2,
+          "acc": 0.0,
+          "hi80": 0.0,
+          "by_class": {
+            "AR-SAND": {
+              "n": 2,
+              "acc": 0.0,
+              "hi80": 0.0
+            }
+          },
+          "fails": [
+            {
+              "file": "01a0db7b-e2b1-74c5-b6fd-e3f91198908d.jpg",
+              "true": "AR-SAND",
+              "pred": "DOLMIT",
+              "conf": 0.5797
+            },
+            {
+              "file": "01a0db7b-e2ae-733f-b027-05048ed98f0f.jpg",
+              "true": "AR-SAND",
+              "pred": "AR-CONC",
+              "conf": 0.6292
+            }
+          ]
+        },
+        "ansi_reject": {
+          "n": 1,
+          "acc": 1.0,
+          "hi80": 1.0,
+          "by_class": {
+            "OTHER": {
+              "n": 1,
+              "acc": 1.0,
+              "hi80": 1.0
+            }
+          },
+          "fails": []
+        }
+      }
+    }
+  },
+  "ranking": [
+    {
+      "model": "specialist_hatchcnn",
+      "heldout_acc": 0.9412,
+      "heldout_hi80": 0.8235,
+      "real_all_acc": 0.8,
+      "real_all_hi80": 0.7,
+      "synth_val_acc": null
+    },
+    {
+      "model": "gabor_stem_resnet18_128",
+      "heldout_acc": 0.2941,
+      "heldout_hi80": 0.1765,
+      "real_all_acc": 0.25,
+      "real_all_hi80": 0.15,
+      "synth_val_acc": 0.9494773519163763
+    },
+    {
+      "model": "dinov2_vits14_224",
+      "heldout_acc": 0.5294,
+      "heldout_hi80": 0.1176,
+      "real_all_acc": 0.45,
+      "real_all_hi80": 0.1,
+      "synth_val_acc": 0.9146341463414634
+    },
+    {
+      "model": "resnet18_imagenet_128",
+      "heldout_acc": 0.2941,
+      "heldout_hi80": 0.1176,
+      "real_all_acc": 0.35,
+      "real_all_hi80": 0.15,
+      "synth_val_acc": 0.9512195121951219
+    },
+    {
+      "model": "effnet_b0_224",
+      "heldout_acc": 0.1765,
+      "heldout_hi80": 0.1176,
+      "real_all_acc": 0.25,
+      "real_all_hi80": 0.15,
+      "synth_val_acc": 0.9790940766550522
+    },
+    {
+      "model": "gabor_cnn_128",
+      "heldout_acc": 0.2353,
+      "heldout_hi80": 0.0588,
+      "real_all_acc": 0.25,
+      "real_all_hi80": 0.05,
+      "synth_val_acc": 0.9024390243902439
+    },
+    {
+      "model": "bilinear_cnn_128",
+      "heldout_acc": 0.4118,
+      "heldout_hi80": 0.0,
+      "real_all_acc": 0.35,
+      "real_all_hi80": 0.0,
+      "synth_val_acc": 0.7456445993031359
+    }
+  ]
+}
